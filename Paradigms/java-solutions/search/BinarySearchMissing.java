@@ -1,17 +1,16 @@
 package search;
 
-public class BinarySearch {
-	
-	BinarySearch(int x, int[] a){
+public class BinarySearchMissing {
+
+	BinarySearchMissing(int x, int[] a){
 		this.x = x;
 		int res = binRecursive(x, a);
 		if (a[res]!=x) 
 			System.out.println(res);
 	}
-
 	int x = 0;
 	boolean func(int a){
-		return a<=x;
+		return a>=x;
 	}
 	
 	int binIterative(int x, int[] a) {
