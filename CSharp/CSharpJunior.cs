@@ -17,6 +17,7 @@ public class TaskOne {
         double moreRelibleFloatButFourBytesAndCausesErrorsAnyway = 0.0;
         //Stored by ref here
         string arrayOfChars = "";
-
+        //Empity line indicates end of declaration block here
+        
     }
 }
