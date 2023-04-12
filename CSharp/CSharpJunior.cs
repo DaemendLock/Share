@@ -11,7 +11,11 @@ public class TaskOne {
         int regularFourByteVar = 0;
         uint sameRegularFourByteVarButWithoutSign = 0;
         long eightByteVar = 0;
+        //Not ten actualy
         ulong eightByteVarButNoSign = 0;
+        float floatPointVarButCausesErrors = 0.0;
+        double moreRelibleFloatButFourBytesAndCausesErrorsAnyway = 0.0f;
+        //Stored by ref here
         string arrayOfChars = "";
 
     }
