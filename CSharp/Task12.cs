@@ -1,4 +1,4 @@
-public class TaskTwelve {
+public class TaskEleven {
     private const uint GoldCostOfGuildTokens = 1;
     private const uint GoldCostOfStamina = 1;
 
@@ -7,15 +7,19 @@ public class TaskTwelve {
     private const byte StaminaId = 2;
     private const byte GuildTokensId = 3;
 
-    public unsafe static void Main(String[] args) {
-        uint gold = 0;
-        uint stamina = 0;
-        uint guildTokens = 100;
+    private const uint GoldStartValue = 0;
+    private const uint StaminaStartValue = 0;
+    private const uint GuildTokensStartVakue = 100;
 
-        uint* convertFrom = &gold;
-        uint* convertTo = &gold;
+    public unsafe static void Main(String[] args) {
+        uint gold = GoldStartValue;
+        uint stamina = StaminaStartValue;
+        uint guildTokens = GuildTokensStartVakue;
+
+        uint* convertFrom;
+        uint* convertTo;
         do {
-            Console.WriteLine($"Balance: Gold - {gold}, Stamina - {stamina}, Guild tokens - {guildTokens}. Write id of currency to convert from. <{GoldId} - gold, {StaminaId} - stamina, {GuildTokensId} - guild tokens>");
+            Console.WriteLine($"Balance: Gold - {gold}, Stamina - {stamina}, Guild tokens - {guildTokens}. Write id of currency to convert from. <{GoldId} - gold, {StaminaId} - stamina, {GuildTokensId} - guild tokens>. Use {ExitCode} to exit");
             switch (Convert.ToByte(Console.ReadLine())) {
                 case ExitCode:
                     convertFrom = null;
