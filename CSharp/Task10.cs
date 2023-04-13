@@ -1,4 +1,4 @@
-public class TaskNine {
+public class TaskTen {
     private const byte CycleIncrement = 7;
     private const byte FirstValue = 5;
     private const byte LastValue = 96;
