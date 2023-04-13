@@ -1,14 +1,11 @@
 public class TaskFive {
     public static void Main(String[] args) {
-        string firstName = "Daemender";
-        string lastName = "Warlock";
+        string firstName = "String1";
+        string lastName = "String2";
 
         Console.WriteLine(firstName + " " + lastName);
 
-        var swapBuffer = firstName;
-        firstName = lastName;
-        lastName = swapBuffer;
-        //(firstName, lastName) = (lastName, firstName);
+        (firstName, lastName) = (lastName, firstName);
         Console.WriteLine(firstName + " " + lastName);
     }
 }
