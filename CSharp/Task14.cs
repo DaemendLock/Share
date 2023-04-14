@@ -14,7 +14,7 @@ public class TaskFourteen
             Console.Write(fillingChar);
         }
         
-        Console.WriteLine($"{Environment.NewLine}{fillingChar}{name}{fillingChar}{Environment.NewLine}");
+        Console.WriteLine($"{Environment.NewLine}{fillingChar}{name}{fillingChar}");
 
         for (int i = 0; i < lineLength; i++)
         {
