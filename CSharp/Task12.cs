@@ -11,16 +11,20 @@ public class TaskTwelve {
     private const uint StaminaStartValue = 0;
     private const uint GuildTokensStartVakue = 100;
 
-    public unsafe static void Main(String[] args) {
+    public unsafe static void Main(String[] args)
+    {
         uint gold = GoldStartValue;
         uint stamina = StaminaStartValue;
         uint guildTokens = GuildTokensStartVakue;
 
         uint* convertFrom;
         uint* convertTo;
-        do {
+        
+        do
+        {
             Console.WriteLine($"Balance: Gold - {gold}, Stamina - {stamina}, Guild tokens - {guildTokens}. Write id of currency to convert from. <{GoldId} - gold, {StaminaId} - stamina, {GuildTokensId} - guild tokens>. Use {ExitCode} to exit");
-            switch (Convert.ToByte(Console.ReadLine())) {
+            switch (Convert.ToByte(Console.ReadLine()))
+            {
                 case ExitCode:
                     convertFrom = null;
                     continue;
@@ -38,7 +42,9 @@ public class TaskTwelve {
             }
 
             Console.WriteLine("Choose currency to convert to:");
-            switch (Convert.ToByte(Console.ReadLine())) {
+            
+            switch (Convert.ToByte(Console.ReadLine()))
+            {
                 case GoldId:
                     convertTo = &gold;
                     break;
@@ -52,20 +58,25 @@ public class TaskTwelve {
                     throw new Exception("Failed to identify currency Id");
             }
 
-            if (convertTo == convertFrom) {
+            if (convertTo == convertFrom)
+            {
                 Console.WriteLine("Can't convert currency to itself.");
                 continue;
             }
+            
             Console.WriteLine("Write how much currency you want to convert:");
             ConvertCurrency(convertFrom, convertTo, Convert.ToUInt32(Console.ReadLine()));
 
-        } while (convertFrom!=null);
+        } while (convertFrom != null);
     }
 
-    private static unsafe void ConvertCurrency(uint* convertFrom, uint* converTo, uint currnecyValueToConvert) {
-        if (currnecyValueToConvert > *convertFrom) {
+    private static unsafe void ConvertCurrency(uint* convertFrom, uint* converTo, uint currnecyValueToConvert)
+    {
+        if (currnecyValueToConvert > *convertFrom)
+        {
             throw new Exception("Failed to convert currency. Not enough");
         }
+        
         *convertFrom -= currnecyValueToConvert;
         *converTo += currnecyValueToConvert;
     }
