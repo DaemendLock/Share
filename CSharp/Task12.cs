@@ -1,4 +1,5 @@
-public class TaskTwelve {
+public class TaskTwelve
+{
     private const uint GoldCostOfGuildTokens = 1;
     private const uint GoldCostOfStamina = 1;
 
