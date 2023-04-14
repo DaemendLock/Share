@@ -15,7 +15,5 @@ public class TaskSixteen
 
             value += n;
         }
-
-        Console.WriteLine(count);
     }
 }
