@@ -1,8 +1,10 @@
-public class TaskSeven {
-    private const ulong WaitingTimeInMinutes = 10;
-    private const ulong MinutesContainedInHour = 60;
-
-    public static void Main(String[] args) {
+public class TaskSeven
+{
+    public static void Main(String[] args)
+    {
+        ulong WaitingTimeInMinutes = 10;
+        ulong MinutesContainedInHour = 60;
+        
         Console.WriteLine("Queue length:");
         uint queueLength = Convert.ToUInt32(Console.ReadLine());
         ulong waitingTimeInMinutes = WAITING_TIME_IN_MINUTES * queueLength;
