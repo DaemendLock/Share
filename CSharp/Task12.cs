@@ -1,84 +1,90 @@
 public class TaskTwelve
 {
-    private const uint GoldCostOfGuildTokens = 1;
-    private const uint GoldCostOfStamina = 1;
-
-    private const byte ExitCode = 0;
-    private const byte GoldId = 1;
-    private const byte StaminaId = 2;
-    private const byte GuildTokensId = 3;
-
-    private const uint GoldStartValue = 0;
-    private const uint StaminaStartValue = 0;
-    private const uint GuildTokensStartVakue = 100;
-
     public unsafe static void Main(String[] args)
     {
-        uint gold = GoldStartValue;
-        uint stamina = StaminaStartValue;
-        uint guildTokens = GuildTokensStartVakue;
+        const int GoldStartValue = 0;
+        const int StaminaStartValue = 0;
+        const int GuildTokensStartVakue = 100;
 
-        uint* convertFrom;
-        uint* convertTo;
-        
+        const string ExitCode = "0";
+        const string GoldId = "1";
+        const string StaminaId = "2";
+        const string GuildTokensId = "3";
+
+        int gold = GoldStartValue;
+        int stamina = StaminaStartValue;
+        int guildTokens = GuildTokensStartVakue;
+
+        string convertFrom;
+        string convertTo;
+        int convertValue;
+
         do
         {
             Console.WriteLine($"Balance: Gold - {gold}, Stamina - {stamina}, Guild tokens - {guildTokens}. Write id of currency to convert from. <{GoldId} - gold, {StaminaId} - stamina, {GuildTokensId} - guild tokens>. Use {ExitCode} to exit");
-            switch (Convert.ToByte(Console.ReadLine()))
-            {
-                case ExitCode:
-                    convertFrom = null;
-                    continue;
-                case GoldId:
-                    convertFrom = &gold;
-                    break;
-                case StaminaId:
-                    convertFrom = &stamina;
-                    break;
-                case GuildTokensId:
-                    convertFrom = &guildTokens;
-                    break;
-                default:
-                    throw new Exception("Failed to identify currency Id");
-            }
+            convertFrom = Console.ReadLine();
 
-            Console.WriteLine("Choose currency to convert to:");
-            
-            switch (Convert.ToByte(Console.ReadLine()))
+            if (convertFrom.Equals(ExitCode))
             {
-                case GoldId:
-                    convertTo = &gold;
-                    break;
-                case StaminaId:
-                    convertTo = &stamina;
-                    break;
-                case GuildTokensId:
-                    convertTo = &guildTokens;
-                    break;
-                default:
-                    throw new Exception("Failed to identify currency Id");
-            }
-
-            if (convertTo == convertFrom)
-            {
-                Console.WriteLine("Can't convert currency to itself.");
                 continue;
             }
-            
-            Console.WriteLine("Write how much currency you want to convert:");
-            ConvertCurrency(convertFrom, convertTo, Convert.ToUInt32(Console.ReadLine()));
 
-        } while (convertFrom != null);
-    }
+            Console.WriteLine("Write currency to convert to:");
+            convertTo = Console.ReadLine();
+            Console.WriteLine("How much you want to convert?");
+            convertValue = Convert.ToInt32(Console.ReadLine());
 
-    private static unsafe void ConvertCurrency(uint* convertFrom, uint* converTo, uint currnecyValueToConvert)
-    {
-        if (currnecyValueToConvert > *convertFrom)
-        {
-            throw new Exception("Failed to convert currency. Not enough");
-        }
-        
-        *convertFrom -= currnecyValueToConvert;
-        *converTo += currnecyValueToConvert;
+            switch (convertFrom)
+            {
+                case GoldId:
+
+                    if (convertTo.Equals(StaminaId))
+                    {
+                        stamina += convertValue;
+                    } else if (convertTo.Equals(GuildTokensId))
+                    {
+                        guildTokens += convertValue;
+                    } else
+                    {
+                        continue;
+                    }
+
+                    gold -= convertValue;
+                    break;
+                case StaminaId:
+
+                    if (convertTo.Equals(GuildTokensId))
+                    {
+                        guildTokens += convertValue;
+                    } else if (convertTo.Equals(GoldId))
+                    {
+                        gold += convertValue;
+                    } else
+                    {
+                        continue;
+                    }
+
+                    stamina -= convertValue;
+                    break;
+                case GuildTokensId:
+
+                    if (convertTo.Equals(StaminaId))
+                    {
+                        stamina += convertValue;
+                    } else if (convertTo.Equals(GoldId))
+                    {
+                        gold += convertValue;
+                    } else
+                    {
+                        continue;
+                    }
+
+                    guildTokens -= convertValue;
+                    break;
+                default:
+                    continue;
+            }
+
+        } while (convertFrom != ExitCode);
     }
 }
