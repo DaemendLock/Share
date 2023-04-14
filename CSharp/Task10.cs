@@ -6,9 +6,9 @@ public class TaskTen
         byte FirstValue = 5;
         byte LastValue = 96;
         
-        for (byte currentValue = FirstValue; currentValue <= LastValue; currentValue += CycleIncrement)
+        for (byte i = FirstValue; i <= LastValue; i += CycleIncrement)
         {
-            Console.Write($"{currentValue} ");
+            Console.Write($"{i} ");
         }
     }
 }
