@@ -1,5 +1,7 @@
-public class TaskFive {
-    public static void Main(String[] args) {
+public class TaskFive
+{
+    public static void Main(String[] args)
+    {
         string firstName = "String1";
         string lastName = "String2";
 
