@@ -2,11 +2,11 @@ public class TaskTen
 {
     public static void Main(String[] args)
     {
-        byte CycleIncrement = 7;
-        byte FirstValue = 5;
-        byte LastValue = 96;
+        int CycleIncrement = 7;
+        int FirstValue = 5;
+        int LastValue = 96;
         
-        for (byte i = FirstValue; i <= LastValue; i += CycleIncrement)
+        for (int i = FirstValue; i <= LastValue; i += CycleIncrement)
         {
             Console.Write($"{i} ");
         }
