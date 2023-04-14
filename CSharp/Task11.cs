@@ -1,25 +1,28 @@
-public class TaskEleven {
-    private const byte FirstDivider = 3;
-    private const byte SecondDivider = 5;
-    private const byte MaximumValue = 100;
-
-    public static void Main(String[] args) {
-        uint generatedValue = (uint) new Random().Next(MaximumValue);
-        uint resultSum = CountSumForDivider(generatedValue, FirstDivider) + 
-                         CountSumForDivider(generatedValue, SecondDivider) - 
-                         CountSumForDivider(generatedValue, GetLCM(FirstDivider, SecondDivider));
-        Console.WriteLine(generatedValue + " "+resultSum);
-    }
-
-    private static uint CountSumForDivider(uint value, uint divider) {
-        uint addendumCount = value / divider;
-        return (divider * (1 + addendumCount) * addendumCount) >> 1;
-    }
-
-    private static uint GetLCM(uint a, uint b) {
-        uint result = a;
+public class TaskEleven
+{
+    public static void Main(String[] args)
+    {
+        int FirstDivider = 3;
+        int SecondDivider = 5;
+        int MaximumValue = 100;
+        
+        int generatedValue = new Random().Next(MaximumValue);
+        
+        int addendumCount = generatedValue / FirstDivider;
+        int resultSum = (FirstDivider * (1 + addendumCount) * addendumCount) >> 1;
+        addendumCount = generatedValue / SecondDivider;
+        resultSum += (SecondDivider * (1 + addendumCount) * addendumCount) >> 1;
+        
+        int lcm = a;
+        
         while (result % b != 0)
+        {
             result += a;
-        return result;
+        }
+        
+        addendumCount = generatedValue / lcm;
+        resultSum -= (lcm * (1 + addendumCount) * addendumCount) >> 1;
+        
+        Console.WriteLine(generatedValue + " "+resultSum);
     }
 }
