@@ -13,11 +13,11 @@ public class TaskEleven
         addendumCount = generatedValue / SecondDivider;
         resultSum += (SecondDivider * (1 + addendumCount) * addendumCount) >> 1;
         
-        int lcm = a;
+        int lcm = FirstDivider;
         
-        while (result % b != 0)
+        while (lcm % SecondDivider != 0)
         {
-            result += a;
+            lcm += FirstDivider;
         }
         
         addendumCount = generatedValue / lcm;
