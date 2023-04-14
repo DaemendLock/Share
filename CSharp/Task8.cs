@@ -6,7 +6,7 @@ public class TaskEight
         string message = Console.ReadLine() ?? "";
         Console.WriteLine("Set repeatitions count:");
         
-        for (uint repetitionsLeft = Convert.ToUInt32(Console.ReadLine()); repetitionsLeft != 0; repetitionsLeft--)
+        for (int i = Convert.ToUInt32(Console.ReadLine()); i != 0; i--)
         {
             Console.Write(message);
         }
