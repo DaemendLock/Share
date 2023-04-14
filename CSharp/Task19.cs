@@ -5,9 +5,10 @@ public class TaskNineteen
         int EvadeCooldown = 5;
         int ChaosboltDamage = 100;
         int ChaosboltCooldown = 3;
-        int CurseCooldown = 3;
+        int CurseManacost = 3;
 
         int playerHealth = 1000;
+        int playerMana = 0;
         int bossHealth = 1000;
 
         int bossAttack = 50;
@@ -41,13 +42,15 @@ public class TaskNineteen
                 continue;
             }
 
-            if (currentTurn - curseLastUsage >= CurseCooldown)
+            if (playerMana >= CurseManacost)
             {
-                playerAttack += 10;
+                playerAttack += 15;
+                playerMana -= CurseManacost;
                 Console.WriteLine("Player cursed boss!");
                 continue;
             }
-
+            
+            playerMana += 1;
             bossHealth -= playerAttack;
         }
 
