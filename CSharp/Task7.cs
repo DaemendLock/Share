@@ -7,10 +7,10 @@ public class TaskSeven
         
         Console.WriteLine("Queue length:");
         int queueLength = Convert.ToInt32(Console.ReadLine());
-        int waitingTimeInMinutes = WAITING_TIME_IN_MINUTES * queueLength;
-        int waitingTimeInHours = waitingTimeInMinutes / MINUTES_CONTAINED_IN_HOUR;
+        int waitingTimeInMinutes = WaitingTimeInMinutes * queueLength;
+        int waitingTimeInHours = waitingTimeInMinutes / MinutesContainedInHour;
 
-        waitingTimeInMinutes = waitingTimeInMinutes - waitingTimeInHours * MINUTES_CONTAINED_IN_HOUR;
+        waitingTimeInMinutes = waitingTimeInMinutes - waitingTimeInHours * MinutesContainedInHour;
         Console.WriteLine($"Estimated time in line: {waitingTimeInHours}h {waitingTimeInMinutes}m.");
     }
 }
