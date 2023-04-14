@@ -2,9 +2,10 @@ public class TaskFifteen
 {
     public unsafe static void Main(String[] args)
     {
-        string Password = "123456";
+        const string Password = "123456";
+        const int AttempsAvaible = 3;
+        
         string secretMessage = "No secrets here";
-        int AttempsAvaible = 3;
 
         int attemptsLeft = AttempsAvaible;
 
