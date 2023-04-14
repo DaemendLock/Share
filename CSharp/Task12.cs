@@ -1,6 +1,6 @@
 public class TaskTwelve
 {
-    public unsafe static void Main(String[] args)
+    public static void Main(String[] args)
     {
         const int GoldStartValue = 0;
         const int StaminaStartValue = 0;
