@@ -8,7 +8,7 @@ public class TaskSixteen
 
         while (value <= 1000)
         {
-            if(value >= 99)
+            if(value > 99)
             {
                 count++;
             }
