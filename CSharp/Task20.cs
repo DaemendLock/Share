@@ -26,7 +26,7 @@ public class TaskTwelve {
 
         for (int i = ArrayColumns; i < ArrayColumns << 1; i++)
         {
-            sum += array[i + ArrayColumns * 1];
+            sum += array[i];
         }
 
         int multiplication = 1;
