@@ -2,22 +2,22 @@ public class TaskEleven
 {
     public static void Main(String[] args)
     {
-        int FirstDivider = 3;
-        int SecondDivider = 5;
-        int MaximumValue = 100;
+        int firstDivider = 3;
+        int secondDivider = 5;
+        int maximumValue = 100;
         
-        int generatedValue = new Random().Next(MaximumValue);
+        int generatedValue = new Random().Next(maximumValue);
         
-        int addendumCount = generatedValue / FirstDivider;
-        int resultSum = (FirstDivider * (1 + addendumCount) * addendumCount) >> 1;
-        addendumCount = generatedValue / SecondDivider;
-        resultSum += (SecondDivider * (1 + addendumCount) * addendumCount) >> 1;
+        int addendumCount = generatedValue / firstDivider;
+        int resultSum = (firstDivider * (1 + addendumCount) * addendumCount) >> 1;
+        addendumCount = generatedValue / secondDivider;
+        resultSum += (secondDivider * (1 + addendumCount) * addendumCount) >> 1;
         
-        int lcm = FirstDivider;
+        int lcm = firstDivider;
         
-        while (lcm % SecondDivider != 0)
+        while (lcm % secondDivider != 0)
         {
-            lcm += FirstDivider;
+            lcm += firstDivider;
         }
         
         addendumCount = generatedValue / lcm;
