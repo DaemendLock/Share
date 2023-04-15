@@ -9,9 +9,9 @@ public class TaskEleven
         int generatedValue = new Random().Next(maximumValue + 1);
         
         int addendumCount = generatedValue / firstDivider;
-        int resultSum = (firstDivider * (1 + addendumCount) * addendumCount) >> 1;
+        int resultSum = (firstDivider * (1 + addendumCount) * addendumCount) / 2;
         addendumCount = generatedValue / secondDivider;
-        resultSum += (secondDivider * (1 + addendumCount) * addendumCount) >> 1;
+        resultSum += (secondDivider * (1 + addendumCount) * addendumCount) / 2;
         
         int lcm = firstDivider;
         
@@ -21,7 +21,7 @@ public class TaskEleven
         }
         
         addendumCount = generatedValue / lcm;
-        resultSum -= (lcm * (1 + addendumCount) * addendumCount) >> 1;
+        resultSum -= (lcm * (1 + addendumCount) * addendumCount) / 2;
         
         Console.WriteLine(generatedValue + " "+resultSum);
     }
