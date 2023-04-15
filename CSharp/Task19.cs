@@ -2,21 +2,20 @@ public class TaskNineteen
 {
     public static void Main(String[] args)
     {
-        int EvadeCooldown = 5;
-        int ChaosboltDamage = 100;
-        int ChaosboltCooldown = 3;
-        int CurseManacost = 3;
+        int evadeCooldown = 5;
+        int chaosboltDamage = 100;
+        int chaosboltCooldown = 3;
+        int curseManacost = 3;
 
         int playerHealth = 1000;
         int playerMana = 0;
         int bossHealth = 1000;
 
-        int bossAttack = 50;
-        int playerAttack = 10;
+        int bossAttackDamage = 50;
+        int playerAttackDamage = 10;
 
-        int evadeLastUsage = -EvadeCooldown;
-        int chaosboltLastUsage = -ChaosboltCooldown;
-        int curseLastUsage = -CurseCooldown;
+        int evadeLastUsage = -evadeCooldown;
+        int chaosboltLastUsage = -chaosboltCooldown;
 
         int currentTurn = 0;
 
@@ -25,39 +24,39 @@ public class TaskNineteen
             currentTurn++;
             Console.WriteLine($"Turn {currentTurn}:{Environment.NewLine}Player health: {playerHealth} - Boss health: {bossHealth}");
 
-            if (currentTurn - evadeLastUsage >= EvadeCooldown)
+            if (currentTurn - evadeLastUsage >= evadeCooldown)
             {
                 evadeLastUsage = currentTurn;
                 Console.WriteLine("Player used evade!");
                 continue;
             }
 
-            playerHealth -= bossAttack;
+            playerHealth -= bossAttackDamage;
 
-            if (currentTurn - chaosboltLastUsage >= ChaosboltCooldown)
+            if (currentTurn - chaosboltLastUsage >= chaosboltCooldown)
             {
-                bossHealth -= ChaosboltDamage;
+                bossHealth -= chaosboltDamage;
                 chaosboltLastUsage = currentTurn;
                 Console.WriteLine("Player used chaosbolt!");
                 continue;
             }
 
-            if (playerMana >= CurseManacost)
+            if (playerMana >= curseManacost)
             {
-                playerAttack += 15;
-                playerMana -= CurseManacost;
+                playerAttackDamage += 15;
+                playerMana -= curseManacost;
                 Console.WriteLine("Player cursed boss!");
                 continue;
             }
-            
+
             playerMana += 1;
-            bossHealth -= playerAttack;
+            bossHealth -= playerAttackDamage;
         }
 
-        if(bossHealth <= 0)
+        if (bossHealth <= 0)
         {
             Console.WriteLine("Boss defeated!");
-        } else 
+        } else
         {
             Console.WriteLine("Wipe, healer noob, 0 heaing");
         }
