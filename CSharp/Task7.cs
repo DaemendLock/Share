@@ -5,8 +5,8 @@ public class TaskSeven
         int WaitingTimeInMinutes = 10;
         int MinutesContainedInHour = 60;
         
-        Console.WriteLine("Queue length:");
-        int PeopleIтQueue = Convert.ToInt32(Console.ReadLine());
+        Console.WriteLine("People in queue:");
+        int PeopleInQueue = Convert.ToInt32(Console.ReadLine());
         int waitingTimeInMinutes = WaitingTimeInMinutes * queueLength;
         int waitingTimeInHours = waitingTimeInMinutes / MinutesContainedInHour;
 
