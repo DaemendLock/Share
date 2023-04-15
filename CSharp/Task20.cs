@@ -15,7 +15,7 @@ public class TaskTwelve {
         {
             for (int j = 0; j < ArrayColumns; j++)
             {
-                array[i * ArrayColumns + j] = randomValuesSource.Next();
+                array[i * ArrayColumns + j] = randomValuesSource.Next(10);
                 Console.Write(array[i * ArrayColumns + j] + " ");
             }
             
