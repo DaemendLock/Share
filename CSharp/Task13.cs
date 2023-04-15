@@ -36,18 +36,22 @@ public class TaskThirteen
                     }
                     
                     break;
+                    
                 case SumCommand:
                     Console.WriteLine("Number to sum to:");
                     int result = Convert.ToUInt32(Console.ReadLine());
                     result = (result * result + result) >> 1;
                     Console.WriteLine(result);
                     break;
+                    
                 case RepeatCommand:
                     Console.WriteLine("Text to repeat:");
                     Console.WriteLine(Console.ReadLine() ?? "Null");
                     break;
+                    
                 case ExitCommand:
                     continue;
+                    
                 default:
                     throw new Exception("Unknown command " + lastCommand);
             };
