@@ -2,18 +2,19 @@ public class TaskSixteen
 {
     public static void Main(String[] args)
     {
-        int n = new Random().Next(1, 27);
+        const int minRandomValue = 1;
+        const int maxRandomValue = 27;
+        
+        int randomNumber = new Random().Next(minRandomValue, maxRandomValue + 1);
         int count = 0;
-        int value = n * 4;
-
-        while (value <= 1000)
+        int value = randomNumber;
+        
+        for (int i = randomNumber; i < 1000; i += randomNumber)
         {
-            if(value > 99)
+            if (i > 99)
             {
                 count++;
             }
-
-            value += n;
         }
     }
 }
