@@ -1,7 +1,6 @@
 using System.Runtime.InteropServices;
 
-public class TaskTwelve
-{
+public class TaskTwelve {
     public static unsafe void Main(String[] args)
     {
         const int ArrayRows = 5;
@@ -9,12 +8,18 @@ public class TaskTwelve
 
         //Чисто по приколу
         int* array = (int*) NativeMemory.Alloc(ArrayRows * ArrayColumns * sizeof(int));
-        
+
         Random randomValuesSource = new Random();
 
-        for (int i = 0; i < ArrayRows * ArrayColumns; i++)
+        for (int i = 0; i < ArrayRows; i++)
         {
-            array[i] = randomValuesSource.Next();
+            for (int j = 0; j < ArrayColumns; j++)
+            {
+                array[i * ArrayColumns + j] = randomValuesSource.Next();
+                Console.Write(array[i * ArrayColumns + j] + " ");
+            }
+            
+            Console.Write(Environment.NewLine);
         }
 
         int sum = 0;
@@ -26,12 +31,12 @@ public class TaskTwelve
 
         int multiplication = 1;
 
-        for(int i = 0; i <= ArrayRows; i++)
+        for (int i = 0; i <= ArrayRows; i++)
         {
-            multiplication *= array[i*ArrayColumns];
+            multiplication *= array[i * ArrayColumns];
         }
 
         Console.WriteLine($"Sum: {sum}, Multiplication: {multiplication}");
-        NativeMemory.Free( array );
+        NativeMemory.Free(array);
     }
 }
