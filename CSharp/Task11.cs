@@ -6,7 +6,7 @@ public class TaskEleven
         int secondDivider = 5;
         int maximumValue = 100;
         
-        int generatedValue = new Random().Next(maximumValue);
+        int generatedValue = new Random().Next(maximumValue + 1);
         
         int addendumCount = generatedValue / firstDivider;
         int resultSum = (firstDivider * (1 + addendumCount) * addendumCount) >> 1;
