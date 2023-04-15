@@ -90,6 +90,7 @@ while (healthWizard > 0 && healthLordFaceless > 0) {
                 manahWizard -= iceShotCost;
                 countIceShot++;
             } else {
+                manahWizard += recoveryMana;
                 Console.WriteLine("Недостаточно маны");
             }
 
@@ -154,8 +155,15 @@ while (healthWizard > 0 && healthLordFaceless > 0) {
         manahWizard = 0;
     }
 
-    currentAttack = random.Next(4, 5);
-
+    #region attackChoose
+    
+    if (healthLordFaceless < minValueHealth) {
+        currentAttack = random.Next(0, 4);
+    } else {
+        currentAttack = random.Next(0, 5);
+    }
+    #endregion
+    
     switch (currentAttack) {
         case CommandFirework:
             currentDamageLordFaceless = firework * armorWizard * percentMuliplier;
@@ -208,9 +216,6 @@ while (healthWizard > 0 && healthLordFaceless > 0) {
 
 }
 
-
-
-
 #region VictoryCheck
 if (healthWizard <= 0 && healthLordFaceless <= 0) {
     Console.WriteLine("Ни кто не уцелел в этой битве");
@@ -220,4 +225,3 @@ if (healthWizard <= 0 && healthLordFaceless <= 0) {
     Console.WriteLine("Финальная битва закончена, чародей победил");
 }
 #endregion
-
