@@ -2,8 +2,8 @@ public class TaskSeven
 {
     public static void Main(String[] args)
     {
-        int WaitingTimeInMinutes = 10;
-        int MinutesContainedInHour = 60;
+        const int WaitingTimeInMinutes = 10;
+        const int MinutesContainedInHour = 60;
         
         Console.WriteLine("People in queue:");
         int PeopleInQueue = Convert.ToInt32(Console.ReadLine());
