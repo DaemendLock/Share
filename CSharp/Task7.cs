@@ -2,15 +2,15 @@ public class TaskSeven
 {
     public static void Main(String[] args)
     {
-        const int WaitingTimeInMinutes = 10;
-        const int MinutesContainedInHour = 60;
+        int waitingTimeInMinutes = 10;
+        int minutesContainedInHour = 60;
         
         Console.WriteLine("People in queue:");
-        int PeopleInQueue = Convert.ToInt32(Console.ReadLine());
-        int waitingTimeInMinutes = WaitingTimeInMinutes * queueLength;
-        int waitingTimeInHours = waitingTimeInMinutes / MinutesContainedInHour;
+        int peopleInQueue = Convert.ToInt32(Console.ReadLine());
+        int waitingTimeInMinutes = waitingTimeInMinutes * peopleInQueue;
+        int waitingTimeInHours = waitingTimeInMinutes / minutesContainedInHour;
 
-        waitingTimeInMinutes = waitingTimeInMinutes - waitingTimeInHours * MinutesContainedInHour;
+        waitingTimeInMinutes = waitingTimeInMinutes - waitingTimeInHours * minutesContainedInHour;
         Console.WriteLine($"Estimated time in line: {waitingTimeInHours}h {waitingTimeInMinutes}m.");
     }
 }
