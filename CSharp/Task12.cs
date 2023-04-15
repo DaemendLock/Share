@@ -2,22 +2,26 @@ public class TaskTwelve
 {
     public static void Main(String[] args)
     {
-        const int GoldStartValue = 0;
-        const int StaminaStartValue = 0;
-        const int GuildTokensStartVakue = 100;
+        int goldStartValue = 0;
+        int staminaStartValue = 0;
+        int guildTokensStartVakue = 100;
+
+        int staminaGoldCost = 2;
+        int guildTokensGoldCost = 3;
 
         const string ExitCode = "0";
         const string GoldId = "1";
         const string StaminaId = "2";
         const string GuildTokensId = "3";
 
-        int gold = GoldStartValue;
-        int stamina = StaminaStartValue;
-        int guildTokens = GuildTokensStartVakue;
+        int gold = goldStartValue;
+        int stamina = staminaStartValue;
+        int guildTokens = guildTokensStartVakue;
 
         string convertFrom;
         string convertTo;
-        int convertValue;
+        int preferedConvertValue;
+        int actualConvertValue;
 
         do
         {
@@ -32,55 +36,69 @@ public class TaskTwelve
             Console.WriteLine("Write currency to convert to:");
             convertTo = Console.ReadLine();
             Console.WriteLine("How much you want to convert?");
-            convertValue = Convert.ToInt32(Console.ReadLine());
+            preferedConvertValue = Convert.ToInt32(Console.ReadLine());
 
             switch (convertFrom)
             {
                 case GoldId:
-
+                    
                     if (convertTo.Equals(StaminaId))
                     {
-                        stamina += convertValue;
+                        actualConvertValue = preferedConvertValue / staminaGoldCost;
+                        stamina += actualConvertValue;
+                        gold -= actualConvertValue * staminaGoldCost;
                     } else if (convertTo.Equals(GuildTokensId))
                     {
-                        guildTokens += convertValue;
+                        actualConvertValue = preferedConvertValue / guildTokensGoldCost;
+                        guildTokens += actualConvertValue;
+                        gold -= actualConvertValue * guildTokensGoldCost;
                     } else
                     {
                         continue;
                     }
 
-                    gold -= convertValue;
                     break;
+                    
                 case StaminaId:
 
-                    if (convertTo.Equals(GuildTokensId))
+                    if (convertTo.Equals(GoldId))
                     {
-                        guildTokens += convertValue;
-                    } else if (convertTo.Equals(GoldId))
+                        actualConvertValue = preferedConvertValue * staminaGoldCost;
+                        gold += actualConvertValue;
+                        stamina -= preferedConvertValue;
+                    } else if (convertTo.Equals(GuildTokensId))
                     {
-                        gold += convertValue;
+                        actualConvertValue = preferedConvertValue * staminaGoldCost / guildTokensGoldCost;
+                        guildTokens += actualConvertValue;
+                        stamina -= actualConvertValue * guildTokensGoldCost / staminaGoldCost;
                     } else
                     {
                         continue;
                     }
 
-                    stamina -= convertValue;
+                    stamina -= preferedConvertValue;
                     break;
+                    
                 case GuildTokensId:
 
-                    if (convertTo.Equals(StaminaId))
+                    if (convertTo.Equals(GoldId))
                     {
-                        stamina += convertValue;
-                    } else if (convertTo.Equals(GoldId))
+                        actualConvertValue = preferedConvertValue * guildTokensGoldCost;
+                        gold += actualConvertValue;
+                        guildTokens -= preferedConvertValue;
+                    } else if (convertTo.Equals(StaminaId))
                     {
-                        gold += convertValue;
+                        actualConvertValue = preferedConvertValue * guildTokensGoldCost / staminaGoldCost;
+                        stamina += actualConvertValue;
+                        guildTokens -= actualConvertValue * guildTokensGoldCost;
                     } else
                     {
                         continue;
                     }
 
-                    guildTokens -= convertValue;
+                    guildTokens -= preferedConvertValue;
                     break;
+                    
                 default:
                     continue;
             }
