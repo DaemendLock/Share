@@ -2,16 +2,19 @@ public class TaskSixteen
 {
     public static void Main(String[] args)
     {
-        const int minRandomValue = 1;
-        const int maxRandomValue = 27;
+        int minRequiredValue = 100;
+        int minRequiredValue = 999;
+        
+        int minRandomValue = 1;
+        int maxRandomValue = 27;
         
         int randomNumber = new Random().Next(minRandomValue, maxRandomValue + 1);
         int count = 0;
         int value = randomNumber;
         
-        for (int i = randomNumber; i < 1000; i += randomNumber)
+        for (int i = randomNumber; i =< minRequiredValue; i += randomNumber)
         {
-            if (i > 99)
+            if (i > minRequiredValue)
             {
                 count++;
             }
