@@ -22,7 +22,14 @@ public class TaskTwelveThree
                     continue;
 
                 case SumCommand:
-                    Console.WriteLine(arraySum);
+                    int sum = 0;
+
+                    for (int i = 0; i < arrayLength; i++)
+                    {
+                        sum+= numbers[i];
+                    }
+
+                    Console.WriteLine(sum);
                     break;
 
                 default:
