@@ -1,42 +1,42 @@
-using System.Runtime.InteropServices;
-
-public class TaskTwelve {
+public class TaskTwelve
+{
     public static unsafe void Main(String[] args)
-    {
-        const int ArrayRows = 5;
-        const int ArrayColumns = 2;
+    { 
+        int sumInRow = 1;
+        int multiplyInColumn = 0;
 
-        //Чисто по приколу
-        int* array = (int*) NativeMemory.Alloc(ArrayRows * ArrayColumns * sizeof(int));
+        int arrayRows = 5;
+        int arrayColumns = 2;
+
+        int[, ] array = new int[arrayRows, arrayColumns];
 
         Random randomValuesSource = new Random();
 
-        for (int i = 0; i < ArrayRows; i++)
+        for (int i = 0; i < arrayColumns; i++)
         {
-            for (int j = 0; j < ArrayColumns; j++)
+            for (int j = 0; j < arrayColumns; j++)
             {
-                array[i * ArrayColumns + j] = randomValuesSource.Next(10);
-                Console.Write(array[i * ArrayColumns + j] + " ");
+                array[i, j] = randomValuesSource.Next(10);
+                Console.Write(array[i, j] + " ");
             }
-            
+
             Console.Write(Environment.NewLine);
         }
 
-        int sum = 0;
+        int sumResult = 0;
 
-        for (int i = ArrayColumns; i < ArrayColumns << 1; i++)
+        for (int i = 0; i < arrayColumns; i++)
         {
-            sum += array[i];
+            sumResult += array[sumInRow, i];
         }
 
-        int multiplication = 1;
+        int multiplicationResult = 1;
 
-        for (int i = 0; i <= ArrayRows; i++)
+        for (int i = 0; i < arrayRows; i++)
         {
-            multiplication *= array[i * ArrayColumns];
+            multiplicationResult *= array[i, multiplyInColumn];
         }
 
         Console.WriteLine($"Sum: {sum}, Multiplication: {multiplication}");
-        NativeMemory.Free(array);
     }
 }
