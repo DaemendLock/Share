@@ -5,16 +5,17 @@ public class TaskTwelveThree
         const string ExitCommand = "exit";
         const string SumCommand = "sum";
 
-        int arrayLength = 5;
+        int arrayLength = 1;
         int[] numbers = new int[arrayLength];
         int lastIndex = 0;
 
         string lastCommand;
         int lastNumber;
 
-        do
+        while (lastCommand != ExitCommand)
         {
             lastCommand = Console.ReadLine();
+            
             switch (lastCommand)
             {
                 case ExitCommand:
@@ -50,6 +51,6 @@ public class TaskTwelveThree
                     lastIndex++;
                     break;
             }
-        } while (lastCommand != ExitCommand);
+        }
     }
 }
