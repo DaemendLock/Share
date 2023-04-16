@@ -1,4 +1,4 @@
-public class TaskTwelveFive {
+public class TaskTwelveFour {
     public static void Main(String[] args) {
         int arrayLength = 30;
         int maxRandomValue = 9;
