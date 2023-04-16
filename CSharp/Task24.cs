@@ -6,7 +6,8 @@ public class TaskTwelveFour {
 
         Random random = new Random();
 
-        for (int i = 0; i < arrayLength; i++) {
+        for (int i = 0; i < arrayLength; i++)
+        {
             numbers[i] = random.Next(maxRandomValue + 1);
             Console.Write(numbers[i]);
         }
@@ -16,8 +17,10 @@ public class TaskTwelveFour {
         int lastValue = numbers[0];
         int currentRepeatitions = 1;
 
-        for (int i = 1; i < arrayLength; i++) {
-            if (numbers[i] == lastValue) {
+        for (int i = 1; i < arrayLength; i++)
+        {
+            if (numbers[i] == lastValue)
+            {
                 currentRepeatitions++;
                 continue;
             }
@@ -27,11 +30,13 @@ public class TaskTwelveFour {
                 maxRepeatitionsValue = lastValue;
                 maxRepeatitions = currentRepeatitions;
             }
+            
             lastValue = numbers[i];
             currentRepeatitions = 1;
         }
 
-        if (currentRepeatitions > maxRepeatitions) {
+        if (currentRepeatitions > maxRepeatitions)
+        {
             maxRepeatitionsValue = lastValue;
             maxRepeatitions = currentRepeatitions;
         }
