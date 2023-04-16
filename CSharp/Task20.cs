@@ -1,6 +1,6 @@
 public class TaskTwelve
 {
-    public static unsafe void Main(String[] args)
+    public static void Main(String[] args)
     { 
         int sumInRow = 1;
         int multiplyInColumn = 0;
