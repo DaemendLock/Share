@@ -37,6 +37,6 @@ public class TaskTwelve
             multiplicationResult *= array[i, multiplyInColumn];
         }
 
-        Console.WriteLine($"Sum: {sum}, Multiplication: {multiplication}");
+        Console.WriteLine($"Sum: {sumResult}, Multiplication: {multiplicationResult}");
     }
 }
