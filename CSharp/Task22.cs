@@ -7,20 +7,20 @@ public class TaskTwelveTwo
         int randomMinValue = -9;
         int randomMaxValue = 9;
 
-        int[] array = new int[arrayLength];
+        int[] numbers = new int[arrayLength];
 
         Random random = new Random();
 
         for (int i = 0; i < arrayLength; i++)
         {
-            array[i] = random.Next(randomMinValue, randomMaxValue);
+            numbers[i] = random.Next(randomMinValue, randomMaxValue);
         }
         
         for (int i = 1; i < arrayLength; i++)
         {
-            if ((i == 0 || array[i] > array[i-1]) && (i == arrayLength - 1 || array[i] > array[i + 1]))
+            if ((i == 0 || numbers[i] > numbers[i-1]) && (i == arrayLength - 1 || numbers[i] > numbers[i + 1]))
             {
-                Console.Write(array[i] + " ");
+                Console.Write(numbers[i] + " ");
             }
         }
     }
