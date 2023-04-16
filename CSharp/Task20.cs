@@ -4,6 +4,7 @@ public class TaskTwelve
     { 
         int sumInRow = 1;
         int multiplyInColumn = 0;
+        int randomMaxValue = 9;
 
         int arrayRows = 5;
         int arrayColumns = 2;
@@ -16,7 +17,7 @@ public class TaskTwelve
         {
             for (int j = 0; j < arrayColumns; j++)
             {
-                array[i, j] = randomValuesSource.Next(10);
+                array[i, j] = randomValuesSource.Next(randomMaxValue + 1);
                 Console.Write(array[i, j] + " ");
             }
 
