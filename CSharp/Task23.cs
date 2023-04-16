@@ -8,7 +8,6 @@ public class TaskTwelveThree
         int arrayLength = 5;
         int[] numbers = new int[arrayLength];
         int lastIndex = 0;
-        int arraySum = 0;
 
         string lastCommand;
         int lastNumber;
@@ -34,7 +33,6 @@ public class TaskTwelveThree
 
                 default:
                     lastNumber = Convert.ToInt32(lastCommand);
-                    arraySum += lastNumber;
 
                     if (arrayLength == lastIndex)
                     {
