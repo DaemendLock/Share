@@ -30,7 +30,7 @@ public class TaskTwelve
             sumResult += array[sumInRow, i];
         }
 
-        int multiplicationResult = 1;
+        long multiplicationResult = 1;
 
         for (int i = 0; i < arrayRows; i++)
         {
