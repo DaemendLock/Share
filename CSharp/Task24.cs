@@ -1,5 +1,7 @@
-public class TaskTwelveFour {
-    public static void Main(String[] args) {
+public class TaskTwelveFour
+{
+    public static void Main(String[] args)
+    {
         int arrayLength = 30;
         int maxRandomValue = 9;
         int[] numbers = new int[arrayLength];
