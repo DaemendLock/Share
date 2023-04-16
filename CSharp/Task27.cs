@@ -15,9 +15,9 @@ public class TaskTwelveSeven
         }
 
         Console.WriteLine(Environment.NewLine + "Shift by: ");
-        int shiftCount = (arrayLength + Convert.ToInt32(Console.ReadLine())) % arrayLength;
+        int shiftCount = Convert.ToInt32(Console.ReadLine()) % arrayLength;
 
-        for (int i = 0; i < shiftCount; i++)
+        for (int i = 0; i < Math.Abs(shiftCount); i++)
         {
             for (int j = (i - shiftCount + arrayLength) % arrayLength; i != j; j = (j - shiftCount + arrayLength) % arrayLength)
             {
