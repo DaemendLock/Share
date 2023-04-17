@@ -98,8 +98,10 @@ public class TaskMap
 
     private static bool IsPositionGenerated(int positionX, int positionY, char[,] map)
     {
-        return positionX >= 0 && positionY >= 0 &&
-                positionX < map.GetLength(1) && positionY < map.GetLength(0);
+        bool isMovedOutOfMapWithX = positionX < 0 || positionX >= map.GetLength(1);
+        bool isMovedOutOfMapWithY = positionY < 0 || positionY >= map.GetLength(0);
+        
+        return  !(isisMovedOutOfMapWithX || isMovedOutOfMapWithY);
     }
 
     private static void ReadNextPoition(int currentPossitionX, int currentPossitionY, out int newPositionX, out int newPositionY)
