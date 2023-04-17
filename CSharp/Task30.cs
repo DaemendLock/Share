@@ -2,14 +2,16 @@ public class TaskThirty
 {
     public static void Main(String[] args)
     {
-        Console.WriteLine(ForceReadInt());
+        Console.WriteLine(ReadInt());
     }
 
-    private static int ForceReadInt()
+    private static int ReadInt()
     {
         int value;
-
-        while (int.TryParse(Console.ReadLine(), out value) == false);
+        
+        do {
+            Console.WriteLine("Trying read number");
+        }while (int.TryParse(Console.ReadLine(), out value) == false);
 
         return value;
     }
