@@ -2,11 +2,13 @@ public class TaskThirtyThree
 {
     public static void Main(string[] args)
     {
+        bool isRunning = true;
+        
         Dictionary<string, string> dictionary = new Dictionary<string, string>();
 
         string userInput;
 
-        while(true)
+        while(isRunning)
         {
             Console.WriteLine("Write next word.");
             userInput = Console.ReadLine();
