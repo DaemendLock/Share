@@ -101,7 +101,7 @@ public class TaskMap
         bool isMovedOutOfMapWithX = positionX < 0 || positionX >= map.GetLength(1);
         bool isMovedOutOfMapWithY = positionY < 0 || positionY >= map.GetLength(0);
         
-        return  !(isisMovedOutOfMapWithX || isMovedOutOfMapWithY);
+        return  !(isMovedOutOfMapWithX || isMovedOutOfMapWithY);
     }
 
     private static void ReadNextPoition(int currentPossitionX, int currentPossitionY, out int newPositionX, out int newPositionY)
