@@ -52,7 +52,7 @@ public class TaskMap
 
         char[] tileLib = { path, block };
 
-        int mapNormalizer = 2;
+        int blockSpawnFrequency = 2;
 
         char[,] map = new char[mapHeight, mapHeight];
 
@@ -60,7 +60,7 @@ public class TaskMap
         {
             for (int j = 0; j < mapWidth; j++)
             {
-                map[i, j] = tileLib[random.Next(tileLib.Length * mapNormalizer) / (mapNormalizer + 1)];
+                map[i, j] = tileLib[random.Next(tileLib.Length * blockSpawnFrequency) / (blockSpawnFrequency + 1)];
             }
         }
 
