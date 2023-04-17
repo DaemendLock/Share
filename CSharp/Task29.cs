@@ -23,6 +23,7 @@ public class Taskmap
         while (doGameCycle)
         {
             ReadNextPoition(playerXPosition, playerYPosition, out nextPositionX, out nextPositionY);
+            
             if (CanMoveToPosition(nextPositionX, nextPositionY, map, block))
             {
                 playerXPosition = nextPositionX;
