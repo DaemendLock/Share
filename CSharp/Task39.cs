@@ -26,7 +26,7 @@ public class Player
 
 public static class Paintbrush
 {
-    private static readonly string s_playerModel = "1";
+    private static readonly string _playerModel = "1";
 
     public static void Draw(Player player)
     {
