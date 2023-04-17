@@ -14,14 +14,14 @@ public class Taskmap
         int playerXPosition = playerStartPosition;
         int playerYPosition = playerStartPosition;
 
-        DrawMap(map, playerXPosition, playerYPosition);
-
         bool doGameCycle = true;
         int nextPositionX;
         int nextPositionY;
 
         while (doGameCycle)
         {
+            DrawMap(map, playerXPosition, playerYPosition);
+            
             ReadNextPoition(playerXPosition, playerYPosition, out nextPositionX, out nextPositionY);
             
             if (CanMoveToPosition(nextPositionX, nextPositionY, map, block))
@@ -29,12 +29,10 @@ public class Taskmap
                 playerXPosition = nextPositionX;
                 playerYPosition = nextPositionY;
             }
-
-            DrawMap(map, playerXPosition, playerYPosition);
         }
     }
 
-    private static char[,] CreateMap(int mapWidth, int mapHeight, int seed, char block = '#')
+    private static char[,] CreateMap(int mapWidth, int mapHeight, int seed, char block)
     {
         Random random = new Random(seed);
 
