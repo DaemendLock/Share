@@ -9,13 +9,8 @@ public class TaskThirty
     {
         int value;
 
-        while (TryRead(out value) == false);
+        while (int.TryParse(Console.ReadLine(), out value) == false);
 
         return value;
-    }
-
-    private static bool TryRead(out int value)
-    {
-        return int.TryParse(Console.ReadLine(), out value);
     }
 }
