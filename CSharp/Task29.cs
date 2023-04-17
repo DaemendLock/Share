@@ -1,5 +1,3 @@
-using System.Numerics;
-
 public class TaskMap
 {
     public static void Main(string[] args)
