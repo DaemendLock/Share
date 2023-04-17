@@ -16,12 +16,21 @@ public class TaskTwelveTwo
             numbers[i] = random.Next(randomMinValue, randomMaxValue);
         }
         
-        for (int i = 1; i < arrayLength; i++)
+        if (arrayLength == 1 || numbers[0] > numbers[1])
         {
-            if ((i == 0 || numbers[i] > numbers[i-1]) && (i == arrayLength - 1 || numbers[i] > numbers[i + 1]))
+            Console.Write(numbers[0] + " ");
+        }
+        
+        for (int i = 1; i < arrayLength - 1; i++)
+        {
+            if (numbers[i] > numbers[i-1] && numbers[i] > numbers[i + 1]))
             {
                 Console.Write(numbers[i] + " ");
             }
+        }
+        
+        if (arrayLength > 1 && numbers[arrayLenth - 2] < numbers[arrayLength - 1]) {
+            Console.Write(numbers[arrayLength - 1] + " ");
         }
     }
 }
