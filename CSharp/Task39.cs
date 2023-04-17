@@ -10,16 +10,16 @@ public class TaskThirtyNine
 
 public class Player
 {
-    private int _postionX;
+    private int _positionX;
     private int _positionY;
 
-    public int X => _postionX;
+    public int X => _positionX;
    
     public int Y => _positionY;
 
     public Player(int positionX, int positionY)
     {
-        _postionX = positionX;
+        _positionX = positionX;
         _positionY = positionY;
     }
 }
