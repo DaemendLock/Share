@@ -2,94 +2,71 @@ public class TaskTwentyEight
 {
     public static void Main(String[] args)
     {
+        const string AddCommand = "1";
+        const string PrintCommand = "2";
+        const string RemoveCommand = "3";
+        const string FindCommand = "4";
+        const string ExitCommand = "5";
+
         string[] names = new string[0];
         string[] positions = new string[0];
 
-        while (TryHandleInput(ref names, ref positions));
+        bool exitRequested = false;
+        string input;
+
+        while (exitRequested == false)
+        {
+            Console.WriteLine($"Write command: add - {AddCommand}, print - {PrintCommand}, remove - {RemoveCommand}, find - {FindCommand}, exit - {ExitCommand}");
+            input = Console.ReadLine();
+
+            switch (input)
+            {
+                case AddCommand:
+                    AddFile(ref names, ref positions);
+                    break;
+
+                case PrintCommand:
+                    Print(names, positions);
+                    break;
+
+                case RemoveCommand:
+                    RemoveFile(ref names, ref positions);
+                    break;
+
+                case FindCommand:
+                    Find(ref names);
+                    break;
+
+                case ExitCommand:
+                    exitRequested = true;
+                    break;
+
+                default:
+                    Console.Error.WriteLine("Failed to read input.");
+                    break;
+            }
+        }
     }
 
-    private static bool TryHandleInput(ref string[] names, ref string[] positions)
+    private static void AddFile(ref string[] names, ref string[] positions)
     {
-        const string addCommand = "add";
-        const string printCommand = "print";
-        const string removeCommand = "remove";
-        const string findCommand = "find";
+        names = ExtendArray(names, "Write name: ");
+        positions = ExtendArray(positions, "Write position: ");
+    }
 
-        Console.WriteLine($"Write command: {addCommand}, {printCommand}, {removeCommand}, {findCommand}");
+    private static void RemoveFile(ref string[] names, ref string[] positions)
+    {
+        Console.WriteLine("Write file index");
+        int index;
 
-        string input = Console.ReadLine();
-
-        switch (input)
+        while (int.TryParse(Console.ReadLine(), out index) == false)
         {
-            case addCommand:
-                Console.WriteLine("Write name: ");
-                string name = Console.ReadLine();
-                Console.WriteLine("Write position: ");
-                string position = Console.ReadLine();
-
-                Add(name, position, ref names, ref positions);
-                return true;
-
-            case printCommand:
-                Print(names, positions);
-                return true;
-
-            case removeCommand:
-                Console.WriteLine("Write index of file: ");
-                int index;
-
-                while (int.TryParse(Console.ReadLine(), out index) == false)
-                {
-                    Console.WriteLine("Failed to read index.");
-                }
-
-                Remove(index, ref names, ref positions);
-                return true;
-
-            case findCommand:
-                Console.WriteLine("Write surname for lookup: ");
-                string surname = Console.ReadLine();
-
-                int foundIndex = GetIndex(surname, names);
-
-                if (foundIndex == -1)
-                {
-                    Console.Error.WriteLine("Can't find this surname");
-                }
-                else
-                {
-                    Console.WriteLine($"Found {foundIndex}");
-                }
-                return true;
+            Console.Error.WriteLine("Can't parse index.");
         }
 
-        return false;
-    }
-
-    private static void Add(string name, string position, ref string[] names, ref string[] positions)
-    {
-        names = GetExtendedArray(names);
-        positions = GetExtendedArray(positions);
-
-        names[names.Length - 1] = name;
-        positions[names.Length - 1] = position;
-    }
-
-    private static void Remove(int index, ref string[] names, ref string[] positions)
-    {
         index--;
-
-        if (index >= names.Length || index < 0)
-        {
-            Console.Error.WriteLine("Can't remove by index " + (index + 1));
-            return;
-        }
-
-        (names[names.Length - 1], names[index]) = (names[index], names[names.Length - 1]);
-        (positions[names.Length - 1], positions[index]) = (positions[index], positions[positions.Length - 1]);
-
-        names = GetShortenArray(names);
-        positions = GetShortenArray(positions);
+        names = RemoveAt(index, names);
+        positions = RemoveAt(index, positions);
     }
 
     private static void Print(string[] names, string[] positions)
@@ -100,31 +77,59 @@ public class TaskTwentyEight
         }
     }
 
-    private static int GetIndex(string surname, string[] names)
+    private static void Find(ref string[] names)
     {
+        Console.WriteLine("Write surname for lookup: ");
+        string surname = Console.ReadLine();
+
+        int foundIndex = -1;
+
         for (int i = 0; i < names.Length; i++)
         {
-            if (names[i].Contains(surname))
-                return i;
+            if (names[i].Split()[0].Equals(surname))
+            {
+                foundIndex = i;
+                break;
+            }
         }
 
-        return -1;
+        if (foundIndex == -1)
+        {
+            Console.Error.WriteLine("Can't find this surname");
+        }
+        else
+        {
+            Console.WriteLine($"Found {foundIndex}");
+        }
     }
 
-    private static string[] GetExtendedArray(string[] array)
+    private static string[] ExtendArray(string[] array, string requestMessage)
     {
         string[] result = new string[array.Length + 1];
+
+        Console.WriteLine(requestMessage);
+        string value = Console.ReadLine();
 
         for (int i = 0; i < array.Length; i++)
         {
             result[i] = array[i];
         }
 
+        result[result.Length - 1] = value;
+
         return result;
     }
 
-    private static string[] GetShortenArray(string[] array)
+    private static string[] RemoveAt(int index, string[] array)
     {
+        if (index >= array.Length || index < 0)
+        {
+            Console.Error.WriteLine("Can't remove by index " + (index + 1));
+            return array;
+        }
+
+        (array[array.Length - 1], array[index]) = (array[index], array[array.Length - 1]);
+
         string[] result = new string[array.Length - 1];
 
         for (int i = 0; i < result.Length; i++)
