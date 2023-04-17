@@ -8,7 +8,7 @@ public class TaskThirtyOne
 
         Random random = new Random();
 
-        for (int i = 0; i < arrayLength; i++)
+        for (int i = 0; i < numbers.Length; i++)
         {
             numbers[i] = random.Next(randomNumberMaxValue + 1);
             Console.Write(numbers[i]);
@@ -17,7 +17,7 @@ public class TaskThirtyOne
         Shuffle(numbers, random);
         Console.WriteLine();
 
-        for (int i = 0; i < arrayLength; i++)
+        for (int i = 0; i < numbers.Length; i++)
         {
             Console.Write(numbers[i]);
         }
@@ -30,11 +30,10 @@ public class TaskThirtyOne
 
     private static void Shuffle(int[] numbers, Random randomValuesSource, int shuffleDepth)
     {
-        for (int i = 0; i < numbers.Length; i++)
+        for (int i = 0; i < shuffleDepth; i++)
         {
             int swapWith = randomValuesSource.Next(numbers.Length);
             (numbers[0], numbers[swapWith]) = (numbers[swapWith], numbers[0]);
         }
     }
-
 }
