@@ -18,14 +18,23 @@ public class TaskThirtyFour
 
         while (line.Count > 0)
         {
-            Console.WriteLine("Press any key to continue");
-            Console.ReadKey();
-            Console.Clear();
-
-            balance += line.Dequeue();
+            balance += GetNextBill(line);
             Console.WriteLine("Current balance: " + balance);
         }
 
         Console.WriteLine("No more customers.");
+    }
+
+    public static int GetNextBill(Queue<int> line)
+    {
+        int bill = line.Peek();
+        Console.WriteLine("Next bill for " + bill);
+
+        Console.WriteLine("Press any key to continue");
+        Console.ReadKey();
+        Console.Clear();
+
+        line.Dequeue();
+        return bill;
     }
 }
