@@ -7,6 +7,8 @@ public class TaskTwelveOne
 
         int randomMinValue = -10;
         int randomMaxValue = 10;
+        
+        int replacementValue = 0;
 
 
         int[,] matrix = new int[matrixHeight, matrixWidth];
@@ -55,7 +57,7 @@ public class TaskTwelveOne
             {
                 if (matrix[i, j] == maxValue)
                 {
-                    matrix[i, j] = 0;
+                    matrix[i, j] = replacementValue;
                 }
 
                 Console.Write(matrix[i, j] + " ");
