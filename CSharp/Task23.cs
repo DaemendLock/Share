@@ -9,16 +9,17 @@ public class TaskTwelveThree
         int[] numbers = new int[arrayLength];
         int lastIndex = 0;
 
-        string lastCommand;
-        int lastNumber;
+        string userInput;
+        bool endInput = false;
 
-        while (lastCommand != ExitCommand)
+        while (endInput == false)
         {
-            lastCommand = Console.ReadLine();
-            
-            switch (lastCommand)
+            userInput = Console.ReadLine();
+
+            switch (userInput)
             {
                 case ExitCommand:
+                    endInput = true;
                     continue;
 
                 case SumCommand:
@@ -26,28 +27,26 @@ public class TaskTwelveThree
 
                     for (int i = 0; i < arrayLength; i++)
                     {
-                        sum+= numbers[i];
+                        sum += numbers[i];
                     }
 
                     Console.WriteLine(sum);
                     break;
 
                 default:
-                    lastNumber = Convert.ToInt32(lastCommand);
-
                     if (arrayLength == lastIndex)
                     {
                         int[] reallocBuffer = numbers;
                         arrayLength *= 2;
                         numbers = new int[arrayLength];
 
-                        for(int i = 0; i < lastIndex; i++)
+                        for (int i = 0; i < lastIndex; i++)
                         {
                             numbers[i] = reallocBuffer[i];
                         }
                     }
 
-                    numbers[lastIndex] = lastNumber;
+                    numbers[lastIndex] = Convert.ToInt32(userInput);
                     lastIndex++;
                     break;
             }
