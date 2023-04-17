@@ -11,7 +11,7 @@ public class TaskThirty
         
         do {
             Console.WriteLine("Trying read number");
-        }while (int.TryParse(Console.ReadLine(), out value) == false);
+        } while (int.TryParse(Console.ReadLine(), out value) == false);
 
         return value;
     }
