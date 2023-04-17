@@ -14,11 +14,8 @@ public class TaskThirtyOne
         }
 
         PrintArray(numbers);
-
         Shuffle(numbers, random);
-
         PrintArray(numbers);
-        
     }
 
     private static void Shuffle(int[] numbers, Random randomValuesSource)
@@ -41,6 +38,7 @@ public class TaskThirtyOne
         {
             Console.Write(number + " ");
         }
+        
         Console.WriteLine();
     }
 }
