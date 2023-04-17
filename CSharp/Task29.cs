@@ -1,30 +1,43 @@
-public class Taskmap
+using System.Numerics;
+
+public class TaskMap
 {
     public static void Main(string[] args)
     {
-        char block = '#';
-
         int mapWidth = 10;
         int mapHeight = 10;
 
         int playerStartPosition = 0;
 
-        char[,] map = CreateMap(mapWidth, mapHeight, DateTimeOffset.UtcNow.Millisecond, block);
+        Console.WriteLine("Write seed or leave blank: ");
+        string inputSeed = Console.ReadLine();
+        int actualSeed;
+
+        if (inputSeed == null || inputSeed.Length == 0)
+        {
+            actualSeed = DateTimeOffset.UtcNow.Millisecond;
+        }
+        else
+        {
+            actualSeed = inputSeed.GetHashCode();
+        }
+
+        char[,] map = CreateMap(mapWidth, mapHeight, actualSeed);
 
         int playerXPosition = playerStartPosition;
         int playerYPosition = playerStartPosition;
 
-        bool doGameCycle = true;
         int nextPositionX;
         int nextPositionY;
 
-        while (doGameCycle)
+        while (true)
         {
-            DrawMap(map, playerXPosition, playerYPosition);
-            
+            DrawMap(map);
+            DrawPlayer(playerXPosition, playerYPosition);
+
             ReadNextPoition(playerXPosition, playerYPosition, out nextPositionX, out nextPositionY);
-            
-            if (CanMoveToPosition(nextPositionX, nextPositionY, map, block))
+
+            if (CanMoveToPosition(nextPositionX, nextPositionY, map))
             {
                 playerXPosition = nextPositionX;
                 playerYPosition = nextPositionY;
@@ -32,11 +45,14 @@ public class Taskmap
         }
     }
 
-    private static char[,] CreateMap(int mapWidth, int mapHeight, int seed, char block)
+    private static char[,] CreateMap(int mapWidth, int mapHeight, int seed)
     {
+        char block = '#';
+        char path = '.';
+
         Random random = new Random(seed);
 
-        char[] tileLib = { '.', block };
+        char[] tileLib = { path, block };
 
         int mapNormalizer = 2;
 
@@ -53,10 +69,8 @@ public class Taskmap
         return map;
     }
 
-    private static void DrawMap(char[,] map, int playerPositionX, int playerPositionY)
+    private static void DrawMap(char[,] map)
     {
-        char player = '1';
-
         Console.Clear();
         Console.SetCursorPosition(0, 0);
 
@@ -67,16 +81,27 @@ public class Taskmap
 
             Console.WriteLine();
         }
+    }
+
+    private static void DrawPlayer(int playerPositionX, int playerPositionY)
+    {
+        char player = '1';
 
         Console.SetCursorPosition(playerPositionX * 2, playerPositionY);
         Console.Write(player);
     }
 
-    private static bool CanMoveToPosition(int positionX, int positionY, char[,] map, char blockingValue)
+    private static bool CanMoveToPosition(int positionX, int positionY, char[,] map)
     {
-        return !(positionX < 0 || positionX >= map.GetLength(1) ||
-            positionY < 0 || positionY >= map.GetLength(0) ||
-            map[positionX, positionY] == blockingValue);
+        char block = '#';
+
+        return IsPositionGenerated(positionX, positionY, map) && map[positionX, positionY] != block;
+    }
+
+    private static bool IsPositionGenerated(int positionX, int positionY, char[,] map)
+    {
+        return positionX >= 0 && positionY >= 0 &&
+                positionX < map.GetLength(1) && positionY < map.GetLength(0);
     }
 
     private static void ReadNextPoition(int currentPossitionX, int currentPossitionY, out int newPositionX, out int newPositionY)
