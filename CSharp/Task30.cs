@@ -1,0 +1,16 @@
+public class TaskThreety
+{
+    public static void Main(String[] args)
+    {
+        Console.WriteLine(ForceReadInt());
+    }
+
+    public static int ForceReadInt()
+    {
+        int value;
+
+        while (int.TryParse(Console.ReadLine(), out value) == false);
+
+        return value;
+    }
+}
