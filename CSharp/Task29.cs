@@ -9,7 +9,6 @@ public class Taskmap
 
         int playerStartPosition = 0;
 
-
         char[,] map = CreateMap(mapWidth, mapHeight, DateTimeOffset.UtcNow.Millisecond, block);
 
         int playerXPosition = playerStartPosition;
