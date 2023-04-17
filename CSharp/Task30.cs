@@ -10,7 +10,7 @@ public class TaskThirty
         int value;
         
         do {
-            Console.WriteLine("Trying read number");
+            Console.WriteLine("Trying read number...");
         } while (int.TryParse(Console.ReadLine(), out value) == false);
 
         return value;
