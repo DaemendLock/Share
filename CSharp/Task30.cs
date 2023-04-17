@@ -5,12 +5,17 @@ public class TaskThirty
         Console.WriteLine(ForceReadInt());
     }
 
-    public static int ForceReadInt()
+    private static int ForceReadInt()
     {
         int value;
 
-        while (int.TryParse(Console.ReadLine(), out value) == false);
+        while (TryRead(out value) == false);
 
         return value;
+    }
+
+    private static bool TryRead(out int value)
+    {
+        return int.TryParse(Console.ReadLine(), out value);
     }
 }
