@@ -20,16 +20,11 @@ public class TaskThirtyOne
 
     private static void Shuffle(int[] numbers, Random randomValuesSource)
     {
-        Shuffle(numbers, randomValuesSource, numbers.Length);
-    }
 
-    private static void Shuffle(int[] numbers, Random randomValuesSource, int shuffleDepth)
-    {
-        for (int i = 0; i < shuffleDepth; i++)
+        for (int i = 0; i < numbers.Length - 1; i++)
         {
-            int swapWith = randomValuesSource.Next(1, numbers.Length);
-            int swapIndex = randomValuesSource.Next(1, swapWith + 1);
-            (numbers[swapIndex], numbers[swapWith]) = (numbers[swapWith], numbers[swapIndex]);
+            int swapWith = randomValuesSource.Next(i, numbers.Length);
+            (numbers[i], numbers[swapWith]) = (numbers[swapWith], numbers[i]);
         }
     }
 
