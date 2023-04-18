@@ -2,8 +2,8 @@ public class TaskThirtySeven
 {
     public static void Main(string[] args)
     {
-        const string exitCommand = "exit";
-        const string sumCommand = "sum";
+        const string ExitCommand = "exit";
+        const string SumCommand = "sum";
 
         bool exitRequested = false;
         string userInput;
@@ -16,21 +16,16 @@ public class TaskThirtySeven
 
             switch (userInput)
             {
-                case exitCommand:
+                case ExitCommand:
                     exitRequested = true;
                     break;
 
-                case sumCommand:
+                case SumCommand:
                     Console.WriteLine(GetSum(numbers));
                     break;
 
                 default:
-                    int newNumber;
-
-                    if (int.TryParse(userInput, out newNumber)) {
-                        numbers.Add(newNumber);
-                    }
-
+                    numbers.Add(ParseNumberOrZero(userInput));
                     break;
 
             }
@@ -47,5 +42,15 @@ public class TaskThirtySeven
         }
 
         return sum;
+    }
+
+    public static int ParseNumberOrZero(string userInput)
+    {
+        if (int.TryParse(userInput, out int newNumber))
+        {
+            return newNumber;
+        }
+
+        return 0;
     }
 }
