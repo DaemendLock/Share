@@ -10,18 +10,14 @@ public class TaskThirtyNine
 
 public class Player
 {
-    private int _positionX;
-    private int _positionY;
-
-    public int X => _positionX;
-   
-    public int Y => _positionY;
-
     public Player(int positionX, int positionY)
     {
-        _positionX = positionX;
-        _positionY = positionY;
+        PositionX = positionX;
+        PositionY = positionY;
     }
+
+    public int PositionX { get; private set; }
+    public int PositionY { get; private set; }
 }
 
 public static class Paintbrush
@@ -32,7 +28,7 @@ public static class Paintbrush
     {
         Console.Clear();
 
-        Console.SetCursorPosition(player.X, player.Y);
+        Console.SetCursorPosition(player.PositionX, player.PositionY);
         Console.Write(_playerModel);
     }
 }
