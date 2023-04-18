@@ -69,8 +69,7 @@ public class TaskTwentyEight
         {
             Console.Error.WriteLine("Can't parse index.");
         }
-
-        index--;
+        
         names = RemoveAt(index, names);
         positions = RemoveAt(index, positions);
     }
@@ -84,7 +83,7 @@ public class TaskTwentyEight
 
         for (int i = 0; i < names.Length; i++)
         {
-            Console.WriteLine($"{i + 1}: {names[i]}  - {positions[i]}");
+            Console.WriteLine($"{i}: {names[i]}  - {positions[i]}");
         }
     }
 
@@ -105,7 +104,7 @@ public class TaskTwentyEight
         {
             if (names[i].Split()[0].Equals(surname))
             {
-                Console.WriteLine($"{i + 1}: {names[i]} - {positions[i]}");
+                Console.WriteLine($"{i}: {names[i]} - {positions[i]}");
                 foundIndex = i;
             }
         }
@@ -137,7 +136,7 @@ public class TaskTwentyEight
     {
         if (index >= array.Length || index < 0)
         {
-            Console.Error.WriteLine("Can't remove by index " + (index + 1));
+            Console.Error.WriteLine("Can't remove by index " + (index));
             return array;
         }
 
