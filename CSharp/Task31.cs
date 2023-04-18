@@ -20,7 +20,6 @@ public class TaskThirtyOne
 
     private static void Shuffle(int[] numbers, Random randomValuesSource)
     {
-
         for (int i = 0; i < numbers.Length - 1; i++)
         {
             int swapWith = randomValuesSource.Next(i, numbers.Length);
