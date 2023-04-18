@@ -16,25 +16,28 @@ public class TaskThirtyFour
             line.Enqueue(random.Next(billMaxLength));
         }
 
+        balance += ServeLine(line);
+
+        Console.WriteLine("No more customers. Balance: "+balance);
+    }
+
+    public static int ServeLine(Queue<int> line)
+    {
+        int balance = 0;
+
         while (line.Count > 0)
         {
-            balance += GetNextBill(line);
+            Console.WriteLine("Next bill for " + line.Peek());
+
+            Console.WriteLine("Press any key to continue");
+            Console.ReadKey();
+            Console.Clear();
+
+            balance += line.Dequeue();
+
             Console.WriteLine("Current balance: " + balance);
         }
 
-        Console.WriteLine("No more customers.");
-    }
-
-    public static int GetNextBill(Queue<int> line)
-    {
-        int bill = line.Peek();
-        Console.WriteLine("Next bill for " + bill);
-
-        Console.WriteLine("Press any key to continue");
-        Console.ReadKey();
-        Console.Clear();
-
-        line.Dequeue();
-        return bill;
+        return balance;
     }
 }
