@@ -59,6 +59,7 @@ public class TaskTwentyEight
         if (names.Length == 0)
         {
             Console.Error.WriteLine("0 files stored.");
+            return;
         }
 
         Console.WriteLine("Write file index");
@@ -92,6 +93,7 @@ public class TaskTwentyEight
         if (names.Length == 0)
         {
             Console.Error.WriteLine("0 files stored.");
+            return;
         }
 
         Console.WriteLine("Write surname for lookup: ");
