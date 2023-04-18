@@ -34,7 +34,7 @@ public class TaskTwentyEight
                     break;
 
                 case FindCommand:
-                    Find(ref names);
+                    FindByName(names, positions);
                     break;
 
                 case ExitCommand:
@@ -56,6 +56,11 @@ public class TaskTwentyEight
 
     private static void RemoveFile(ref string[] names, ref string[] positions)
     {
+        if (names.Length == 0)
+        {
+            Console.Error.WriteLine("0 files stored.");
+        }
+
         Console.WriteLine("Write file index");
         int index;
 
@@ -71,14 +76,24 @@ public class TaskTwentyEight
 
     private static void Print(string[] names, string[] positions)
     {
+        if (names.Length== 0)
+        {
+            Console.Error.WriteLine("0 files printed.");
+        }
+
         for (int i = 0; i < names.Length; i++)
         {
             Console.WriteLine($"{i + 1}: {names[i]}  - {positions[i]}");
         }
     }
 
-    private static void Find(ref string[] names)
+    private static void FindByName(string[] names, string[] positions)
     {
+        if (names.Length == 0)
+        {
+            Console.Error.WriteLine("0 files stored.");
+        }
+
         Console.WriteLine("Write surname for lookup: ");
         string surname = Console.ReadLine();
 
@@ -88,18 +103,14 @@ public class TaskTwentyEight
         {
             if (names[i].Split()[0].Equals(surname))
             {
+                Console.WriteLine($"{i + 1}: {names[i]} - {positions[i]}");
                 foundIndex = i;
-                break;
             }
         }
 
         if (foundIndex == -1)
         {
             Console.Error.WriteLine("Can't find this surname");
-        }
-        else
-        {
-            Console.WriteLine($"Found {foundIndex}");
         }
     }
 
