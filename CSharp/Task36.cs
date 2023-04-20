@@ -2,65 +2,66 @@ public class TaskTwentyEight
 {
     public static void Main(String[] args)
     {
+        const string AddCommand = "1";
+        const string PrintCommand = "2";
+        const string RemoveCommand = "3";
+        const string FindCommand = "4";
+        const string ExitCommand = "5";
+
         List<KeyValuePair<string, string>> files = new List<KeyValuePair<string, string>>();
 
-        while (TryHandleInput(files));
+        bool exitRequested = false;
+        string input;
+
+        while (exitRequested == false)
+        {
+            Console.WriteLine($"Write command: add - {AddCommand}, print - {PrintCommand}, remove - {RemoveCommand}, find - {FindCommand}, exit - {ExitCommand}");
+            input = Console.ReadLine();
+
+            switch (input)
+            {
+                case AddCommand:
+                    AddFile(files);
+                    break;
+
+                case PrintCommand:
+                    Print(files);
+                    break;
+
+                case RemoveCommand:
+                    RemoveFile(files);
+                    break;
+
+                case ExitCommand:
+                    exitRequested = true;
+                    break;
+
+                default:
+                    Console.Error.WriteLine("Failed to read input.");
+                    break;
+            }
+        }
     }
 
-    private static bool TryHandleInput(List<KeyValuePair<string, string>> files)
+    private static void AddFile(List<KeyValuePair<string, string>> files)
     {
-        const string addCommand = "add";
-        const string printCommand = "print";
-        const string removeCommand = "remove";
+        files.Add(new (ReadNextString("Write name: "), ReadNextString("Write position: ")));
+    }
 
-        Console.WriteLine($"Write command: {addCommand}, {printCommand}, {removeCommand}");
-
-        string input = Console.ReadLine();
-
-        switch (input)
+    private static void RemoveFile(List<KeyValuePair<string, string>> files)
+    {
+        if (files.Count == 0)
         {
-            case addCommand:
-                Console.WriteLine("Write name: ");
-                string name = Console.ReadLine();
-                Console.WriteLine("Write position: ");
-                string position = Console.ReadLine();
-
-                Add(files, name, position);
-                return true;
-
-            case printCommand:
-                Print(files);
-                return true;
-
-            case removeCommand:
-                Console.WriteLine("Write index of file: ");
-                int index;
-
-                while (int.TryParse(Console.ReadLine(), out index) == false)
-                {
-                    Console.WriteLine("Failed to read index.");
-                }
-
-                Remove(index, files);
-                return true;
+            Console.Error.WriteLine("0 files stored.");
+            return;
         }
 
-        return false;
-    }
+        Console.WriteLine("Write file index");
+        int index;
 
-    private static void Add(List<KeyValuePair<string, string>> files, string name, string position)
-    {
-        files.Add(new KeyValuePair<string, string>(name, position));
-    }
-
-    private static void Remove(int index, List<KeyValuePair<string, string>> files)
-    {
-        index--;
-
-        if (index >= files.Count || index < 0)
+        while (int.TryParse(Console.ReadLine(), out index) == false)
         {
-            Console.Error.WriteLine("Can't remove by index " + (index + 1));
-            return;
+            Console.Error.WriteLine("Can't parse index.");
         }
 
         files.RemoveAt(index);
@@ -68,9 +69,20 @@ public class TaskTwentyEight
 
     private static void Print(List<KeyValuePair<string, string>> files)
     {
+        if (files.Count == 0)
+        {
+            Console.Error.WriteLine("0 files printed.");
+        }
+
         foreach ((string name, string position) in files)
         {
             Console.WriteLine(name + " - " + position);
         }
+    }
+
+    private static string ReadNextString(string requestMessage)
+    {
+        Console.WriteLine(requestMessage);
+        return Console.ReadLine();
     }
 }
