@@ -45,7 +45,7 @@ public class TaskTwentyEight
 
     private static void AddFile(List<KeyValuePair<string, string>> files)
     {
-        files.Add(new (ReadNextString("Write name: "), ReadNextString("Write position: ")));
+        files.Add(new(ReadNextString("Write name: "), ReadNextString("Write position: ")));
     }
 
     private static void RemoveFile(List<KeyValuePair<string, string>> files)
@@ -62,6 +62,12 @@ public class TaskTwentyEight
         while (int.TryParse(Console.ReadLine(), out index) == false)
         {
             Console.Error.WriteLine("Can't parse index.");
+        }
+
+        if(index >= files.Count)
+        {
+            Console.Error.WriteLine("No file with index " + index);
+            return;
         }
 
         files.RemoveAt(index);
