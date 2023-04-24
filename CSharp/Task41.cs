@@ -2,139 +2,217 @@ public class TaskFourtyOne
 {
     public static void Main(string[] args)
     {
+        const string PassCommand = "pass";
+        const string ShuffleCommand = "suffle";
+        const string PrintCommand = "print";
+
+        int drawCards = 20;
+
         Player player = new Player();
 
-        Deck deck = new Deck(true);
+        Deck deck = new PlayingDeck(true);
 
-        deck.Shuffle();
+        string userInput;
 
-        for (int i = 0; i < 20; i++)
+        for (int i = 0; i < drawCards; i++)
         {
-            player.Draw(deck);
+            Console.WriteLine($"Write {ShuffleCommand} to shuffle deck, {PrintCommand} to pring cards in your hand or {PassCommand}");
+
+            switch (Console.ReadLine())
+            {
+                case ShuffleCommand:
+                    deck.Shuffle();
+                    break;
+                case PrintCommand:
+                    player.PrintHand();
+                    break;
+                case PassCommand:
+                    break;
+                default:
+                    Console.Error.WriteLine("Can't read command");
+                    continue;
+            }
+
+            Draw(player, deck);
         }
 
         player.PrintHand();
+    }
+
+    public static void Draw(Player player, Deck deck)
+    {
+        Card card = deck.Take();
+
+        if (card == null)
+        {
+            Console.Error.WriteLine("Can't draw card - deck is empity");
+            return;
+        }
+
+        player.PickupCard(card);
+        Console.WriteLine("Picked up " + card);
     }
 }
 
 public class Deck
 {
-    private const int FullDeckSize = 52;
-    private static readonly int _shortDeckSize = 36;
-
-    private static readonly int _fullDeckMinimalCardId = 0;
-    private static readonly int _shortDeckMinimalCardId = FullDeckSize - _shortDeckSize;
-
     private Card[] _cards = null;
-    private int _cardsLeft = 0;
 
-    public class Card
+    public uint _cardsLeft = 0;
+
+    public Deck(uint size)
     {
-        public static readonly int SuitsCount = 4;
-        public static readonly int MaxValue = 13;
-        public static readonly int MinValue = 1;
-
-        public static readonly int DefaultId = 0;
-
-        private readonly string[] _valuesName = { "Ace", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Jack", "Queen", "King" };
-
-        public byte Value { get; private set; } = 0;
-        public Suits Suit { get; private set; } = Suits.Hearts;
-
-        public Card(byte value, Suits suit)
-        {
-            Suit = suit;
-            Value = value;
-        }
-
-        public Card(int id)
-        {
-            if (id >= MaxValue * SuitsCount || id < (MinValue - 1))
-            {
-                id = DefaultId;
-                Console.Error.WriteLine("Failed to create card by id. Use id " + DefaultId);
-            }
-
-            Value = (byte) (id / SuitsCount + 1);
-            Suit = (Suits) (id % SuitsCount);
-        }
-
-        public enum Suits : int
-        {
-            Hearts = 0,
-            Spades = 1,
-            Clubs = 2,
-            Diamonds = 3
-        }
-
-        public override string ToString()
-        {
-            return _valuesName[Value - 1] + " of " + Suit.ToString();
-        }
+        _cards = new Card[size];
     }
 
-    public Deck(bool useFullDeck)
+    public void Put(Card card)
     {
-        _cards = new Card[useFullDeck ? FullDeckSize : _shortDeckSize];
-
-        int minimalCardId = useFullDeck ? _fullDeckMinimalCardId : _shortDeckMinimalCardId;
-
-        for (int i = minimalCardId; i < FullDeckSize; i++)
-        {
-            _cards[i - minimalCardId] = new Card(i);
-        }
-
-        _cardsLeft = _cards.Length;
+        if (card == null)
+            return;
+        _cards[_cardsLeft++] = card;
     }
 
-    public Card TakeCard()
+    public Card Take()
     {
         if (_cardsLeft == 0)
         {
+            Console.WriteLine("Failed to draw card - deck is empity");
             return null;
         }
 
-        _cardsLeft--;
-        return _cards[_cardsLeft - 1];
+        return _cards[--_cardsLeft];
     }
 
-    public void Shuffle(int depth = FullDeckSize)
+    public void Shuffle()
     {
         Random random = new Random();
 
-        for (int i = 0; i < depth; i++)
+        for (int i = 0; i < _cardsLeft - 1; i++)
         {
-            int swapWithIndex = random.Next(1, _cardsLeft);
-            (_cards[0], _cards[swapWithIndex]) = (_cards[swapWithIndex], _cards[0]);
+            int swapWithIndex = random.Next(i);
+            (_cards[i], _cards[swapWithIndex]) = (_cards[swapWithIndex], _cards[i]);
         }
+    }
+}
+
+public class PlayingDeck : Deck
+{
+    private const uint FullDeckSize = 52;
+    private const uint ShortDeckSize = 36;
+    private const uint FullDeckMinimalCardId = 0;
+    private const uint ShortDeckMinimalCardId = FullDeckSize - ShortDeckSize;
+
+    public PlayingDeck(bool useFullDeck) : base(useFullDeck ? FullDeckSize : ShortDeckSize)
+    {
+        uint minimalCardId = useFullDeck ? FullDeckMinimalCardId : ShortDeckMinimalCardId;
+
+        for (uint i = minimalCardId; i < FullDeckSize; i++)
+        {
+            Put(new PlayingCard(i));
+        }
+    }
+}
+
+public class Card
+{
+    public Card(uint id)
+    {
+        Id = id;
+    }
+
+    public uint Id { get; private set; }
+
+    public override bool Equals(object obj)
+    {
+        return obj is Card card && card.Id == Id;
+    }
+}
+
+public class PlayingCard : Card
+{
+    private const uint DefaultId = 0;
+
+    public enum Values : uint
+    {
+        Ace,
+        Two,
+        Three,
+        Four,
+        Five,
+        Six,
+        Seven,
+        Eight,
+        Nine,
+        Ten,
+        Jack,
+        Queen,
+        King,
+        Count,
+    }
+
+    public enum Suits : uint
+    {
+        Hearts,
+        Spades,
+        Clubs,
+        Diamonds,
+        Count
+    }
+
+    public PlayingCard(uint id) : base(id)
+    {
+        if (id >= ((uint) Values.Count * (uint) Suits.Count))
+        {
+            Console.WriteLine("Can't create card with given id. Using default instead.");
+            id = DefaultId;
+        }
+
+        Value = (Values) (id % (uint) Values.Count + 1);
+        Suit = (Suits) (id / (uint) Values.Count);
+    }
+
+    public Values Value { get; private set; }
+    public Suits Suit { get; private set; }
+
+    public override string ToString()
+    {
+        return Value.ToString() + " of " + Suit.ToString();
+    }
+
+    public override bool Equals(object obj)
+    {
+        return obj is PlayingCard card && card.Value == Value && card.Suit == Suit;
     }
 }
 
 public class Player
 {
-    LinkedList<Deck.Card> _hand = new LinkedList<Deck.Card>();
+    private LinkedList<Card> _hand = new();
 
-    public bool Draw(Deck deck)
+    public void PickupCard(Card card)
     {
-        Deck.Card pulledCard = deck.TakeCard();
-
-        if (pulledCard == null)
+        if (card == null)
         {
-            return false;
+            Console.Error.WriteLine("Can't pick up non-existing card");
+            return;
         }
 
-        _hand.AddLast(deck.TakeCard());
-        return true;
+        _hand.AddLast(card);
     }
 
-    public void TakeCard(Deck.Card card)
+    public void DropCard(Card card)
     {
         _hand.Remove(card);
     }
 
     public void PrintHand()
     {
-        foreach (Deck.Card card in _hand)
+        if (_hand.Count == 0)
+        {
+            Console.WriteLine("Hand is empity");
+        }
+
+        foreach (Card card in _hand)
         {
             Console.WriteLine(card.ToString());
         }
