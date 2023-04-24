@@ -44,14 +44,14 @@ public class TaskLibrary
         string title = Console.ReadLine();
         Console.WriteLine("Write author");
         string author = Console.ReadLine();
+        Console.WriteLine("Write year");
         int year = ForceParseInt();
 
         library.AddBook(title, author, year);
     }
 
     public static int ForceParseInt()
-    {
-        Console.WriteLine("Write year");
+    {   
         int result;
 
         while (int.TryParse(Console.ReadLine(), out result) == false)
