@@ -23,37 +23,32 @@ public class TaskFourtyOne
                 case ShuffleCommand:
                     deck.Shuffle();
                     break;
-                    
+
                 case PrintCommand:
                     player.PrintHand();
                     break;
-                    
+
                 case PassCommand:
                     break;
-                    
+
                 default:
                     Console.Error.WriteLine("Can't read command");
                     continue;
             }
 
-            Draw(player, deck);
+            Card card = deck.GiveCard();
+
+            if (card == null)
+            {
+                Console.Error.WriteLine("Can't draw card - deck is empity");
+                return;
+            }
+
+            player.PickupCard(card);
+            Console.WriteLine("Picked up " + card);
         }
 
         player.PrintHand();
-    }
-
-    public static void Draw(Player player, Deck deck)
-    {
-        Card card = deck.GiveCard();
-
-        if (card == null)
-        {
-            Console.Error.WriteLine("Can't draw card - deck is empity");
-            return;
-        }
-
-        player.PickupCard(card);
-        Console.WriteLine("Picked up " + card);
     }
 }
 
@@ -72,6 +67,7 @@ public class Deck
     {
         if (card == null)
             return;
+
         _cards[_cardsLeft++] = card;
     }
 
