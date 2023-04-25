@@ -4,6 +4,20 @@ public class TaskFourty
 {
     public static void Main(string[] args)
     {
+        Database database = new Database();
+
+        while (database.Work())
+            ;
+            
+    }
+}
+
+public class Database
+{
+    private Dictionary<string, Player> _players = new Dictionary<string, Player>();
+
+    public bool Work()
+    {
         const string ExitCommand = "0";
         const string AddPlayerCommand = "1";
         const string BanPlayerCommand = "2";
@@ -17,73 +31,38 @@ public class TaskFourty
             RemoveCommand + " - remove player" + Environment.NewLine +
             ExitCommand + " - exit programm";
 
-        Database database = new Database();
+        string input = ReadResponse(commandRequestMessage);
+        Console.Clear();
 
-        string input;
-
-        do
+        switch (input)
         {
-            input = ReadResponse(commandRequestMessage);
-            Console.Clear();
+            case AddPlayerCommand:
+                Add(ReadResponse("Write player nickname: "));
+                break;
 
-            switch (input)
-            {
-                case AddPlayerCommand:
-                    database.Add(ReadResponse("Write player nickname: "));
-                    break;
+            case BanPlayerCommand:
+                HandleChoose(Ban, Ban);
+                break;
 
-                case BanPlayerCommand:
-                    Database.InputReader.HandleChoose(database.Ban, database.Ban);
-                    break;
+            case UnbanPlayerCommand:
+                HandleChoose(Unban, Unban);
+                break;
 
-                case UnbanPlayerCommand:
-                    Database.InputReader.HandleChoose(database.Unban, database.Unban);
-                    break;
+            case RemoveCommand:
+                HandleChoose(Remove, Remove);
+                break;
 
-                case RemoveCommand:
-                    Database.InputReader.HandleChoose(database.Remove, database.Remove);
-                    break;
+            case ExitCommand:
+                return false;
 
-                case ExitCommand:
-                    continue;
-
-                default:
-                    Console.Error.WriteLine("Failed to read input.");
-                    continue;
-            }
-        } while (input != ExitCommand);
-    }
-}
-
-public class Database
-{
-    public static class InputReader
-    {
-        const int OptionOneCase = 0;
-        const int OptionTwoCase = 1;
-
-        const string OptionOneCommand = "1";
-        const string OptionTwoCommand = "2";
-
-        public static void HandleChoose(Action<int> option1, Action<string> option2)
-        {
-            switch (ReadChoose("Write lookup option: " + OptionOneCommand + " for id or " + OptionTwoCommand + " for nickname.", OptionOneCommand, OptionTwoCommand))
-            {
-                case OptionOneCase:
-                    option1.Invoke(ForceReadInt("Write id"));
-                    return;
-
-                case OptionTwoCase:
-                    option2.Invoke(ReadResponse("Write nickname"));
-                    return;
-
-                default:
-                    return;
-            }
+            default:
+                Console.Error.WriteLine("Failed to read input.");
+                return true;
         }
-    }
 
-    private Dictionary<string, Player> _players = new Dictionary<string, Player>();
+
+        return true;
+    }
 
     public Player Add(string nickname)
     {
@@ -99,37 +78,37 @@ public class Database
         return result;
     }
 
-    public void Ban(string nickname)
+    private void Ban(string nickname)
     {
         Ban(FindPlayer(nickname));
     }
 
-    public void Ban(int id)
+    private void Ban(int id)
     {
         Ban(FindPlayer(id));
     }
 
-    public void Unban(string nickname)
+    private void Unban(string nickname)
     {
         Ban(FindPlayer(nickname));
     }
 
-    public void Unban(int id)
+    private void Unban(int id)
     {
         Unban(FindPlayer(id));
     }
 
-    public void Remove(string nickname)
+    private void Remove(string nickname)
     {
         Remove(FindPlayer(nickname));
     }
 
-    public void Remove(int id)
+    private void Remove(int id)
     {
         Remove(FindPlayer(id));
     }
 
-    public Player FindPlayer(string nickname)
+    private Player FindPlayer(string nickname)
     {
         if (_players.TryGetValue(nickname, out Player player))
         {
@@ -140,7 +119,7 @@ public class Database
         return null;
     }
 
-    public Player FindPlayer(int id)
+    private Player FindPlayer(int id)
     {
         if (id < 0)
         {
@@ -179,6 +158,29 @@ public class Database
         }
 
         Console.WriteLine("Player removed.");
+    }
+
+    private static void HandleChoose(Action<int> option1, Action<string> option2)
+    {
+        const int OptionOneCase = 0;
+        const int OptionTwoCase = 1;
+
+        const string OptionOneCommand = "1";
+        const string OptionTwoCommand = "2";
+
+        switch (ReadChoose("Write lookup option: " + OptionOneCommand + " for id or " + OptionTwoCommand + " for nickname.", OptionOneCommand, OptionTwoCommand))
+        {
+            case OptionOneCase:
+                option1.Invoke(ForceReadInt("Write id"));
+                return;
+
+            case OptionTwoCase:
+                option2.Invoke(ReadResponse("Write nickname"));
+                return;
+
+            default:
+                return;
+        }
     }
 }
 
