@@ -6,9 +6,7 @@ public class TaskFourty
     {
         Database database = new Database();
 
-        while (database.Work())
-            ;
-            
+        while (database.Work());       
     }
 }
 
