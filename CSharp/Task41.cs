@@ -6,7 +6,7 @@ public class TaskFourtyOne
         const string ShuffleCommand = "suffle";
         const string PrintCommand = "print";
 
-        int drawCards = 20;
+        int maxDrawCrads = 20;
 
         Player player = new Player();
 
@@ -14,7 +14,7 @@ public class TaskFourtyOne
 
         string userInput;
 
-        for (int i = 0; i < drawCards; i++)
+        for (int i = 0; i < maxDrawCrads; i++)
         {
             Console.WriteLine($"Write {ShuffleCommand} to shuffle deck, {PrintCommand} to pring cards in your hand or {PassCommand}");
 
