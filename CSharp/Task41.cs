@@ -23,11 +23,14 @@ public class TaskFourtyOne
                 case ShuffleCommand:
                     deck.Shuffle();
                     break;
+                    
                 case PrintCommand:
                     player.PrintHand();
                     break;
+                    
                 case PassCommand:
                     break;
+                    
                 default:
                     Console.Error.WriteLine("Can't read command");
                     continue;
@@ -58,7 +61,7 @@ public class Deck
 {
     private Card[] _cards = null;
 
-    public uint _cardsLeft = 0;
+    private uint _cardsLeft = 0;
 
     public Deck(uint size)
     {
