@@ -3,63 +3,110 @@ public class TaskLibrary
     public static void Main(String[] args)
     {
         const string ExitCommand = "stop";
-        const string NextBookCommand = "next";
+        const string AddBookCommand = "add";
+        const string FindCommnad = "find";
+        const string ListCommand = "list";
 
         Library library = new Library();
 
-        string userInput = "";
+        Librarian librarian = new Librarian(library);
+
+        string userInput;
 
         do
         {
-            Console.WriteLine("Write "+ NextBookCommand+" to add book or " + ExitCommand + " to stop adding");
+            Console.WriteLine("Write command: " + AddBookCommand + " - add book, " + FindCommnad + " - find book, " + ListCommand + " - list all books, " + ExitCommand + " - leave library.");
             userInput = Console.ReadLine();
 
             switch (userInput)
             {
-                case NextBookCommand:
-                    AddBook(library);
+                case AddBookCommand:
+                    librarian.AddBook();
                     break;
+
+                case FindCommnad:
+                    librarian.FindBooks();
+                    break;
+
+                case ListCommand:
+                    librarian.ListBooks();
+                    break;
+
                 case ExitCommand:
                     continue;
+
                 default:
                     Console.Error.WriteLine("Can't read this command");
                     continue;
             }
         } while (ExitCommand.Equals(userInput) == false);
+    }
+}
 
-        Console.WriteLine("Write author to find books:");
-        string author = Console.ReadLine();
+public class Librarian
+{
+    private Library _library = null;
 
-        Console.WriteLine("Books with this author:");
+    public Librarian(Library library)
+    {
+        _library = library;
+    }
 
-        foreach (Book book in library.FindAllByAuthor(author))
+    public void AddBook()
+    {
+        string title = InputReader.ReadResponse("Write title");
+        string author = InputReader.ReadResponse("Write author");
+        int year = InputReader.ForceParseInt("Write year");
+
+        _library.AddBook(title, author, year);
+    }
+
+    public void FindBooks()
+    {
+        const string AuthorCommand = "author";
+        const string TitleCommand = "title";
+        const string YearCommand = "year";
+
+        string findMode = InputReader.ReadResponse($"Write search option: {AuthorCommand}, {TitleCommand}, {YearCommand}");
+
+        IEnumerable<Book> found;
+
+        switch (findMode)
+        {
+            case AuthorCommand:
+                found = _library.FindAllByAuthor(InputReader.ReadResponse("Write author for lookup"));
+                break;
+
+            case TitleCommand:
+                found = _library.FindAllByTitle(InputReader.ReadResponse("Write title for lookup"));
+                break;
+
+            case YearCommand:
+                found = _library.FindAllByYear(InputReader.ForceParseInt("Write year for lookup"));
+                break;
+
+            default:
+                Console.Error.WriteLine("Failed to read search option");
+                return;
+        }
+
+        ListBooks(found);
+    }
+
+    public void ListBooks(IEnumerable<Book>? books = null)
+    {
+        books ??= _library.GetBooks();
+
+        if (books.Count() == 0)
+        {
+            Console.WriteLine("No books found");
+            return;
+        }
+
+        foreach (Book book in books)
         {
             Console.WriteLine(book);
         }
-    }
-
-    public static void AddBook(Library library)
-    {
-        Console.WriteLine("Write title");
-        string title = Console.ReadLine();
-        Console.WriteLine("Write author");
-        string author = Console.ReadLine();
-        Console.WriteLine("Write year");
-        int year = ForceParseInt();
-
-        library.AddBook(title, author, year);
-    }
-
-    public static int ForceParseInt()
-    {   
-        int result;
-
-        while (int.TryParse(Console.ReadLine(), out result) == false)
-        {
-            Console.Error.WriteLine("Can't read year. Write again.");
-        }
-
-        return result;
     }
 }
 
@@ -71,6 +118,7 @@ public class Book
 
     public Book(string title, string author, int year)
     {
+
         Title = title;
         Author = author;
         Year = year;
@@ -78,7 +126,7 @@ public class Book
 
     public override string ToString()
     {
-        return $"{Title} by {Author}, {Year}";
+        return ($"{Title} by {Author}, {Math.Abs(Year)} {(Year >= 0 ? "AD" : "BC")}.");
     }
 
     public override bool Equals(object? obj)
@@ -96,30 +144,29 @@ public class Library
 {
     private LinkedList<Book> _books = new LinkedList<Book>();
 
-    public void AddBook(string title, string author, int year)
-    {
+    public void AddBook(string title, string author, int year) =>
         AddBook(new Book(title, author, year));
-    }
 
-    public void AddBook(Book book)
-    {
+    public void AddBook(Book book) =>
         _books.AddLast(book);
-    }
 
-    public void RemoveBook(Book book)
-    {
+    public void RemoveBook(Book book) =>
         _books.Remove(book);
-    }
+
+
+    public Book[] GetBooks() =>
+        _books.ToArray();
 
     public LinkedList<Book> FindAllByTitle(string title) =>
-        FindWithPredicate((Book book) => book.Title.Equals(title));
+        FindWithPredicate((Book book) => book.Title.Contains(title, StringComparison.OrdinalIgnoreCase));
+
 
     public LinkedList<Book> FindAllByYear(int year) =>
         FindWithPredicate((Book book) => book.Year == year);
 
 
     public LinkedList<Book> FindAllByAuthor(string author) =>
-        FindWithPredicate((Book book) => book.Author.Equals(author));
+        FindWithPredicate((Book book) => book.Author.Equals(author, StringComparison.OrdinalIgnoreCase));
 
 
     private LinkedList<Book> FindWithPredicate(Predicate<Book> func)
@@ -135,5 +182,28 @@ public class Library
         }
 
         return result;
+    }
+}
+
+public static class InputReader
+{
+    public static int ForceParseInt(string message = "Write number")
+    {
+        Console.WriteLine(message);
+
+        int result;
+
+        while (int.TryParse(Console.ReadLine(), out result) == false)
+        {
+            Console.Error.WriteLine("Can't read year. Write again.");
+        }
+
+        return result;
+    }
+
+    public static string ReadResponse(string message)
+    {
+        Console.WriteLine(message);
+        return Console.ReadLine() ?? "";
     }
 }
