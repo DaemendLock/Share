@@ -134,7 +134,7 @@ public class Customer
             cost += product.Price;
         }
 
-        return CalculateCartCost();
+        return cost;
     }
 
     public bool CanPay() => CalculateCartCost() <= _money;
