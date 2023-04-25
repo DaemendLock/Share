@@ -58,7 +58,6 @@ public class Database
                 return true;
         }
 
-
         return true;
     }
 
