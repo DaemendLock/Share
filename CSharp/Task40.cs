@@ -1,79 +1,263 @@
+using static InputModule;
+
 public class TaskFourty
 {
     public static void Main(string[] args)
     {
+        const string ExitCommand = "0";
+        const string AddPlayerCommand = "1";
+        const string BanPlayerCommand = "2";
+        const string UnbanPlayerCommand = "3";
+        const string RemoveCommand = "4";
+
+        string commandRequestMessage = Environment.NewLine + "Write next command:" + Environment.NewLine +
+            AddPlayerCommand + " - add player" + Environment.NewLine +
+            BanPlayerCommand + " - ban player" + Environment.NewLine +
+            UnbanPlayerCommand + " - unban player " + Environment.NewLine +
+            RemoveCommand + " - remove player" + Environment.NewLine +
+            ExitCommand + " - exit programm";
+
         Database database = new Database();
 
-        int id = Player.CreatePlayerInDatabase("AAAAAA", 1, database);
+        string input;
 
-        database.Ban(id);
+        do
+        {
+            input = ReadResponse(commandRequestMessage);
+            Console.Clear();
 
-        database.Unban(id);
+            switch (input)
+            {
+                case AddPlayerCommand:
+                    database.Add(ReadResponse("Write player nickname: "));
+                    break;
 
-        database.Remove(id);
+                case BanPlayerCommand:
+                    Database.InputReader.HandleChoose(database.Ban, database.Ban);
+                    break;
+
+                case UnbanPlayerCommand:
+                    Database.InputReader.HandleChoose(database.Unban, database.Unban);
+                    break;
+
+                case RemoveCommand:
+                    Database.InputReader.HandleChoose(database.Remove, database.Remove);
+                    break;
+
+                case ExitCommand:
+                    continue;
+
+                default:
+                    Console.Error.WriteLine("Failed to read input.");
+                    continue;
+            }
+        } while (input != ExitCommand);
     }
-
 }
 
 public class Database
 {
-    private List<Player> _players = new List<Player>();
-
-    public int Add(Player player)
+    public static class InputReader
     {
-        int result = _players.Count;
-        _players.Add(player);
+        const int OptionOneCase = 0;
+        const int OptionTwoCase = 1;
+
+        const string OptionOneCommand = "1";
+        const string OptionTwoCommand = "2";
+
+        public static void HandleChoose(Action<int> option1, Action<string> option2)
+        {
+            switch (ReadChoose("Write lookup option: " + OptionOneCommand + " for id or " + OptionTwoCommand + " for nickname.", OptionOneCommand, OptionTwoCommand))
+            {
+                case OptionOneCase:
+                    option1.Invoke(ForceReadInt("Write id"));
+                    return;
+
+                case OptionTwoCase:
+                    option2.Invoke(ReadResponse("Write nickname"));
+                    return;
+
+                default:
+                    return;
+            }
+        }
+    }
+
+    private Dictionary<string, Player> _players = new Dictionary<string, Player>();
+
+    public Player Add(string nickname)
+    {
+        if (_players.ContainsKey(nickname))
+        {
+            Console.Error.WriteLine("Player with this name already exists.");
+            return null;
+        }
+
+        Player result = new Player(nickname, _players.Count);
+        _players.Add(nickname, result);
+
         return result;
     }
 
-    public void Ban(int playerId)
+    public void Ban(string nickname)
     {
-        if (playerId >= _players.Count || playerId < 0)
-        {
-            Console.Error.WriteLine("Can't find player with id " + playerId);
-        }
-
-        _players[playerId].Banned = true;
+        Ban(FindPlayer(nickname));
     }
 
-    public void Unban(int playerId)
+    public void Ban(int id)
     {
-        if (playerId >= _players.Count || playerId < 0)
-        {
-            Console.Error.WriteLine("Can't find player with id " + playerId);
-        }
-
-        _players[playerId].Banned = false;
+        Ban(FindPlayer(id));
     }
 
-    public void Remove(int playerId)
+    public void Unban(string nickname)
     {
-        _players.RemoveAt(playerId);
+        Ban(FindPlayer(nickname));
+    }
+
+    public void Unban(int id)
+    {
+        Unban(FindPlayer(id));
+    }
+
+    public void Remove(string nickname)
+    {
+        Remove(FindPlayer(nickname));
+    }
+
+    public void Remove(int id)
+    {
+        Remove(FindPlayer(id));
+    }
+
+    public Player FindPlayer(string nickname)
+    {
+        if (_players.TryGetValue(nickname, out Player player))
+        {
+            return player;
+        }
+
+        Console.Error.WriteLine("Can't find player with name " + nickname);
+        return null;
+    }
+
+    public Player FindPlayer(int id)
+    {
+        if (id < 0)
+        {
+            Console.Error.WriteLine("Can't find such id.");
+            return null;
+        }
+
+        foreach (Player player in _players.Values)
+        {
+            if (player.Id == id)
+            {
+                return player;
+            }
+        }
+
+        Console.Error.WriteLine("Can't find such id.");
+        return null;
+    }
+
+    private void Ban(Player player)
+    {
+        player?.Ban();
+    }
+
+    private void Unban(Player player)
+    {
+        player?.Unban();
+    }
+
+    private void Remove(Player player)
+    {
+        if (_players.Remove(player.Nickname) == false)
+        {
+            Console.Error.WriteLine("Can't remove player with name " + player.Nickname);
+            return;
+        }
+
+        Console.WriteLine("Player removed.");
     }
 }
 
-public sealed class Player
+public class Player
 {
-    private int _id;
-    private readonly string _nickname;
-    private int _lvl;
-    public bool Banned = false;
+    public readonly string Nickname = null;
 
-    private Player()
+    private int _lvl = 1;
+
+    public Player(string nickname, int id)
     {
-        throw null;
+        Nickname = nickname;
+        Id = id;
     }
 
-    private Player(string nickname, int lvl)
+    public bool Banned { get; private set; } = false;
+    public int Id { get; private set; } = -1;
+
+    public void Ban() => Banned = true;
+
+    public void Unban() => Banned = false;
+
+    public override int GetHashCode()
     {
-        _nickname = nickname;
-        _lvl = lvl;
+        return Nickname.GetHashCode();
     }
 
-    public static int CreatePlayerInDatabase(string nickname, int lvl, Database database)
+    public override bool Equals(object? obj)
     {
-        Player newPlayer = new Player(nickname, lvl);
-        newPlayer._id = database.Add(newPlayer);
-        return newPlayer._id;
+        return obj is Player player && Equals(player);
+    }
+
+    public bool Equals(Player player)
+    {
+        return Nickname.Equals(player.Nickname);
+    }
+
+    public override string ToString()
+    {
+        return $"Player: {Nickname}: lvl - {_lvl}, status: {Banned}.";
+    }
+}
+
+public static class InputModule
+{
+    public static string ReadResponse(string message)
+    {
+        Console.WriteLine(message);
+
+        return Console.ReadLine();
+    }
+
+    public static int ForceReadInt(string message = "Write number.")
+    {
+        Console.WriteLine(message);
+
+        int result;
+
+        while (int.TryParse(Console.ReadLine(), out result) == false)
+        {
+            Console.Error.WriteLine("Failed to read. Try again.");
+        }
+
+        return result;
+    }
+
+    public static int ReadChoose(string message, params string[] responses)
+    {
+        string choice = ReadResponse(message);
+
+        for (int i = 0; i < responses.Length; i++)
+        {
+            if (responses[i].Equals(choice))
+            {
+                return i;
+            }
+        }
+
+        Console.Error.WriteLine("Failed to read choose.");
+        return -1;
     }
 }
