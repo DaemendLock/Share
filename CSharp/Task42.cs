@@ -136,7 +136,8 @@ public class Book
 
     public override int GetHashCode()
     {
-        return (Title.GetHashCode() * 31 + Author.GetHashCode()) * 31 + Year.GetHashCode();
+        int hashCoefficient = 31;
+        return (Title.GetHashCode() * hashCoefficient + Author.GetHashCode()) * hashCoefficient + Year.GetHashCode();
     }
 }
 
