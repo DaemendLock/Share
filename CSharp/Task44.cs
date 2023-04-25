@@ -1,39 +1,32 @@
 public class TaskMarket
 {
-    private static Random random = new Random();
+    private static Random _random = new Random();
 
     public static void Main(String[] args)
     {
-        Market m = new();
+        int maxProduct = 100;
+        int maxMoney = 100;
 
-        m.AddProduct(new Product(100, "A"));
-        m.AddProduct(new Product(90, "B"));
-        m.AddProduct(new Product(80, "C"));
-        m.AddProduct(new Product(70, "D"));
-        m.AddProduct(new Product(60, "E"));
+        Market market = new();
 
-        List<Customer> customers = new List<Customer>(random.Next(100));
+        List<Customer> customers = new List<Customer>(_random.Next(maxMoney));
 
         for (int i = 0; i < customers.Count; i++)
         {
-            customers[i] = new Customer(random.Next());
+            customers[i] = new Customer(_random.Next());
+            int productsToBuy = _random.Next(maxProduct);
+
+            Product[] range = market.GetRange();
+
+            for (int j = 0; j < productsToBuy; j++)
+            {
+                customers[i].ChooseRandomProduct(range);
+            }
         }
 
         foreach (Customer customer in customers)
         {
-            m.Transit(customer.Buy());
-        }
-    }
-
-    public static void FillCartWithRandomProducts(Customer customer, Market market)
-    {
-        int products = random.Next(100);
-
-        Product[] range = market.GetRange();
-
-        for (int i = 0; i < products; i++)
-        {
-            customer.ChooseRandomProduct(range);
+            market.Transit(customer.Buy());
         }
     }
 }
@@ -51,7 +44,8 @@ public struct Product
 
     public override int GetHashCode()
     {
-        return Name.GetHashCode() * 31 + Price;
+        int hashCoefficient = 31;
+        return Name.GetHashCode() * hashCoefficient + Price;
     }
 }
 
@@ -94,7 +88,6 @@ public class Market : ISeller
 public class Customer
 {
     private LinkedList<Product> _cart = new LinkedList<Product>();
-    private int _cartTotalPrice = 0;
     private int _money = 0;
 
     private Random _decisionSource = new Random();
@@ -112,32 +105,42 @@ public class Customer
     public void AddToCart(Product product)
     {
         _cart.AddLast(product);
-        _cartTotalPrice += product.Price;
     }
 
     public void RemoveFromCart(Product product)
     {
-        if (_cart.Remove(product))
-        {
-            _cartTotalPrice -= product.Price;
-        }
+        _cart.Remove(product);
     }
 
     public int Buy()
     {
-        while (_cartTotalPrice > _money)
+        while (CanPay() == false)
         {
             RemoveFromCart(_decisionSource.Next(_cart.Count));
         }
 
-        _cart.Clear();
-        _money -= _cartTotalPrice;
-        return _cartTotalPrice;
+        int cost = CalculateCartCost();
+
+        _money -= cost;
+        return cost;
     }
+
+    public int CalculateCartCost()
+    {
+        int cost = 0;
+
+        foreach (Product product in _cart)
+        {
+            cost += product.Price;
+        }
+
+        return CalculateCartCost();
+    }
+
+    public bool CanPay() => CalculateCartCost() <= _money;
 
     private void RemoveFromCart(int index)
     {
         RemoveFromCart(_cart.ElementAt(index));
     }
 }
-
