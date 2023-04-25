@@ -44,7 +44,7 @@ public class TaskFourtyOne
 
     public static void Draw(Player player, Deck deck)
     {
-        Card card = deck.Take();
+        Card card = deck.GiveCard();
 
         if (card == null)
         {
@@ -75,7 +75,7 @@ public class Deck
         _cards[_cardsLeft++] = card;
     }
 
-    public Card Take()
+    public Card GiveCard()
     {
         if (_cardsLeft == 0)
         {
