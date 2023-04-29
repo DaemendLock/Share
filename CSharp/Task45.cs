@@ -136,8 +136,8 @@ public static class Arena
     public static event Action<int> Tick;
     public static bool ArenaOccuped { get; private set; } = false;
 
-    private static List<Fighter> _team1 = new List<Fighter>(1);
-    private static List<Fighter> _team2 = new List<Fighter>(1);
+    private static Fighter _fighter1 = null;
+    private static Fighter _fighter2 = null;
 
     public enum Team
     {
@@ -154,9 +154,9 @@ public static class Arena
         }
 
         fighter1.ChangeTeam(Team.Team1);
-        _team1 = new List<Fighter>() { fighter1 };
+        _fighter1 = fighter1;
         fighter2.ChangeTeam(Team.Team2);
-        _team2 = new List<Fighter>() { fighter2 };
+        _fighter2 = fighter2;
 
         ProccessFight();
     }
@@ -165,45 +165,38 @@ public static class Arena
     {
         ArenaOccuped = true;
 
-        while (_team1[0].Alive && _team2[0].Alive)
+        while (_fighter1.Alive && _fighter2.Alive)
         {
             Update();
         }
 
-        if (_team1[0].Alive == false)
+        if (_fighter1.Alive == false)
         {
-            if (_team2[0].Alive == false)
+            if (_fighter2.Alive == false)
             {
                 Logger.InformDraw();
             }
             else
             {
-                Logger.InformVictory(_team2[0]);
+                Logger.InformVictory(_fighter2);
             }
         }
         else
         {
-            Logger.InformVictory(_team1[0]);
+            Logger.InformVictory(_fighter1);
         }
 
-        Arena.Clear();
+        Clear();
         ArenaOccuped = false;
     }
 
     public static void Clear()
     {
-        foreach (Fighter fighter in _team2)
-        {
-            fighter.Dispose();
-        }
+        _fighter1.Dispose();
+        _fighter2.Dispose();
 
-        foreach (Fighter fighter in _team1)
-        {
-            fighter.Dispose();
-        }
-
-        _team1 = new List<Fighter>(1);
-        _team2 = new List<Fighter>(1);
+        _fighter1 = null;
+        _fighter2 = null;
     }
 
     public static void Update()
@@ -235,15 +228,15 @@ public static class Arena
     {
         if (fighter.Team == Team.Team1)
         {
-            return _team2[0];
+            return _fighter2;
         }
 
         if (fighter.Team == Team.Team2)
         {
-            return _team1[0];
+            return _fighter1;
         }
 
-        return ((Time & 1) == 0 ? _team1 : _team2)[0];
+        return (Time & 1) == 0 ? _fighter1 : _fighter2;
     }
 }
 
@@ -716,3 +709,4 @@ public static class InputModule
         return -1;
     }
 }
+
