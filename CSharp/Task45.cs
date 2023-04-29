@@ -58,73 +58,25 @@ public class TaskFourty
 
 public class ArenaBarker
 {
-    private const string WarriorCommand = "warrior";
-    private const string PaladinCommand = "paladin";
-    private const string HunterCommand = "hunter";
-    private const string PriestCommand = "priest";
-    private const string MageCommand = "mage";
-    private const string WarlockCommand = "warlock";
-
     public void SetupFight()
     {
         Console.Clear();
 
         Console.WriteLine("Contestants:" +
-            "\nWarrior - " + WarriorCommand +
-            "\nPaladin - " + PaladinCommand +
-            "\nHunter - " + HunterCommand +
-            "\nPriest - " + PriestCommand +
-            "\nMage - " + MageCommand +
-            "\nWarlock - " + WarlockCommand);
+            "\nWarrior - 0" +
+            "\nPaladin - 1" +
+            "\nHunter - 2" +
+            "\nPriest - 3" +
+            "\nMage - 4"+
+            "\nWarlock - 5");
 
-        Fighter fighter1 = GetFighter();
-        Fighter fighter2 = GetFighter();
-
-        BeginFight(fighter1, fighter2);
+        BeginFight(GetFighter(), GetFighter());
     }
 
     public Fighter GetFighter()
     {
-        Fighter result = null;
-        string userInput;
-
-        do
-        {
-            userInput = ReadResponse("Choose contestant!");
-
-            switch (userInput)
-            {
-                case WarriorCommand:
-                    result = new Warrior();
-                    break;
-
-                case PaladinCommand:
-                    result = new Paladin();
-                    break;
-
-                case HunterCommand:
-                    result = new Hunter();
-                    break;
-
-                case PriestCommand:
-                    result = new Priest();
-                    break;
-
-                case MageCommand:
-                    result = new Mage();
-                    break;
-
-                case WarlockCommand:
-                    result = new Warlock();
-                    break;
-
-                default:
-                    Console.WriteLine("Can't hear! Who did you ask for?");
-                    break;
-            }
-        } while (result == null);
-
-        return result;
+        Fighter[] fighters = { new Warrior(), new Paladin(), new Hunter(), new Priest(), new Mage(), new Warlock() };
+        return fighters[ForceReadInt("Write contestant number!", 0, fighters.Length)];
     }
 }
 
@@ -679,13 +631,13 @@ public static class InputModule
         return Console.ReadLine();
     }
 
-    public static int ForceReadInt(string message = "Write number.")
+    public static int ForceReadInt(string message = "Write number.", int minValue = int.MinValue, int maxValue = int.MaxValue)
     {
         Console.WriteLine(message);
 
         int result;
 
-        while (int.TryParse(Console.ReadLine(), out result) == false)
+        while (int.TryParse(Console.ReadLine(), out result) == false || result < minValue || result >= maxValue)
         {
             Console.Error.WriteLine("Failed to read. Try again.");
         }
@@ -709,4 +661,3 @@ public static class InputModule
         return -1;
     }
 }
-
