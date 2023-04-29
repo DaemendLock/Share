@@ -25,7 +25,6 @@ public class TaskFourty
 {
     public static void Main(string[] args)
     {
-
         const string FightCommand = "fight";
         const string ExitCommand = "exit";
 
