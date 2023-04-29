@@ -1,7 +1,27 @@
 using static Arena;
 using static InputModule;
 
-public class TaskArena
+public struct DamageEvent
+{
+    public readonly Fighter Attacker;
+    public readonly Fighter Victim;
+    public readonly int OriginalDamage;
+    public readonly bool Ability;
+    public readonly bool Evadable;
+    public int Damage;
+
+    public DamageEvent(Fighter attacker, Fighter victim, int originalDamage, bool evadable = true, bool ability = false)
+    {
+        Attacker = attacker;
+        Victim = victim;
+        OriginalDamage = originalDamage;
+        Damage = originalDamage;
+        Evadable = evadable;
+        Ability = ability;
+    }
+}
+
+public class TaskFourty
 {
     public static void Main(string[] args)
     {
@@ -38,12 +58,12 @@ public class TaskArena
 
 public class ArenaBarker
 {
-    private const string WarriorCommand = "1";
-    private const string PaladinCommand = "2";
-    private const string HunterCommand = "3";
-    private const string PriestCommand = "4";
-    private const string MageCommand = "5";
-    private const string WarlockCommand = "6";
+    private const string WarriorCommand = "warrior";
+    private const string PaladinCommand = "paladin";
+    private const string HunterCommand = "hunter";
+    private const string PriestCommand = "priest";
+    private const string MageCommand = "mage";
+    private const string WarlockCommand = "warlock";
 
     public void SetupFight()
     {
@@ -60,7 +80,7 @@ public class ArenaBarker
         Fighter fighter1 = GetFighter();
         Fighter fighter2 = GetFighter();
 
-        StartFight(fighter1, fighter2);
+        BeginFight(fighter1, fighter2);
     }
 
     public Fighter GetFighter()
@@ -112,6 +132,13 @@ public static class Arena
 {
     private const int PercentDivier = 100;
 
+    public static int Time { get; private set; }
+    public static event Action<int> Tick;
+    public static bool ArenaOccuped { get; private set; } = false;
+
+    private static List<Fighter> _team1 = new List<Fighter>(1);
+    private static List<Fighter> _team2 = new List<Fighter>(1);
+
     public enum Team
     {
         None = 0,
@@ -119,15 +146,7 @@ public static class Arena
         Team2,
     }
 
-    public static int Time { get; private set; }
-    public static event Action<int> Tick;
-
-    private static List<Fighter> _team1 = new List<Fighter>(1);
-    private static List<Fighter> _team2 = new List<Fighter>(1);
-
-    public static bool ArenaOccuped = false;
-
-    public static void StartFight(Fighter fighter1, Fighter fighter2)
+    public static void BeginFight(Fighter fighter1, Fighter fighter2)
     {
         if (ArenaOccuped)
         {
@@ -158,7 +177,9 @@ public static class Arena
                 Logger.InformDraw();
             }
             else
+            {
                 Logger.InformVictory(_team2[0]);
+            }
         }
         else
         {
@@ -183,8 +204,6 @@ public static class Arena
 
         _team1 = new List<Fighter>(1);
         _team2 = new List<Fighter>(1);
-
-
     }
 
     public static void Update()
@@ -218,12 +237,13 @@ public static class Arena
         {
             return _team2[0];
         }
+
         if (fighter.Team == Team.Team2)
         {
             return _team1[0];
         }
 
-        return (Time % 2 == 0 ? _team1 : _team2)[0];
+        return ((Time & 1) == 0 ? _team1 : _team2)[0];
     }
 }
 
@@ -255,9 +275,10 @@ public class Resource
         Regeneration = regeneraion;
     }
 
-    public void ChangeValue(int value)
+    public void ModifyValue(int value)
     {
         Value += value;
+
         if (Value > MaxValue)
         {
             Value = MaxValue;
@@ -268,20 +289,37 @@ public class Resource
             Value = 0;
         }
     }
+
+    public void SetValue(int value)
+    {
+        if (value > MaxValue)
+        {
+            Value = MaxValue;
+            return;
+        }
+
+        if (value < 0)
+        {
+            Value = 0;
+            return;
+        }
+
+        Value = value;
+    }
 }
 
 public abstract class Fighter : Object
 {
     public const int DefaultDamageRecivePercent = 100;
 
-    private readonly Resource HealthPool = null;
-    private readonly Resource ManaPool = null;
-
     public bool Alive { get; private set; } = true;
 
     public Team Team { get; private set; } = Team.None;
 
     public int Attack { get; private set; } = 0;
+
+    private readonly Resource HealthPool = null;
+    private readonly Resource ManaPool = null;
 
     private List<Ability> _abilities = new List<Ability>();
 
@@ -303,12 +341,6 @@ public abstract class Fighter : Object
     public int MaxMana => ManaPool.MaxValue;
     public int MaxHealth => HealthPool.MaxValue;
 
-    protected override void Update(int time)
-    {
-        HealthPool.ChangeValue(HealthPool.Regeneration);
-        ManaPool.ChangeValue(ManaPool.Regeneration);
-    }
-
     public void ChangeTeam(Team newTeam)
     {
         Team = newTeam;
@@ -324,7 +356,7 @@ public abstract class Fighter : Object
         if (e.Damage < 0)
             return;
 
-        HealthPool.ChangeValue(-e.Damage);
+        HealthPool.ModifyValue(-e.Damage);
 
         OnDamageRecive(e);
         Logger.InformDamage(e);
@@ -343,21 +375,21 @@ public abstract class Fighter : Object
 
     public void Heal(int healing)
     {
-        HealthPool.ChangeValue(healing);
+        HealthPool.ModifyValue(healing);
     }
 
     public void GiveMana(int value)
     {
         if (value < 0)
             return;
-        ManaPool.ChangeValue(value);
+        ManaPool.ModifyValue(value);
     }
 
     public void SpendMana(int value)
     {
         if (value < 0)
             return;
-        ManaPool.ChangeValue(-value);
+        ManaPool.ModifyValue(-value);
     }
 
     public void CastAbilities()
@@ -389,6 +421,12 @@ public abstract class Fighter : Object
 
     public virtual void OnDamageRecive(DamageEvent e)
     {
+    }
+
+    protected override void Update(int time)
+    {
+        HealthPool.ModifyValue(HealthPool.Regeneration);
+        ManaPool.ModifyValue(ManaPool.Regeneration);
     }
 }
 
@@ -500,9 +538,13 @@ public sealed class Priest : Fighter
         base.Update(time);
 
         if (Health < MaxHealth)
+        {
             CastAbilities();
+        }
         else
+        {
             PerformeAttack(this, GetOponentOf(this));
+        }
     }
 }
 
@@ -672,25 +714,5 @@ public static class InputModule
 
         Console.Error.WriteLine("Failed to read choose.");
         return -1;
-    }
-}
-
-public struct DamageEvent
-{
-    public readonly Fighter Attacker;
-    public readonly Fighter Victim;
-    public readonly int OriginalDamage;
-    public readonly bool Ability;
-    public readonly bool Evadable;
-    public int Damage;
-
-    public DamageEvent(Fighter attacker, Fighter victim, int originalDamage, bool evadable = true, bool ability = false)
-    {
-        Attacker = attacker;
-        Victim = victim;
-        OriginalDamage = originalDamage;
-        Damage = originalDamage;
-        Evadable = evadable;
-        Ability = ability;
     }
 }
