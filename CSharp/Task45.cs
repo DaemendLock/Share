@@ -76,7 +76,9 @@ public class ArenaBarker
     public Fighter GetFighter()
     {
         Fighter[] fighters = { new Warrior(), new Paladin(), new Hunter(), new Priest(), new Mage(), new Warlock() };
-        return fighters[ForceReadInt("Write contestant number!", 0, fighters.Length)];
+        int userChoose = ForceReadInt("Write contestant number!", 0, fighters.Length);
+
+        return fighters[userChoose];
     }
 }
 
