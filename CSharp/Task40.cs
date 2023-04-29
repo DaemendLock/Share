@@ -6,7 +6,8 @@ public class TaskFourty
     {
         Database database = new Database();
 
-        while (database.Work());       
+        while (database.Work())
+            ;
     }
 }
 
@@ -157,7 +158,7 @@ public class Database
         Console.WriteLine("Player removed.");
     }
 
-    private static void HandleChoose(Action<int> option1, Action<string> option2)
+    private void HandleChoose(Action<int> option1, Action<string> option2)
     {
         const int OptionOneCase = 0;
         const int OptionTwoCase = 1;
@@ -185,7 +186,7 @@ public class Player
 {
     public readonly string Nickname = null;
 
-    private int _lvl = 1;
+    private int _level = 1;
 
     public Player(string nickname, int id)
     {
@@ -217,7 +218,7 @@ public class Player
 
     public override string ToString()
     {
-        return $"Player: {Nickname}: lvl - {_lvl}, status: {Banned}.";
+        return $"{Id} Player {Nickname}: lvl - {_level}, status: {Banned}.";
     }
 }
 
