@@ -31,7 +31,7 @@ public class TaskFourty
         const string InputRequestMessage = "Write \"" + FightCommand + "\" to start new fight or \"" + ExitCommand + "\"" + "to leave";
 
         string userInput;
-
+        bool leave = false;
         ArenaBarker manager = new ArenaBarker();
 
         do
@@ -44,13 +44,14 @@ public class TaskFourty
                     break;
 
                 case ExitCommand:
+                    leave = true;
                     continue;
 
                 default:
                     Console.Error.WriteLine("Failed to read input");
                     break;
             }
-        } while (ExitCommand.Equals(userInput) == false);
+        } while (leave == false);
 
     }
 }
