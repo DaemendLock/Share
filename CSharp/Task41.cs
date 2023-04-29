@@ -56,9 +56,9 @@ public class Deck
 {
     private Card[] _cards = null;
 
-    private uint _cardsLeft = 0;
+    private int _cardsLeft = 0;
 
-    public Deck(uint size)
+    public Deck(int size)
     {
         _cards = new Card[size];
     }
@@ -96,16 +96,16 @@ public class Deck
 
 public class PlayingDeck : Deck
 {
-    private const uint FullDeckSize = 52;
-    private const uint ShortDeckSize = 36;
-    private const uint FullDeckMinimalCardId = 0;
-    private const uint ShortDeckMinimalCardId = FullDeckSize - ShortDeckSize;
+    private const int FullDeckSize = 52;
+    private const int ShortDeckSize = 36;
+    private const int FullDeckMinimalCardId = 0;
+    private const int ShortDeckMinimalCardId = FullDeckSize - ShortDeckSize;
 
     public PlayingDeck(bool useFullDeck) : base(useFullDeck ? FullDeckSize : ShortDeckSize)
     {
-        uint minimalCardId = useFullDeck ? FullDeckMinimalCardId : ShortDeckMinimalCardId;
+        int minimalCardId = useFullDeck ? FullDeckMinimalCardId : ShortDeckMinimalCardId;
 
-        for (uint i = minimalCardId; i < FullDeckSize; i++)
+        for (int i = minimalCardId; i < FullDeckSize; i++)
         {
             Put(new PlayingCard(i));
         }
@@ -114,12 +114,12 @@ public class PlayingDeck : Deck
 
 public class Card
 {
-    public Card(uint id)
+    public Card(int id)
     {
         Id = id;
     }
 
-    public uint Id { get; private set; }
+    public int Id { get; private set; }
 
     public override bool Equals(object obj)
     {
@@ -129,53 +129,34 @@ public class Card
 
 public class PlayingCard : Card
 {
-    private const uint DefaultId = 0;
+    private const int DefaultId = 0;
 
-    public enum Values : uint
-    {
-        Ace,
-        Two,
-        Three,
-        Four,
-        Five,
-        Six,
-        Seven,
-        Eight,
-        Nine,
-        Ten,
-        Jack,
-        Queen,
-        King,
-        Count,
-    }
+    public static readonly string[] Values = {
+        "Ace", "Two", "Three",
+    "Four", "Five", "Six",
+     "Seven", "Eight", "Nine",
+     "Ten", "Jack", "Queen", "King"};
 
-    public enum Suits : uint
-    {
-        Hearts,
-        Spades,
-        Clubs,
-        Diamonds,
-        Count
-    }
+    public static readonly string[] Suits = { "Hearts", "Spades", "Clubs", "Diamonds" };
 
-    public PlayingCard(uint id) : base(id)
+    public PlayingCard(int id) : base(id)
     {
-        if (id >= ((uint) Values.Count * (uint) Suits.Count))
+        if (id >= (Values.Length * Suits.Length) || id < 0)
         {
             Console.WriteLine("Can't create card with given id. Using default instead.");
             id = DefaultId;
         }
 
-        Value = (Values) (id % (uint) Values.Count + 1);
-        Suit = (Suits) (id / (uint) Values.Count);
+        Value = id % Values.Length  + 1;
+        Suit = id / Values.Length;
     }
 
-    public Values Value { get; private set; }
-    public Suits Suit { get; private set; }
+    public int Value { get; private set; }
+    public int Suit { get; private set; }
 
     public override string ToString()
     {
-        return Value.ToString() + " of " + Suit.ToString();
+        return Values[Value] + " of " + Suits[Suit];
     }
 
     public override bool Equals(object obj)
