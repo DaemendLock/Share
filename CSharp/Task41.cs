@@ -3,7 +3,7 @@ public class TaskFourtyOne
     public static void Main(string[] args)
     {
         const string PassCommand = "pass";
-        const string ShuffleCommand = "suffle";
+        const string ShuffleCommand = "shuffle";
         const string PrintCommand = "print";
 
         int maxDrawCrads = 20;
@@ -11,8 +11,6 @@ public class TaskFourtyOne
         Player player = new Player();
 
         Deck deck = new PlayingDeck(true);
-
-        string userInput;
 
         for (int i = 0; i < maxDrawCrads; i++)
         {
@@ -75,11 +73,14 @@ public class Deck
     {
         if (_cardsLeft == 0)
         {
-            Console.WriteLine("Failed to draw card - deck is empity");
+            Console.Error.WriteLine("Failed to draw card - deck is empity");
             return null;
         }
 
-        return _cards[--_cardsLeft];
+        Card result = _cards[--_cardsLeft];
+        _cards[_cardsLeft] = null;
+
+        return result;
     }
 
     public void Shuffle()
@@ -147,7 +148,7 @@ public class PlayingCard : Card
             id = DefaultId;
         }
 
-        Value = id % Values.Length  + 1;
+        Value = id % Values.Length;
         Suit = id / Values.Length;
     }
 
