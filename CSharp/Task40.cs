@@ -72,7 +72,8 @@ public class Database
 
         Player result = new Player(nickname, _players.Count);
         _players.Add(nickname, result);
-
+        Console.WriteLine(result + " added.");
+        
         return result;
     }
 
