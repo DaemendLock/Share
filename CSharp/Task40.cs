@@ -139,19 +139,37 @@ public class Database
 
     private void Ban(Player player)
     {
-        player?.Ban();
+        if (player == null)
+        {
+            Console.Error.WriteLine("Can't remove such player.");
+            return;
+        }
+        player.Ban();
+        Console.WriteLine(player.Nickname + " banned.");
     }
 
     private void Unban(Player player)
     {
-        player?.Unban();
+        if (player == null)
+        {
+            Console.Error.WriteLine("Can't remove such player.");
+            return;
+        }
+        player.Unban();
+        Console.WriteLine(player.Nickname + " unbanned.");
     }
 
     private void Remove(Player player)
     {
+        if (player == null)
+        {
+            Console.Error.WriteLine("Can't remove such player.");
+            return;
+        }
+
         if (_players.Remove(player.Nickname) == false)
         {
-            Console.Error.WriteLine("Can't remove player with name " + player.Nickname);
+            Console.Error.WriteLine("Can't remove player with name " + player.Nickname + ".");
             return;
         }
 
