@@ -94,13 +94,6 @@ public static class Arena
     public static bool ArenaOccuped { get; private set; } = false;
     public static int Time { get; private set; }
 
-    public enum Team
-    {
-        None = 0,
-        Team1,
-        Team2,
-    }
-
     public static void BeginFight(Fighter fighter1, Fighter fighter2)
     {
         if (ArenaOccuped)
@@ -108,9 +101,7 @@ public static class Arena
             return;
         }
 
-        fighter1.ChangeTeam(Team.Team1);
         _fighter1 = fighter1;
-        fighter2.ChangeTeam(Team.Team2);
         _fighter2 = fighter2;
 
         ProccessFight();
@@ -186,17 +177,14 @@ public static class Arena
 
     public static Fighter GetOponentOf(Fighter fighter)
     {
-        if (fighter.Team == Team.Team1)
+        if (fighter == _fighter1)
         {
             return _fighter2;
         }
-
-        if (fighter.Team == Team.Team2)
+        else
         {
             return _fighter1;
         }
-
-        return (Time & 1) == 0 ? _fighter1 : _fighter2;
     }
 }
 
@@ -284,8 +272,6 @@ public abstract class Fighter : Object
 
     public bool Alive { get; private set; } = true;
 
-    public Team Team { get; private set; } = Team.None;
-
     public int Attack { get; private set; } = 0;
 
     public int Mana => ManaPool.Value;
@@ -293,11 +279,6 @@ public abstract class Fighter : Object
 
     public int MaxMana => ManaPool.MaxValue;
     public int MaxHealth => HealthPool.MaxValue;
-
-    public void ChangeTeam(Team newTeam)
-    {
-        Team = newTeam;
-    }
 
     public void GiveAbility(Ability ability)
     {
