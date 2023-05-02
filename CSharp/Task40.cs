@@ -21,12 +21,14 @@ public class Database
         const string AddPlayerCommand = "1";
         const string BanPlayerCommand = "2";
         const string UnbanPlayerCommand = "3";
-        const string RemoveCommand = "4";
+        const string ListCommand = "4";
+        const string RemoveCommand = "5";
 
         string commandRequestMessage = Environment.NewLine + "Write next command:" + Environment.NewLine +
             AddPlayerCommand + " - add player" + Environment.NewLine +
             BanPlayerCommand + " - ban player" + Environment.NewLine +
             UnbanPlayerCommand + " - unban player " + Environment.NewLine +
+            ListCommand + " - list all players" + Environment.NewLine +
             RemoveCommand + " - remove player" + Environment.NewLine +
             ExitCommand + " - exit programm";
 
@@ -51,6 +53,10 @@ public class Database
                 HandleChoose(Remove, Remove);
                 break;
 
+            case ListCommand:
+                ListPlayers();
+                break;
+
             case ExitCommand:
                 return false;
 
@@ -73,8 +79,19 @@ public class Database
         Player result = new Player(nickname, _players.Count);
         _players.Add(nickname, result);
         Console.WriteLine(result + " added.");
-        
+
         return result;
+    }
+
+    private void ListPlayers()
+    {
+        Console.WriteLine($"{_players.Count} players stored");
+        
+
+        foreach(Player player in _players.Values)
+        {
+            Console.WriteLine(player);
+        }
     }
 
     private void Ban(string nickname)
@@ -204,6 +221,7 @@ public class Database
 public class Player
 {
     public readonly string Nickname = null;
+    public readonly int Id = -1;
 
     private int _level = 1;
 
@@ -214,7 +232,6 @@ public class Player
     }
 
     public bool Banned { get; private set; } = false;
-    public int Id { get; private set; } = -1;
 
     public void Ban() => Banned = true;
 
