@@ -1,6 +1,8 @@
 using static Arena;
 using static InputModule;
 
+using System.ComponentModel;
+
 public struct DamageEvent
 {
     public readonly Fighter Attacker;
@@ -37,6 +39,7 @@ public class TaskFourty
         do
         {
             userInput = ReadResponse(InputRequestMessage);
+
             switch (userInput)
             {
                 case FightCommand:
@@ -52,7 +55,6 @@ public class TaskFourty
                     break;
             }
         } while (leave == false);
-
     }
 }
 
@@ -62,20 +64,18 @@ public class ArenaBarker
     {
         Console.Clear();
 
-        Console.WriteLine("Contestants:" +
-            "\nWarrior - 0" +
-            "\nPaladin - 1" +
-            "\nHunter - 2" +
-            "\nPriest - 3" +
-            "\nMage - 4"+
-            "\nWarlock - 5");
-
         BeginFight(GetFighter(), GetFighter());
     }
 
     public Fighter GetFighter()
     {
         Fighter[] fighters = { new Warrior(), new Paladin(), new Hunter(), new Priest(), new Mage(), new Warlock() };
+
+        for(int i =0; i < fighters.Length; i++)
+        {
+            Console.WriteLine(fighters[i] + " - " + i);
+        }
+
         int userChoose = ForceReadInt("Write contestant number!", 0, fighters.Length);
 
         return fighters[userChoose];
@@ -86,12 +86,13 @@ public static class Arena
 {
     private const int PercentDivier = 100;
 
-    public static int Time { get; private set; }
     public static event Action<int> Tick;
-    public static bool ArenaOccuped { get; private set; } = false;
 
     private static Fighter _fighter1 = null;
     private static Fighter _fighter2 = null;
+
+    public static bool ArenaOccuped { get; private set; } = false;
+    public static int Time { get; private set; }
 
     public enum Team
     {
@@ -124,6 +125,11 @@ public static class Arena
             Update();
         }
 
+        DeclareVictory();
+    }
+
+    public static void DeclareVictory()
+    {
         if (_fighter1.Alive == false)
         {
             if (_fighter2.Alive == false)
@@ -259,12 +265,6 @@ public abstract class Fighter : Object
 {
     public const int DefaultDamageRecivePercent = 100;
 
-    public bool Alive { get; private set; } = true;
-
-    public Team Team { get; private set; } = Team.None;
-
-    public int Attack { get; private set; } = 0;
-
     private readonly Resource HealthPool = null;
     private readonly Resource ManaPool = null;
 
@@ -281,6 +281,12 @@ public abstract class Fighter : Object
 
         Attack = attackDamage;
     }
+
+    public bool Alive { get; private set; } = true;
+
+    public Team Team { get; private set; } = Team.None;
+
+    public int Attack { get; private set; } = 0;
 
     public int Mana => ManaPool.Value;
     public int Health => HealthPool.Value;
@@ -375,17 +381,17 @@ public abstract class Fighter : Object
         HealthPool.ModifyValue(HealthPool.Regeneration);
         ManaPool.ModifyValue(ManaPool.Regeneration);
     }
+
+    public override string ToString()
+    {
+        return TypeDescriptor.GetClassName(this);
+    }
 }
 
 public class Ability
 {
     public readonly string Name;
     public readonly Fighter Owner;
-
-    public int Cooldown { get; private set; }
-    public int Cost { get; private set; }
-
-    public int CooldownEnd { get; private set; }
 
     public Ability(Fighter owner, string name, int cooldown, int manaCost)
     {
@@ -398,6 +404,11 @@ public class Ability
 
         Cost = manaCost;
     }
+
+    public int Cooldown { get; private set; }
+    public int Cost { get; private set; }
+
+    public int CooldownEnd { get; private set; }
 
     public bool CooldownReady => CooldownEnd <= Time;
 
@@ -556,7 +567,7 @@ public sealed class Powershot : Ability
 
 public sealed class Pray : Ability
 {
-    private int _healing;
+    private int _healing = 100;
 
     public Pray(Fighter owner) : base(owner, "Pray", 2, 4)
     {
@@ -564,7 +575,7 @@ public sealed class Pray : Ability
 
     protected override void OnSpellStart()
     {
-        Owner.Heal(100);
+        Owner.Heal(_healing);
     }
 }
 
