@@ -87,7 +87,6 @@ public class Database
     {
         Console.WriteLine($"{_players.Count} players stored");
         
-
         foreach(Player player in _players.Values)
         {
             Console.WriteLine(player);
@@ -162,6 +161,7 @@ public class Database
             Console.Error.WriteLine("Can't remove such player.");
             return;
         }
+        
         player.Ban();
         Console.WriteLine(player.Nickname + " banned.");
     }
@@ -173,6 +173,7 @@ public class Database
             Console.Error.WriteLine("Can't remove such player.");
             return;
         }
+        
         player.Unban();
         Console.WriteLine(player.Nickname + " unbanned.");
     }
