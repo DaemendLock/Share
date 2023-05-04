@@ -188,6 +188,7 @@ public class Unit : Combatant, IDamagable
         {
             return;
         }
+        
         target.TakeDamage(Damage);
     }
 
