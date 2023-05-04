@@ -1,10 +1,11 @@
 using static InputModule;
+using System.Linq;
 
 public class TaskFourtySix
 {
     public static void Main(string[] args)
     {
-        TrainMaker maker = new TrainMaker( new int[]{ 10, 20 });
+        TrainFactory maker = new TrainFactory(new int[] { 10, 20 });
 
         bool work = true;
         Route route;
@@ -21,20 +22,22 @@ public class TaskFourtySix
             int passengers = ForceReadInt("Write passengers count:", 0);
             maker.AssignTrain(route, passengers);
 
-            Console.WriteLine(Environment.NewLine+"Press any key to departure...");
+            Console.WriteLine(Environment.NewLine + "Press any key to departure...");
             Console.ReadKey();
         }
     }
 }
 
-public class TrainMaker
+public class TrainFactory
 {
     private readonly int[] _carriagesCapacity = null;
 
-    public TrainMaker(int[] carriagesCapacity)
+    public TrainFactory(int[] carriagesCapacity)
     {
         _carriagesCapacity = carriagesCapacity;
+#if NET7_0_OR_GREATER
         _carriagesCapacity.OrderDescending();
+#endif
     }
 
     public Route CreateNewRoute()
@@ -63,41 +66,46 @@ public class TrainMaker
         } while (currentCapacity + _carriagesCapacity.Last() < passengersCount);
 
         train.AddCarriage(new Carriage(_carriagesCapacity.Last()));
+        Console.WriteLine("Maximum passangers on this route: " + assignTo.EvaluateMaxTickets());
 
         assignTo.AssignTrain(train);
+
     }
 }
 
 public class Route
 {
-    public readonly string From = "";
-    public readonly string To = "";
-    public long DepartureTime { get; private set; } = 0;
+    public readonly string Departure = "";
+    public readonly string Destination = "";
 
     private Train _train = new Train();
 
     public Route(string from, string to, long departureTime)
     {
-        From = from;
-        To = to;
+        Departure = from;
+        Destination = to;
         DepartureTime = departureTime;
     }
+    public long DepartureTime { get; private set; } = 0;
 
     public void AssignTrain(Train train)
     {
-        _train = new Train();
+        _train = train;
+    }
+
+    public int EvaluateMaxTickets()
+    {
+        return _train.EvaluateMaxCapacity();
     }
 
     public override string ToString()
     {
-        return $"Train departure at {DepartureTime}: {From} -> {To}";
+        return $"Train departure at {DepartureTime}: {Departure} -> {Destination}.";
     }
 }
 
 public class Train
 {
-    public int Passsengers { get; private set; } = 0;
-
     private LinkedList<Carriage> _carriages = new LinkedList<Carriage>();
 
     public int EvaluateMaxCapacity()
@@ -134,9 +142,7 @@ public static class InputModule
     {
         Console.WriteLine(message);
 
-#pragma warning disable CS8603 // Возможно, возврат ссылки, допускающей значение NULL.
         return Console.ReadLine();
-#pragma warning restore CS8603 // Возможно, возврат ссылки, допускающей значение NULL.
     }
 
     public static int ForceReadInt(string message = "Write number.", int minValue = int.MinValue, int maxValue = int.MaxValue)
