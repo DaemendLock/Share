@@ -49,12 +49,7 @@ public struct Product
     }
 }
 
-public interface ISeller
-{
-    public Product[] GetRange();
-}
-
-public class Market : ISeller
+public class Market
 {
     private HashSet<Product> _range = new HashSet<Product>();
     private int _balance = 0;
