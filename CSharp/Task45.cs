@@ -67,7 +67,7 @@ public class ArenaBarker
         BeginFight(GetFighter(), GetFighter());
     }
 
-    public Fighter GetFighter()
+    private Fighter GetFighter()
     {
         Fighter[] fighters = { new Warrior(), new Paladin(), new Hunter(), new Priest(), new Mage(), new Warlock() };
 
@@ -76,9 +76,9 @@ public class ArenaBarker
             Console.WriteLine(fighters[i] + " - " + i);
         }
 
-        int userChoose = ForceReadInt("Write contestant number!", 0, fighters.Length);
+        int userChoise = ForceReadInt("Write contestant number!", 0, fighters.Length);
 
-        return fighters[userChoose];
+        return fighters[userChoise];
     }
 }
 
@@ -369,7 +369,7 @@ public abstract class Fighter : Object
     }
 }
 
-public class Ability
+public abstract class Ability
 {
     public readonly string Name;
     public readonly Fighter Owner;
