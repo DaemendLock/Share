@@ -68,26 +68,26 @@ public class Database
         return true;
     }
 
-    public Player Add(string nickname)
+    private void Add(string nickname)
     {
         if (_players.ContainsKey(nickname))
         {
             Console.Error.WriteLine("Player with this name already exists.");
-            return null;
+            return;
         }
 
         Player result = new Player(nickname, _players.Count);
         _players.Add(nickname, result);
         Console.WriteLine(result + " added.");
 
-        return result;
+        return;
     }
 
     private void ListPlayers()
     {
         Console.WriteLine($"{_players.Count} players stored");
-        
-        foreach(Player player in _players.Values)
+
+        foreach (Player player in _players.Values)
         {
             Console.WriteLine(player);
         }
@@ -161,7 +161,7 @@ public class Database
             Console.Error.WriteLine("Can't remove such player.");
             return;
         }
-        
+
         player.Ban();
         Console.WriteLine(player.Nickname + " banned.");
     }
@@ -173,7 +173,7 @@ public class Database
             Console.Error.WriteLine("Can't remove such player.");
             return;
         }
-        
+
         player.Unban();
         Console.WriteLine(player.Nickname + " unbanned.");
     }
@@ -232,11 +232,11 @@ public class Player
         Id = id;
     }
 
-    public bool Banned { get; private set; } = false;
+    public bool IsBanned { get; private set; } = false;
 
-    public void Ban() => Banned = true;
+    public void Ban() => IsBanned = true;
 
-    public void Unban() => Banned = false;
+    public void Unban() => IsBanned = false;
 
     public override int GetHashCode()
     {
@@ -255,7 +255,7 @@ public class Player
 
     public override string ToString()
     {
-        return $"{Id} Player {Nickname}: lvl - {_level}, status: {Banned}.";
+        return $"{Id} Player {Nickname}: lvl - {_level}, status: {IsBanned}.";
     }
 }
 
