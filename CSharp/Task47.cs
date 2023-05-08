@@ -8,12 +8,12 @@ public class TaskArmy
 
 public interface IAttacker
 {
-    void Attack(Unit target);
+    void Attack(Combatant combatant);
 }
 
 public interface ITargetOwner
 {
-    Unit? GetTarget();
+    Unit? GetTarget(Unit unit);
 }
 
 public interface IDamagable
@@ -23,9 +23,9 @@ public interface IDamagable
 
 public abstract class Combatant : IAttacker, ITargetOwner
 {
-    public abstract void Attack(Unit target);
+    public abstract void Attack(Combatant target);
 
-    public abstract Unit? GetTarget();
+    public abstract Unit? GetTarget(Unit unit);
 
     public abstract bool Attackable();
 }
@@ -49,8 +49,8 @@ public class Battlefield
     {
         while (_country1.HasSoldiers() && _country2.HasSoldiers())
         {
-            _country1.Attack(_country2.GetTarget());
-            _country2.Attack(_country1.GetTarget());
+            _country1.Attack(_country2);
+            _country2.Attack(_country1);
         }
 
         DeclareVictory();
@@ -87,7 +87,7 @@ public class FightSide : Combatant
         _combatants = platoons;
     }
 
-    public override void Attack(Unit target)
+    public override void Attack(Combatant target)
     {
         _combatants[_position.Next(_combatants.Count)].Attack(target);
     }
@@ -97,9 +97,9 @@ public class FightSide : Combatant
         return HasSoldiers();
     }
 
-    public override Unit? GetTarget()
+    public override Unit? GetTarget(Unit unit)
     {
-        return _combatants[_position.Next(_combatants.Count)].GetTarget();
+        return _combatants[_position.Next(_combatants.Count)].GetTarget(unit);
     }
 
     public bool HasSoldiers()
@@ -130,7 +130,7 @@ public class Platoon : Combatant
         }
     }
 
-    public override void Attack(Unit target)
+    public override void Attack(Combatant target)
     {
         foreach (Unit unit in _units)
         {
@@ -154,11 +154,11 @@ public class Platoon : Combatant
         return false;
     }
 
-    public override Unit? GetTarget()
+    public override Unit? GetTarget(Unit target)
     {
         foreach (Unit unit in _units)
         {
-            if (unit.Alive)
+            if (unit.Alive && unit.CanAttack(target))
             {
                 return unit;
             }
@@ -182,19 +182,24 @@ public class Unit : Combatant, IDamagable
     public int Health { get; private set; }
     public bool Alive { get; private set; }
 
-    public override void Attack(Unit target)
+    public override void Attack(Combatant combatant)
     {
-        if (target == null)
+        if (combatant == null)
         {
             return;
         }
-        
-        target.TakeDamage(Damage);
+
+        combatant.GetTarget(this)?.TakeDamage(Damage);
     }
 
-    public override Unit GetTarget()
+    public override Unit? GetTarget(Unit unit)
     {
-        return this;
+        if (Alive && unit.CanAttack(this))
+        {
+            return this;
+        }
+
+        return null;
     }
 
     public void TakeDamage(int damage)
