@@ -6,21 +6,22 @@ public class TaskMarket
     {
         int maxProduct = 100;
         int maxMoney = 100;
+        int maxCustomers = 100;
 
         Market market = new();
 
-        List<Customer> customers = new List<Customer>(_random.Next(maxMoney));
+        List<Customer> customers = new List<Customer>(_random.Next(maxCustomers));
 
-        for (int i = 0; i < customers.Count; i++)
+        while (customers.Count < customers.Capacity)
         {
-            customers[i] = new Customer(_random.Next());
+            customers.Add(new Customer(_random.Next(maxMoney)));
             int productsToBuy = _random.Next(maxProduct);
 
             Product[] range = market.GetRange();
 
             for (int j = 0; j < productsToBuy; j++)
             {
-                customers[i].ChooseRandomProduct(range);
+                customers.Last().ChooseRandomProduct(range);
             }
         }
 
