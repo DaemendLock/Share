@@ -14,10 +14,10 @@ public class TaskCarService
         int lookupWeight = ForceReadInt("Write weight");
         int lookupNation = ForceReadInt("Write nation");
 
-        IEnumerable<Criminal> Suspects = criminals.Where(criminal => criminal.Matches(lookupHeight, lookupWeight, lookupNation, lookupDelta, lookupDelta) && criminal.Imprisoned == false);
-        Console.WriteLine("Found "+Suspects.Count());
+        IEnumerable<Criminal> suspects = criminals.Where(criminal => criminal.Matches(lookupHeight, lookupWeight, lookupNation, lookupDelta, lookupDelta) && criminal.Imprisoned == false);
+        Console.WriteLine("Found "+suspects.Count());
 
-        foreach (Criminal criminal in criminals)
+        foreach (Criminal criminal in suspects)
         {
             Console.WriteLine(criminal);
         }
