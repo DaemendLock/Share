@@ -28,6 +28,7 @@ public class TaskZoo
                 case null:
                     Console.Error.WriteLine("Failed to read choice");
                     continue;
+                    
                 default:
                     enclosure = zoo.GetEnclosuresNames()[(int)choice];
                     break;
