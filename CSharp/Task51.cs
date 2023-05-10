@@ -1,6 +1,6 @@
 using static Utils;
 
-public class TaskCarService
+public class Task51
 {
     public static void Main(String[] args)
     {
