@@ -11,7 +11,7 @@ public class TaskZoo
 {
     public static void Main(String[] args)
     {
-        Zoo zoo = new Zoo("Local zoo", true);
+        Zoo zoo = new Zoo("Local zoo");
         zoo.CreateEnclosure("Empty");
 
         bool leave = false;
@@ -28,9 +28,9 @@ public class TaskZoo
                 case null:
                     Console.Error.WriteLine("Failed to read choice");
                     continue;
-                    
+
                 default:
-                    enclosure = zoo.GetEnclosuresNames()[(int)choice];
+                    enclosure = zoo.GetEnclosuresNames()[(int) choice];
                     break;
             }
 
@@ -49,15 +49,12 @@ public class Zoo
 
     private readonly HashSet<Enclosure> _enclosures;
 
-    public Zoo(string title, bool autofill = false)
+    public Zoo(string title)
     {
         Title = title;
         _enclosures = new HashSet<Enclosure>();
 
-        if (autofill)
-        { 
-            Fill(); 
-        }
+        Fill();
     }
 
     public void CreateEnclosure(string name, params Animal[] animals)
@@ -74,7 +71,7 @@ public class Zoo
     {
         List<string> result = new List<string>(_enclosures.Count);
 
-        foreach(Enclosure enclosure in _enclosures)
+        foreach (Enclosure enclosure in _enclosures)
         {
             result.Add(enclosure.Name);
         }
@@ -93,7 +90,7 @@ public class Zoo
             }
         }
 
-        Console.Error.WriteLine("Can't find "+name);
+        Console.Error.WriteLine("Can't find " + name);
     }
 
     private void Fill()
@@ -172,7 +169,7 @@ public class Animal
     {
         int hashCoefficient = 31;
 
-        return SpeciesName.GetHashCode() * hashCoefficient + (int)Gender;
+        return SpeciesName.GetHashCode() * hashCoefficient + (int) Gender;
     }
 }
 
@@ -203,7 +200,7 @@ public static class InputModule
     {
         foreach (string resposne in responses)
         {
-            Console.WriteLine("-"+resposne);
+            Console.WriteLine("-" + resposne);
         }
 
         string choice = ReadResponse(message);
