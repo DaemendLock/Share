@@ -1,4 +1,4 @@
-public class Task57
+public class Task54
 {
     public static void Main(String[] args)
     {
@@ -29,7 +29,7 @@ public class Task57
         Console.WriteLine();
 
         var selection = soldiers1.Where(soldier => soldier.Name.StartsWith(moveLetter, StringComparison.OrdinalIgnoreCase)).ToList();
-        selection.ForEach(soldier => soldiers1.Remove(soldier) );
+        soldiers1 = selection.Except(selection).ToList();
         soldiers2.AddRange(selection);
 
         Console.WriteLine("1st platoon after:");
