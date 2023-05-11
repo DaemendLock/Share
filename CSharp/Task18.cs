@@ -15,7 +15,10 @@ public class TaskEightteen
                 balance ++;
                 
                 if (maxBalance < balance)
+                {
                     maxBalance = balance;
+                }
+                
                 continue;
             }
 
