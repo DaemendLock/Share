@@ -30,7 +30,7 @@ public class Task57
 
         var selection = soldiers1.Where(soldier => soldier.Name.StartsWith(moveLetter, StringComparison.OrdinalIgnoreCase)).ToList();
         soldiers1 = selection.Except(selection).ToList();
-        soldiers2.AddRange(selection);
+        soldiers2 = soldiers2.Union(selection).ToList();
 
         Console.WriteLine("1st platoon after:");
         Console.WriteLine(string.Join(Environment.NewLine, soldiers1));
