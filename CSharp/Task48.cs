@@ -45,7 +45,7 @@ public class AquariumOwner
             }
 
             Console.Clear();
-            aquarium.Procces();
+            aquarium.Process();
             aquarium.Print();
         }
     }
@@ -94,7 +94,7 @@ public class Aquarium
         _fishes.Remove(fish);
     }
 
-    public void Procces()
+    public void Process()
     {
         foreach (Fish fish in _fishes)
         {
