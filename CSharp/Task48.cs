@@ -1,6 +1,6 @@
 using static InputModule;
 
-public class TaskAquarium
+public class AquariumOwner
 {
     public static void Main(String[] args)
     {
@@ -14,15 +14,13 @@ public class TaskAquarium
         bool exit = false;
 
         string inputMessage = "Write next command: " + Environment.NewLine +
-                                AddCommand+Environment.NewLine+
+                                AddCommand + Environment.NewLine +
                                 RemoveCommand + Environment.NewLine +
                                 SkipCommand + Environment.NewLine +
                                 ExitCommand + Environment.NewLine;
 
         while (exit == false)
         {
-
-
             switch (ReadResponse(inputMessage))
             {
                 case AddCommand:
@@ -47,7 +45,7 @@ public class TaskAquarium
             }
 
             Console.Clear();
-            aquarium.Proccess();
+            aquarium.Procces();
             aquarium.Print();
         }
     }
@@ -96,7 +94,7 @@ public class Aquarium
         _fishes.Remove(fish);
     }
 
-    public void Proccess()
+    public void Procces()
     {
         foreach (Fish fish in _fishes)
         {
@@ -155,7 +153,7 @@ public class Fish
 
     public override string ToString()
     {
-        return $"{Name} - {Age}/{MaxAge}" ;
+        return $"{Name} - {Age}/{MaxAge}";
     }
 }
 
