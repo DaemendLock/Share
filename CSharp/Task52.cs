@@ -1,5 +1,3 @@
-using static Utils;
-
 public class Task52
 {
     public static void Main(String[] args)
@@ -16,7 +14,7 @@ public class Task52
             Console.WriteLine(criminal);
         }
 
-        criminals.RemoveAll(criminal => criminal.Crime.StartsWith(AmnestiCrime));
+        criminals = criminals.Where(criminal => criminal.Crime.StartsWith(AmnestiCrime)).ToList();
         Console.WriteLine("New criminals list:");
 
         foreach (Criminal criminal in criminals)
