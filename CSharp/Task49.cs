@@ -62,11 +62,6 @@ public class Zoo
         _enclosures.Add(new Enclosure(name, animals));
     }
 
-    public void PrintEnclosures()
-    {
-        Console.WriteLine(string.Join(Environment.NewLine, _enclosures));
-    }
-
     public string[] GetEnclosuresNames()
     {
         List<string> result = new List<string>(_enclosures.Count);
