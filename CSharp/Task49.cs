@@ -23,17 +23,14 @@ public class TaskZoo
             choice = ReadChoose("Choose next enclouse:", zoo.GetEnclosuresNames());
             Console.Clear();
 
-            switch (choice)
+            if (choice == null)
             {
-                case null:
                     Console.Error.WriteLine("Failed to read choice");
                     continue;
-
-                default:
-                    enclosure = zoo.GetEnclosuresNames()[(int) choice];
-                    break;
             }
-
+            
+            enclosure = zoo.GetEnclosuresNames()[(int) choice];
+            
             Console.WriteLine("Press any key to read about animals in " + enclosure);
             Console.ReadKey(true);
             Console.Clear();
