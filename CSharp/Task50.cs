@@ -108,7 +108,8 @@ public class CarService
                 Console.WriteLine(part);
             }
 
-            Console.WriteLine(Repair(car) + "$ - repairment bill.");
+            int bill = Repair(car);
+            Console.WriteLine(bill + "$ - repairment bill.");
 
             Console.WriteLine("Current balance: " + _blance);
             Console.WriteLine("Press any key to continue...");
@@ -116,7 +117,7 @@ public class CarService
             Console.Clear();
         }
 
-        Console.WriteLine("Car service finished work. Balance: "+_blance);
+        Console.WriteLine("Car service finished work. Balance: " + _blance);
     }
 
     public void AddDefaultParts()
@@ -137,7 +138,7 @@ public class CarService
         {
             Console.Write(part);
 
-            Part? replacement = _storage.Take(part);
+            Part? replacement = _storage.Give(part);
 
             if (replacement == null)
             {
@@ -173,17 +174,7 @@ public class Storage
         _partsCount[part] = _partsCount.GetValueOrDefault(part, 0) + count;
     }
 
-    public Part? Take(int id)
-    {
-        if (_parts.Contains(new Part(id)))
-        {
-            return Take(new Part(id));
-        }
-
-        return null;
-    }
-
-    public Part? Take(Part part)
+    public Part? Give(Part part)
     {
         if (_parts.Contains(part) == false || _partsCount[part] == 0)
         {
