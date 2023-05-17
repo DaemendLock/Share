@@ -1,4 +1,4 @@
-using static InputModule;
+using static Utils;
 
 public enum Gender
 {
@@ -14,6 +14,15 @@ public class TaskZoo
         Zoo zoo = new Zoo("Local zoo");
         zoo.CreateEnclosure("Empty");
 
+        Visitor visitor = new Visitor();
+        visitor.Visit(zoo);
+    }
+}
+
+public class Visitor
+{
+    public void Visit(Zoo zoo)
+    {
         bool leave = false;
         string enclosure;
         int? choice;
@@ -25,12 +34,12 @@ public class TaskZoo
 
             if (choice == null)
             {
-                    Console.Error.WriteLine("Failed to read choice");
-                    continue;
+                Console.Error.WriteLine("Failed to read choice");
+                continue;
             }
-            
+
             enclosure = zoo.GetEnclosuresNames()[(int) choice];
-            
+
             Console.WriteLine("Press any key to read about animals in " + enclosure);
             Console.ReadKey(true);
             Console.Clear();
@@ -95,7 +104,7 @@ public class Zoo
         CreateEnclosure("Spiders",
             new Animal("Spider", "Spider-man, Spider-man" + Environment.NewLine + "Does whatever a spider can.", "Be-e-e-e-e-n! No!", Gender.Male));
         CreateEnclosure("Fish",
-            new Animal("Spider", "Colorful tasty fish.", "No sound", Gender.Male));
+            new Animal("Tuna", "Greatest threat to kitchens.", "With technology so advanced nowdays, anyone can visit me on the moon at any time if they with.", Gender.Female));
     }
 }
 
@@ -165,8 +174,10 @@ public class Animal
     }
 }
 
-public static class InputModule
+public static class Utils
 {
+    public readonly static Random Random = new Random();
+
     public static string ReadResponse(string message)
     {
         Console.WriteLine(message);
