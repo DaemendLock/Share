@@ -6,22 +6,12 @@ public class TaskArmy
     }
 }
 
-public interface IAttacker
+public interface ICommandProvider
 {
-    void Attack(Combatant combatant);
+    int GetCommand(IEnumerable<Combatant> combatants);
 }
 
-public interface ITargetOwner
-{
-    Unit? GetTarget(Unit unit);
-}
-
-public interface IDamagable
-{
-    void TakeDamage(int damage);
-}
-
-public abstract class Combatant : IAttacker, ITargetOwner
+public abstract class Combatant
 {
     public abstract void Attack(Combatant target);
 
@@ -76,20 +66,20 @@ public class Battlefield
 
 public class FightSide : Combatant
 {
-    private Random _position;
+    private ICommandProvider _comander;
 
     private List<Combatant> _combatants;
 
     public FightSide(List<Combatant> platoons)
     {
-        _position = new Random();
+        _comander = new RandomCommandProvider();
 
         _combatants = platoons;
     }
 
     public override void Attack(Combatant target)
     {
-        _combatants[_position.Next(_combatants.Count)].Attack(target);
+        _combatants[_comander.GetCommand(_combatants)].Attack(target);
     }
 
     public override bool Attackable()
@@ -99,7 +89,7 @@ public class FightSide : Combatant
 
     public override Unit? GetTarget(Unit unit)
     {
-        return _combatants[_position.Next(_combatants.Count)].GetTarget(unit);
+        return _combatants[_comander.GetCommand(_combatants)].GetTarget(unit);
     }
 
     public bool HasSoldiers()
@@ -168,7 +158,7 @@ public class Platoon : Combatant
     }
 }
 
-public class Unit : Combatant, IDamagable
+public class Unit : Combatant
 {
     public readonly int Damage;
 
@@ -220,5 +210,20 @@ public class Unit : Combatant, IDamagable
     public override bool Attackable()
     {
         return Alive;
+    }
+}
+
+public class RandomCommandProvider : ICommandProvider
+{
+    private Random _random;
+
+    public RandomCommandProvider()
+    {
+        _random = new Random();
+    }
+
+    public int GetCommand(IEnumerable<Combatant> combatants)
+    {
+        return _random.Next(combatants.Count());
     }
 }
