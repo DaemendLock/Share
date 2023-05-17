@@ -1,61 +1,69 @@
 using static InputModule;
 
-public class AquariumOwner
+public class Task48
 {
     public static void Main(String[] args)
     {
         const string AddCommand = "add";
         const string RemoveCommand = "remove";
-        const string ExitCommand = "exit";
         const string SkipCommand = "skip";
+        const string ExitCommand = "exit";
 
         Aquarium aquarium = new Aquarium(ForceReadInt("Write aquarium maximum capacity:", 0));
-
-        bool exit = false;
+        AquariumOwner owner = new AquariumOwner();
 
         string inputMessage = "Write next command: " + Environment.NewLine +
-                                AddCommand + Environment.NewLine +
-                                RemoveCommand + Environment.NewLine +
-                                SkipCommand + Environment.NewLine +
-                                ExitCommand + Environment.NewLine;
+                        AddCommand + Environment.NewLine +
+                        RemoveCommand + Environment.NewLine +
+                        SkipCommand + Environment.NewLine +
+                        ExitCommand + Environment.NewLine;
 
-        while (exit == false)
+        while (inputMessage != ExitCommand)
         {
-            switch (ReadResponse(inputMessage))
+            if (owner.Interact(aquarium, inputMessage))
             {
-                case AddCommand:
-                    AddFish(aquarium);
-                    break;
-
-                case RemoveCommand:
-                    RemoveFish(aquarium);
-                    break;
-
-                case ExitCommand:
-                    exit = true;
-                    continue;
-
-                case SkipCommand:
-                    Console.WriteLine("Fishes live happily");
-                    break;
-
-                default:
-                    Console.Error.WriteLine("Failed to read command");
-                    continue;
+                Console.Clear();
+                aquarium.Live();
+                aquarium.Print();
             }
+        }
+    }
+}
 
-            Console.Clear();
-            aquarium.Process();
-            aquarium.Print();
+public class AquariumOwner
+{
+    public bool Interact(Aquarium aquarium, string interaction)
+    {
+        const string AddInterationText = "add";
+        const string RemoveInterationText = "remove";
+        const string SkipInterationText = "skip";
+
+        switch (ReadResponse(interaction))
+        {
+            case AddInterationText:
+                AddFish(aquarium);
+                return true;
+
+            case RemoveInterationText:
+                RemoveFish(aquarium);
+                return true;
+
+            case SkipInterationText:
+                Console.WriteLine("Fishes live happily");
+                return true;
+
+            default:
+                Console.Error.WriteLine("Failed to read command");
+                return false;
         }
     }
 
-    public static void AddFish(Aquarium aquarium)
+    private void AddFish(Aquarium aquarium)
     {
         aquarium.Add(new Fish(ReadResponse("Write fish name:"), ForceReadInt("Write fish maximum age:")));
     }
 
-    public static void RemoveFish(Aquarium aquarium)
+    private void RemoveFish(Aquarium aquarium)
     {
         aquarium.Remove(new Fish(ReadResponse("Write fish name:"), ForceReadInt("Write fish's age:")));
     }
@@ -94,7 +102,7 @@ public class Aquarium
         _fishes.Remove(fish);
     }
 
-    public void Process()
+    public void Live()
     {
         foreach (Fish fish in _fishes)
         {
