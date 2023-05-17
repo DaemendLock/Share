@@ -51,8 +51,6 @@ public class Visitor
 
 public class Zoo
 {
-    public readonly string Title;
-
     private readonly HashSet<Enclosure> _enclosures;
 
     public Zoo(string title)
@@ -62,6 +60,8 @@ public class Zoo
 
         Fill();
     }
+
+    public string Title { get; }
 
     public void CreateEnclosure(string name, params Animal[] animals)
     {
@@ -110,7 +110,6 @@ public class Zoo
 
 public class Enclosure
 {
-    public readonly string Name;
     private readonly HashSet<Animal> _animals;
 
     public Enclosure(string name, params Animal[] animals)
@@ -118,6 +117,8 @@ public class Enclosure
         Name = name;
         _animals = new HashSet<Animal>(animals);
     }
+
+    public string Name { get; }
 
     public int Count => _animals.Count;
 
@@ -143,11 +144,6 @@ public class Enclosure
 
 public class Animal
 {
-    public readonly string SpeciesName;
-    public readonly string SpeciesDescription;
-    public readonly string Sound;
-    public readonly Gender Gender;
-
     public Animal(string speciesName, string speciesDescription, string sound, Gender gender)
     {
         SpeciesName = speciesName;
@@ -155,6 +151,11 @@ public class Animal
         Sound = sound;
         Gender = gender;
     }
+
+    public string SpeciesName { get; }
+    public string SpeciesDescription { get; }
+    public string Sound { get; }
+    public Gender Gender { get; }
 
     public override string ToString()
     {
@@ -183,20 +184,6 @@ public static class Utils
         Console.WriteLine(message);
 
         return Console.ReadLine();
-    }
-
-    public static int ForceReadInt(string message = "Write number.", int minValue = int.MinValue, int maxValue = int.MaxValue)
-    {
-        Console.WriteLine(message);
-
-        int result;
-
-        while (int.TryParse(Console.ReadLine(), out result) == false || result < minValue || result >= maxValue)
-        {
-            Console.Error.WriteLine("Failed to read. Try again.");
-        }
-
-        return result;
     }
 
     public static int? ReadChoose(string message, params string[] responses)
