@@ -124,10 +124,7 @@ public class Platoon : Combatant
     {
         foreach (Unit unit in _units)
         {
-            if (unit.Alive)
-            {
-                unit.Attack(target);
-            }
+            unit.Attack(target);
         }
     }
 
