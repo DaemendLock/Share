@@ -174,7 +174,7 @@ public class Unit : Combatant
 
     public override void Attack(Combatant combatant)
     {
-        if (combatant == null)
+        if (combatant == null || Alive == false)
         {
             return;
         }
