@@ -76,16 +76,10 @@ public class FightSide
     public bool HasSoldiers => _platoons.Count > 0;
 
     public bool TryGetAttacker(out Platoon result) => _commander.TryGetAttacker(_platoons, out result);
-    
+
     public void ClearDead()
     {
-        for (int i = _platoons.Count - 1; i >= 0; i--)
-        {
-            if (_platoons[i].HasSoldiers == false)
-            {
-                _platoons.RemoveAt(i);
-            }
-        }
+        _platoons.RemoveAll(platoon => platoon.HasSoldiers == false);
     }
 }
 
@@ -121,13 +115,7 @@ public class Platoon
 
     private void ClearDead()
     {
-        for (int i = _units.Count - 1; i >= 0; i--)
-        {
-            if (_units[i].IsAlive == false)
-            {
-                _units.RemoveAt(i);
-            }
-        }
+        _units.RemoveAll(unit => unit.IsAlive == false);
     }
 }
 
@@ -156,12 +144,7 @@ public class Unit
 
 public class RandomCommander : ICommander
 {
-    private Random _random;
-
-    public RandomCommander()
-    {
-        _random = new Random();
-    }
+    private static Random _random = new Random();
 
     public bool TryGetAttacker(List<Platoon> platoons, out Platoon result)
     {
