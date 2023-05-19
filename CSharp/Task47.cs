@@ -42,19 +42,18 @@ public class Battlefield
 
     private void DeclareVictory()
     {
-        if (_country1.HasSoldiers)
+        if (_country1.HasSoldiers == false && _country2.HasSoldiers == false)
+        {
+            Console.WriteLine("No soldiers left. No winner today.");
+        }
+        else if (_country1.HasSoldiers)
         {
             Console.WriteLine(_country1.Name + " win!");
-            return;
         }
-
-        if (_country2.HasSoldiers)
+        else
         {
             Console.WriteLine(_country2.Name + " win!");
-            return;
         }
-
-        Console.WriteLine("No soldiers left. No winner today.");
     }
 }
 
