@@ -138,7 +138,12 @@ public class Unit
             return;
         }
 
-        target.Health -= Damage;
+        target.TakeDamage(Damage);
+    }
+
+    public void TakeDamage(int damage)
+    {
+        Health -= damage;
     }
 }
 
