@@ -1,6 +1,6 @@
 public interface ICommander
 {
-    Platoon GetAttacker(IEnumerable<Platoon> platoons);
+    Platoon GetAttacker(List<Platoon> platoons);
 }
 
 public class TaskArmy
@@ -18,12 +18,12 @@ public class Battlefield
 
     public Battlefield()
     {
-        _country1 = new FightSide(new RandomCommander(), new List<Platoon>() { new Platoon(30, 200, 10) });
+        _country1 = new FightSide(new RandomCommander(), new List<Platoon>() { new Platoon(30, 200, 10) }, "Country 1");
 
         _country2 = new FightSide(new RandomCommander(), new List<Platoon>() {
             new Platoon(100, 100, 5),
             new Platoon(10, 50, 5)
-        });
+        }, "Country 2");
     }
 
     public void ProcessFight()
@@ -47,15 +47,15 @@ public class Battlefield
 
     private void DeclareVictory()
     {
-        if (_country1.HasSoldiers())
+        if (_country1.HasSoldiers)
         {
-            Console.WriteLine("Country 1 win!");
+            Console.WriteLine(_country1.Name + " win!");
             return;
         }
 
-        if (_country2.HasSoldiers())
+        if (_country2.HasSoldiers)
         {
-            Console.WriteLine("Country 2 win!");
+            Console.WriteLine(_country2.Name + " win!");
             return;
         }
 
@@ -68,19 +68,23 @@ public class FightSide
     private List<Platoon> _platoons;
     private ICommander _commander;
 
-    public FightSide(ICommander commander, IEnumerable<Platoon> platoons)
+    public FightSide(ICommander commander, IEnumerable<Platoon> platoons, string name)
     {
         _platoons = new List<Platoon>(platoons);
         _commander = commander;
+
+        Name = name;
     }
 
-    public bool HasSoldiers() => GetAttacker() != null;
+    public string Name { get; }
+
+    public bool HasSoldiers => _platoons.Count > 0;
 
     public Platoon GetAttacker()
     {
         for (int i = _platoons.Count - 1; i >= 0; i--)
         {
-            if (_platoons[i].HasSoldiers() == false)
+            if (_platoons[i].HasSoldiers == false)
             {
                 _platoons.RemoveAt(i);
             }
@@ -102,10 +106,11 @@ public class Platoon
             _units.Add(new Unit(unitHealth, unitDamage));
         }
     }
+    public bool HasSoldiers => _units.Count > 0;
 
     public void Attack(Platoon target)
     {
-        if (target == null || target.HasSoldiers() == false)
+        if (target == null || target.HasSoldiers == false)
         {
             return;
         }
@@ -123,8 +128,6 @@ public class Platoon
             }
         }
     }
-
-    public bool HasSoldiers() => _units.Count > 0;
 }
 
 public class Unit
@@ -159,13 +162,13 @@ public class RandomCommander : ICommander
         _random = new Random();
     }
 
-    public Platoon GetAttacker(IEnumerable<Platoon> platoons)
+    public Platoon GetAttacker(List<Platoon> platoons)
     {
-        if (platoons.Count() == 0)
+        if (platoons.Count == 0)
         {
             return null;
         }
 
-        return platoons.ElementAt(_random.Next(platoons.Count()));
+        return platoons.ElementAt(_random.Next(platoons.Count));
     }
 }
