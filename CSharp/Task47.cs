@@ -1,6 +1,6 @@
 public interface ICommander
 {
-    Platoon GetAttacker(List<Platoon> platoons);
+    bool TryGetAttacker(List<Platoon> platoons, out Platoon result);
 }
 
 public class TaskArmy
@@ -28,18 +28,13 @@ public class Battlefield
 
     public void ProcessFight()
     {
-        Platoon attacker1, attacker2;
-
-        attacker1 = _country1.GetAttacker();
-        attacker2 = _country2.GetAttacker();
-
-        while (attacker1 != null && attacker2 != null)
+        while (_country1.TryGetAttacker(out Platoon attacker1) && _country1.TryGetAttacker(out Platoon attacker2))
         {
             attacker1.Attack(attacker2);
             attacker2.Attack(attacker1);
 
-            attacker1 = _country1.GetAttacker();
-            attacker2 = _country2.GetAttacker();
+            _country1.ClearDead();
+            _country2.ClearDead();
         }
 
         DeclareVictory();
@@ -80,7 +75,9 @@ public class FightSide
 
     public bool HasSoldiers => _platoons.Count > 0;
 
-    public Platoon GetAttacker()
+    public bool TryGetAttacker(out Platoon result) => _commander.TryGetAttacker(_platoons, out result);
+    
+    public void ClearDead()
     {
         for (int i = _platoons.Count - 1; i >= 0; i--)
         {
@@ -89,7 +86,6 @@ public class FightSide
                 _platoons.RemoveAt(i);
             }
         }
-        return _commander.GetAttacker(_platoons);
     }
 }
 
@@ -110,7 +106,7 @@ public class Platoon
 
     public void Attack(Platoon target)
     {
-        if (target == null || target.HasSoldiers == false)
+        if (target.HasSoldiers == false)
         {
             return;
         }
@@ -120,11 +116,16 @@ public class Platoon
             _units[i].Attack(target._units[i % target._units.Count]);
         }
 
-        for (int i = target._units.Count - 1; i >= 0; i--)
+        target.ClearDead();
+    }
+
+    private void ClearDead()
+    {
+        for (int i = _units.Count - 1; i >= 0; i--)
         {
-            if (target._units[i].IsAlive == false)
+            if (_units[i].IsAlive == false)
             {
-                target._units.RemoveAt(i);
+                _units.RemoveAt(i);
             }
         }
     }
@@ -144,7 +145,7 @@ public class Unit
 
     public void Attack(Unit target)
     {
-        if (IsAlive == false || target == null)
+        if (IsAlive == false)
         {
             return;
         }
@@ -162,13 +163,15 @@ public class RandomCommander : ICommander
         _random = new Random();
     }
 
-    public Platoon GetAttacker(List<Platoon> platoons)
+    public bool TryGetAttacker(List<Platoon> platoons, out Platoon result)
     {
         if (platoons.Count == 0)
         {
-            return null;
+            result = null;
+            return false;
         }
 
-        return platoons.ElementAt(_random.Next(platoons.Count));
+        result = platoons.ElementAt(_random.Next(platoons.Count));
+        return true;
     }
 }
