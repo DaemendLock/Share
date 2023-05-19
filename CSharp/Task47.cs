@@ -137,7 +137,7 @@ public class Unit
 
     public int Damage { get; }
     public int Health { get; private set; }
-    public bool IsAlive => Health <= 0;
+    public bool IsAlive => Health > 0;
 
     public void Attack(Unit target)
     {
