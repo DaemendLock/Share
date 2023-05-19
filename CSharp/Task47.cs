@@ -68,7 +68,7 @@ public class FightSide
     private List<Platoon> _platoons;
     private ICommander _commander;
 
-    public FightSide([NotNull] ICommander commander, IEnumerable<Platoon> platoons)
+    public FightSide(ICommander commander, IEnumerable<Platoon> platoons)
     {
         _platoons = new List<Platoon>(platoons);
         _commander = commander;
