@@ -12,7 +12,8 @@ public class Alarm : MonoBehaviour
 
     private AudioSource _audioSource;
 
-    private bool _isTriggered = false;
+    private Coroutine _coroutine;
+    private float _destination = 0;
     private float _threatLevel = 0;
 
     private void Start()
@@ -27,56 +28,42 @@ public class Alarm : MonoBehaviour
 
     public void SetOff()
     {
-        if (_isTriggered == true)
-        {
-            return;
-        }
-
         if (enabled == false)
         {
             return;
         }
 
-        _isTriggered = true;
-        StopAllCoroutines();
-        StartCoroutine(IncreaseTreatLevel());
+        _destination = _maxThreatLevel;
+        _coroutine ??= StartCoroutine(ModifyTreatLevel());
     }
 
     public void TurnOff()
     {
-        if(_isTriggered == false)
-        {
-            return;
-        }
-
-        _isTriggered = false;
-        StopAllCoroutines();
-        StartCoroutine(DecreaseThreatLevel());
+        _destination = 0;
+        _coroutine ??= StartCoroutine(ModifyTreatLevel());
     }
 
-    private IEnumerator IncreaseTreatLevel()
+    private IEnumerator ModifyTreatLevel()
     {
         _audioSource.Play();
 
-        while (_maxThreatLevel > _threatLevel)
+        while (_threatLevel != _destination)
         {
-            _threatLevel = Mathf.MoveTowards(_threatLevel, _maxThreatLevel, Time.deltaTime * _threatLevelIncreasePerSecond);
-            _audioSource.volume = _threatLevel/_maxThreatLevel;
-            yield return null;
-        }
-
-        Debug.Log("Calling police...");
-    }
-
-    private IEnumerator DecreaseThreatLevel()
-    {
-        while (_threatLevel > 0)
-        {
-            _threatLevel = Mathf.MoveTowards(_threatLevel, 0, Time.deltaTime * _threatLevelIncreasePerSecond);
+            _threatLevel = Mathf.MoveTowards(_threatLevel, _destination, Time.deltaTime * _threatLevelIncreasePerSecond);
             _audioSource.volume = _threatLevel / _maxThreatLevel;
             yield return null;
         }
 
-        _audioSource.Stop();
+        if (_threatLevel == _maxThreatLevel)
+        {
+            Debug.Log("Calling police...");
+        }
+        else if (_threatLevel == 0)
+        {
+            _audioSource.Stop();
+            _coroutine = null;
+        }
+
+        _coroutine = null;
     }
 }
