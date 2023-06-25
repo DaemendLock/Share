@@ -11,7 +11,7 @@ public class SpawnPoint : MonoBehaviour
 
     public virtual void TriggerSpawn()
     {
-        if(enabled == false)
+        if (enabled == false)
         {
             return;
         }
