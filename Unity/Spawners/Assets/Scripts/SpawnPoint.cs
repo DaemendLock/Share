@@ -9,7 +9,7 @@ public class SpawnPoint : MonoBehaviour
         SpawnController.RegisterSpawner(this);
     }
 
-    public void TriggerSpawn()
+    public virtual void TriggerSpawn()
     {
         Instantiate(_unit, transform.position, transform.rotation, transform.parent);
     }
