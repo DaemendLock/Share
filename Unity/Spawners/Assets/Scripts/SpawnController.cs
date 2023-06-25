@@ -18,17 +18,6 @@ public class SpawnController : MonoBehaviour
         set { _instance ??= value; }
     }
 
-    public static void RegisterSpawner(SpawnPoint location)
-    {
-        if (Instance == null)
-        {
-            Debug.LogError("Failed to register spawner - controller is not assigned");
-            return;
-        }
-
-        Instance._spawnLocations.Add(location);
-    }
-
     private void Awake()
     {
         if (_instance != null)
@@ -51,6 +40,17 @@ public class SpawnController : MonoBehaviour
     private void OnEnable()
     {
         _lastSpawnTime = Time.time;
+    }
+    
+    public static void RegisterSpawner(SpawnPoint location)
+    {
+        if (Instance == null)
+        {
+            Debug.LogError("Failed to register spawner - controller is not assigned");
+            return;
+        }
+
+        Instance._spawnLocations.Add(location);
     }
 
     private void SpawnNext()
