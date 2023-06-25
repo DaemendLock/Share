@@ -11,6 +11,11 @@ public class SpawnPoint : MonoBehaviour
 
     public virtual void TriggerSpawn()
     {
+        if(enable == false)
+        {
+            return;
+        }
+        
         Instantiate(_unit, transform.position, transform.rotation, transform.parent);
     }
 }
