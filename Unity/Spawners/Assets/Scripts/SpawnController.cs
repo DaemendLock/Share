@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,7 +11,6 @@ public class SpawnController : MonoBehaviour
 
     private List<SpawnPoint> _spawnLocations = new List<SpawnPoint>();
     private int _spawnIndex = 0;
-    private float _lastSpawnTime = 0;
 
     public static SpawnController Instance
     {
@@ -28,20 +28,16 @@ public class SpawnController : MonoBehaviour
         Instance = this;
     }
 
-    private void Update()
-    {
-        if (_lastSpawnTime <= Time.time)
-        {
-            SpawnNext();
-            _lastSpawnTime = Time.time + _spawnCooldown;
-        }
-    }
-
     private void OnEnable()
     {
-        _lastSpawnTime = Time.time;
+        StartCoroutine(SpawnCycle());
     }
-    
+
+    private void OnDisable()
+    {
+        StopCoroutine(SpawnCycle());
+    }
+
     public static void RegisterSpawner(SpawnPoint location)
     {
         if (Instance == null)
@@ -51,6 +47,15 @@ public class SpawnController : MonoBehaviour
         }
 
         Instance._spawnLocations.Add(location);
+    }
+
+    private IEnumerator SpawnCycle()
+    {
+        while (enabled)
+        {
+            SpawnNext();
+            yield return new WaitForSeconds(_spawnCooldown);
+        }
     }
 
     private void SpawnNext()
