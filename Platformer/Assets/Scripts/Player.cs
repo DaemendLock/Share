@@ -25,5 +25,11 @@ public class Player : Entity
         _rigidbody.velocity = new Vector2(0, _rigidbody.velocity.y);
     }
 
-    public bool OnGround(float groundHigh) => Physics2D.BoxCast(transform.position - new Vector3(0, transform.localScale.y * (0.5f + groundHigh * 2), 0) , new Vector2(transform.localScale.x, groundHigh), 0 , Vector2.down, transform.localScale.y * groundHigh);
+    public bool OnGround(float groundHigh)
+    {
+        float sizeMultiplier = 0.5f;
+        float highMultiplier = 2;
+        
+        Physics2D.BoxCast(transform.position - new Vector3(0, transform.localScale.y * (sizeMultiplier + groundHigh * highMultiplier), 0) , new Vector2(transform.localScale.x, groundHigh), 0 , Vector2.down, transform.localScale.y * groundHigh);
+    }
 }
