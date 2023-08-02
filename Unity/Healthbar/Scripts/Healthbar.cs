@@ -14,15 +14,15 @@ public class Healthbar : MonoBehaviour
 
     private void OnEnable()
     {
-        _target.HealthChanged += OnHealthChange;
+        _target.HealthChanged += OnHealthChanged;
     }
 
     private void OnDisable()
     {
-        _target.HealthChanged += OnHealthChange;
+        _target.HealthChanged += OnHealthChanged;
     }
 
-    private void OnHealthChange()
+    private void OnHealthChanged()
     {
         if (_isAdjustingHealth)
         {
