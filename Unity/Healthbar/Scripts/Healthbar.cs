@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Healthbar : MonoBehaviour
 {
-    [SerializeField] UnitHealth _target;
+    [SerializeField] private UnitHealth _target;
     [SerializeField] private Bar _bar;
     [SerializeField] private TMP_Text _text;
 
