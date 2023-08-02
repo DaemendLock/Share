@@ -16,7 +16,17 @@ public class UnitHealth : MonoBehaviour
         _health = _maxHealth;
     }
 
-    public void ModifyHealth(float value)
+    public void TakeDamage(float value)
+    {
+        ModifyHealth(value);
+    }
+
+    private void Heal(float value)
+    {
+        ModifyHealth(-value);
+    }
+    
+    private void ModifyHealth(float value)
     {
         _health = Mathf.Clamp(_health + value, 0, _maxHealth);
         HealthChanged?.Invoke();
