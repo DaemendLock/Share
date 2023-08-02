@@ -19,5 +19,6 @@ public class UnitHealth : MonoBehaviour
     public void ModifyHealth(float value)
     {
         _health = Mathf.Clamp(_health + value, 0, _maxHealth);
+        HealthChanged.Invoke();
     }
 }
