@@ -1,12 +1,17 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class ModifyHealthButton : MonoBehaviour
 {
-    [SerializeField] private float _modifyValue;
+    [SerializeField] private UnitHealth _target;
+    [SerializeField] private float _value;
 
-    public void OnButtonClick()
+    public void ApplyAsDamage()
     {
-        PlayerHealth.Instance.ModifyHealth(_modifyValue);
+        _target?.ModifyHealth(-_value);
+    }
+
+    public void ApplyAsHealing()
+    {
+        _target?.ModifyHealth(_value);
     }
 }

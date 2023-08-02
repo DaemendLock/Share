@@ -1,0 +1,18 @@
+using System;
+using UnityEngine;
+
+public class UnitHealth : MonoBehaviour
+{
+    public event Action HealthChanged;
+
+    [SerializeField] private float _maxHealth;
+    [SerializeField] private float _health;
+
+    public float Health => _health;
+    public float MaxHealth => _maxHealth;
+
+    public void ModifyHealth(float value)
+    {
+        _health = Mathf.Clamp(_health + value, 0, _maxHealth);
+    }
+}
