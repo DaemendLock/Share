@@ -29,10 +29,10 @@ public class Healthbar : MonoBehaviour
             return;
         }
 
-        StartCoroutine(AdjustBar());
+        StartCoroutine(Modify());
     }
 
-    private IEnumerator AdjustBar()
+    private IEnumerator Modify()
     {
         _isAdjustingHealth = true;
 
