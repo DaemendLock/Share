@@ -7,11 +7,11 @@ public class ModifyHealthButton : MonoBehaviour
 
     public void ApplyAsDamage()
     {
-        _target?.ModifyHealth(-_value);
+        _target?.TakeDamage(_value);
     }
 
     public void ApplyAsHealing()
     {
-        _target?.ModifyHealth(_value);
+        _target?.Heal(_value);
     }
 }
