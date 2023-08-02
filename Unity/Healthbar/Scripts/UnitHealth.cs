@@ -6,7 +6,7 @@ public class UnitHealth : MonoBehaviour
     public event Action HealthChanged;
 
     [SerializeField] private float _maxHealth;
-    [SerializeField] private float _health;
+    private float _health;
 
     public float Health => _health;
     public float MaxHealth => _maxHealth;
