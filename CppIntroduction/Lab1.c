@@ -7,7 +7,7 @@ void DoTask1()
 
 void DoTask2()
 {
-	printf("Temperature fahrenheit: %2f", ConvertToFahrenheit(ReadFloat("Write temperature in celsius: ")));
+	printf("Temperature fahrenheit: %.2f", ConvertToFahrenheit(ReadFloat("Write temperature in celsius: ")));
 }
 
 void DoTask3()
