@@ -86,10 +86,6 @@ int main(int argCount, char* args[])
 		return 128;
 	}
 
-	Fraction fraction = { 2, 4 };
-
-	Fraction_Print(Fraction_Simplify(fraction));
-
 	switch (args[1][0])
 	{
 	case '1':
