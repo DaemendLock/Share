@@ -1,6 +1,7 @@
 #include "../Lab2/Lab2.h"
 #include "../Utils/Reader.h"
 #include "../Utils/Fraction.h"
+#include <math.h>
 
 #define PYRAMID_SIZE 20
 
@@ -40,11 +41,12 @@ void DoTask4()
 {
 	float value = ReadFloat("Write initial credit: ");
 	float payment = ReadFloat("Write payment: ");
-	float percent = ReadFloat("Write interest rate: ") / 100 + 1;
+	int time = ReadInt("Write time: ");
+	float percent = ReadFloat("Write year interest rate: ") / 100 + 1;
 
 	float sum = 0;
 
-	while (value > 0)
+	do
 	{
 		if (value <= payment)
 		{
@@ -55,8 +57,10 @@ void DoTask4()
 
 		value -= payment;
 		sum += payment;
+
+		payment = value * ( ( percent - 1 ) / ( 1 - pow(percent, --time) ) );
 		value = GetNextDepositValue(value, percent);
-	}
+	} while (value > 0);
 
 	printf("Paid: %.2f", sum);
 }
