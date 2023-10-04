@@ -2,7 +2,7 @@
 
 #pragma region Task1
 /// <summary>
-/// Р’С‹РІРѕРґРёС‚ СЃС‚РёС…РѕС‚РІРѕСЂРµРЅРёРµ.
+/// Выводит стихотворение.
 /// </summary>
 void ShowPoem();
 #pragma endregion
@@ -17,36 +17,6 @@ void ShowPoem();
 /// <param name="degreeCelsius">convertion value</param>
 /// <returns>float value representing temperature in fahrenheit</returns>
 float ConvertToFahrenheit(float degreeCelsius);
-#pragma endregion
-
-#pragma region Task3
-/// <summary>
-/// Fraction with integer signed numerator and denominator.
-/// </summary>
-typedef struct
-{
-	int numerator;
-	int denominator;
-} Fraction;
-
-
-/// <summary>
-/// Reads fraction from console in format "numerator/denominator"<br>
-/// If denominator 0 or not given - denominator sets to 1.
-/// </summary>
-/// <param name="message">Console request message</param>
-/// <returns>Fraction.</returns>
-Fraction ReadFraction(char message[]);
-
-/// <summary>
-/// Sums 2 fractions
-/// </summary>
-Fraction Fraction_Sum(Fraction value1, Fraction value2);
-
-/// <summary>
-/// Prints fraction in format "numerator/denominator"
-/// </summary>
-void Fraction_print(Fraction fraction);
 #pragma endregion
 
 #pragma region Task4
@@ -68,7 +38,7 @@ typedef struct
 	unsigned short Pens;
 } Pound;
 
-OldPound ReadOldPound(char message[]);
+OldPound ReadOldPound(const char message[]);
 
 Pound OldPound_ConvertToNewPound(OldPound value);
 
@@ -78,7 +48,7 @@ void Pound_Print(Pound value);
 #pragma endregion
 
 #pragma region Task5
-Pound ReadPound(char message[]);
+Pound ReadPound(const char message[]);
 
 OldPound Pound_ConvertToOldPound(Pound value);
 #pragma endregion

@@ -33,11 +33,12 @@ bool ReadBool(const char message[])
 	return result == 'y';
 }
 
+/*
 const char* ReadLine(const char message[])
 {
 	const char* result;
 
-	scanf_s("%s", result);
+	//scanf_s("%s", result);
 
 	return result;
-}
+}*/

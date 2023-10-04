@@ -1,4 +1,4 @@
-#include "Task1.h"
+﻿#include "Task1.h"
 #include <stdio.h>
 
 #pragma region Task1
@@ -18,38 +18,6 @@ float ConvertToFahrenheit(float degreeCelsius)
 }
 #pragma endregion
 
-#pragma region Task3
-Fraction ReadFraction(char message[])
-{
-	Fraction result;
-
-	printf(message);
-	scanf_s("%i/%i", &result.numerator, &result.denominator);
-
-	if (result.denominator == 0)
-	{
-		result.denominator = 1;
-	}
-
-	return result;
-}
-
-Fraction Fraction_Sum(Fraction value1, Fraction value2)
-{
-	Fraction result;
-
-	result.numerator = (value1.numerator * value2.denominator + value2.numerator * value1.denominator);
-	result.denominator = (value1.denominator * value2.denominator);
-
-	return result;
-}
-
-void Fraction_print(Fraction fraction)
-{
-	printf("%i/%i%s", fraction.numerator, fraction.denominator,NEWLINE);
-}
-#pragma endregion
-
 #pragma region Task4
 
 #define SHILLING_IN_POUND 20
@@ -66,7 +34,7 @@ void Pound_Print(Pound value)
 	printf("%d\u002E%hu%s", value.Pound, value.Pens, NEWLINE);
 }
 
-Pound ReadPound(char message[]) {
+Pound ReadPound(const char message[]) {
 	Pound result;
 	printf(message);
 	scanf_s("%d\u002E%hu", &result.Pound, &result.Pens);
@@ -74,7 +42,7 @@ Pound ReadPound(char message[]) {
 	return result;
 }
 
-OldPound ReadOldPound(char message[])
+OldPound ReadOldPound(const char message[])
 {
 	OldPound result;
 
