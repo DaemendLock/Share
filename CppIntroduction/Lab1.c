@@ -1,4 +1,7 @@
-#include "Task1.h"
+#include "../Utils/Fraction.h"
+#include "../Utils/Reader.h"
+#include "../Lab1/Task1.h"
+#include <stdio.h>
 
 void DoTask1()
 {
@@ -15,7 +18,7 @@ void DoTask3()
 	Fraction fraction1 = ReadFraction("Write fraction 1:");
 	Fraction fraction2 = ReadFraction("Write fraction 2:");
 
-	Fraction_print(Fraction_Sum(fraction1, fraction2));
+	Fraction_Print(Fraction_Sum(fraction1, fraction2));
 }
 
 void DoTask4()
