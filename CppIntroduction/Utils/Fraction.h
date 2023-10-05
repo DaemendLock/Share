@@ -8,12 +8,12 @@ typedef struct Fraction
 } Fraction;
 
 /// <summary>
-/// Reads fraction from console in format "numerator/denominator"<br>
+/// Reads fraction from console in format "numerator/denominator". 
 /// If denominator 0 or not given - denominator sets to 1.
 /// </summary>
 /// <param name="message">Console request message</param>
 /// <returns>Fraction.</returns>
-Fraction ReadFraction(char message[]);
+Fraction ReadFraction(const char message[]);
 
 /// <summary>
 /// Sums 2 fractions

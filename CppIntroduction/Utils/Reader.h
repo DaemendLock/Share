@@ -16,6 +16,14 @@ float ReadFloat(const char message[]);
 int ReadInt(const char message[]);
 
 /// <summary>
+/// Read long from console.
+/// </summary>
+/// <param name="message">Console request message</param>
+/// <returns>Long value</returns>
+int ReadLong(const char message[]);
+
+
+/// <summary>
 /// Read yes ot no from console.
 /// </summary>
 /// <param name="message">Console request message</param>

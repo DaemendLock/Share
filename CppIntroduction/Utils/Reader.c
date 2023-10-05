@@ -19,6 +19,14 @@ int ReadInt(const char message[])
 	return result;
 }
 
+int ReadLong(const char message[])
+{
+	long result;
+	printf(message);
+	scanf_s("%d", &result);
+	return result;
+}
+
 bool ReadBool(const char message[])
 {
 	char result = '\0';

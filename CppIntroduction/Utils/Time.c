@@ -1,4 +1,5 @@
 #include "Time.h"
+#include <stdio.h>
 
 time time_FromSeconds(long seconds)
 {
@@ -24,4 +25,9 @@ time ReadTime(const char* message)
 	scanf_s("%i:%i:%i", &result.hours, &result.minutes, &result.seconds);
 
 	return result;
+}
+
+void time_Print(time value)
+{
+	printf("%d:%i:%i", value.hours, value.minutes, value.seconds);
 }

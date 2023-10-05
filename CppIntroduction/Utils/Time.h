@@ -13,3 +13,5 @@ time time_FromSeconds(long seconds);
 long time_GetSeconds(time value);
 
 time ReadTime(const char* message);
+
+void time_Print(time value);
