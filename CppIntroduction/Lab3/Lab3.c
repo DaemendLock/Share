@@ -4,19 +4,19 @@
 Employee ReadEmployee()
 {
 	int id;
-	float sellary;
+	float salary;
 
 	printf("Write id: ");
 	scanf_s("%i", &id);
 
-	printf("Write employee sellary:");
-	scanf_s("%f", &sellary);
+	printf("Write employee salary:");
+	scanf_s("%f", &salary);
 
-	Employee result = { id, sellary };
+	Employee result = { id, salary };
 	return result;
 }
 
-static const char* employeePositionsList[] = { "laborer", "secretary", "manager", "accountant", "executive", "researcher" };
+static const char* employeePositionsList[] = { "laborer", "secretary", "manager", "accountant", "executive", "researcher"};
 
 EmployeePosition EmployeePosition_Read()
 {

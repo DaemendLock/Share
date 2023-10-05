@@ -8,7 +8,7 @@ typedef enum EmployeePosition
 typedef struct Employee
 {
 	int id;
-	float sellary;
+	float salary;
 } Employee;
 
 Employee ReadEmployee();
