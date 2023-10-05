@@ -28,11 +28,11 @@ Double Lab6::Double::operator+(const Double& value2)
 	return Double(m_value + value2.m_value);
 }
 
-Lab6::Employee::Employee(int id, float sellary) : m_id(id), m_sellary(sellary)
+Lab6::Employee::Employee(int id, float salary) : m_id(id), m_sellary(salary)
 {
 }
 
-Lab6::Employee::Employee(int id, float sellary, Date date, Position position): m_id(id), m_sellary(sellary), m_joinDate(date), m_position(position)
+Lab6::Employee::Employee(int id, float salary, Date date, Position position): m_id(id), m_sellary(salary), m_joinDate(date), m_position(position)
 {
 }
 
