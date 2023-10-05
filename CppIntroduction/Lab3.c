@@ -17,7 +17,7 @@ void DoTask1()
 
 	for (int i = 0; i < EMPLOYEE_COUNT; i++)
 	{
-		printf("Employee %i: sellary - %.2f", employees[i].id, employees[i].sellary);
+		printf("Employee %i: salary - %.2f", employees[i].id, employees[i].salary);
 	}
 }
 
