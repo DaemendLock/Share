@@ -42,27 +42,17 @@ void DoTask4()
 	float value = ReadFloat("Write initial credit: ");
 	float payment = ReadFloat("Write payment: ");
 	int time = ReadInt("Write time: ");
-	float percent = ReadFloat("Write year interest rate: ") / 100 + 1;
+	float percent = ReadFloat("Write year interest rate: ") / 100 ;
 
 	float sum = 0;
 
-	do
+	float payment = GetYearPayment(value - payment, percent, time);
+
+	for (int i = 0; i < time; i++)
 	{
-		if (value <= payment)
-		{
-			sum += value;
-			value = 0;
-			continue;
-		}
-
-		value -= payment;
 		sum += payment;
-
-		payment = value * ( ( percent - 1 ) / ( 1 - pow(percent, --time) ) );
-		value = GetNextDepositValue(value, percent);
-	} while (value > 0);
-
-	printf("Paid: %.2f", sum);
+		printf("Paid: %.2f", sum);
+	}
 }
 
 void DoTask5()
