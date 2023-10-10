@@ -10,3 +10,5 @@ float GetNextDepositValue(float value, float multiplier);
 
 OldPound OldPound_Sum(OldPound value1, OldPound value2);
 
+float GetYearPayment(float initialCreadit, float yearInterestRate, int duration);
+

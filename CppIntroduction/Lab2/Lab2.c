@@ -60,3 +60,13 @@ OldPound OldPound_Sum(OldPound value1, OldPound value2)
 
 	return result;
 }
+
+#define MONTH_IN_YEAR 12
+
+float GetYearPayment(float initialCreadit, float yearInterestRate, int duration)
+{
+	return MONTH_IN_YEAR *
+		( initialCreadit * yearInterestRate / MONTH_IN_YEAR )
+		/ ( 1 - pow(1 + yearInterestRate / MONTH_IN_YEAR,
+			( (float) MONTH_IN_YEAR ) / duration) );
+}
