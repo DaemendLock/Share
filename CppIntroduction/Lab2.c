@@ -45,11 +45,11 @@ void DoTask4()
 
 	float sum = 0;
 
-	float payment = GetYearPayment(value - payment, percent, time);
+	float yearPayment = GetYearPayment(value - payment, percent, time);
 
 	for (int i = 0; i < time; i++)
 	{
-		sum += payment;
+		sum += yearPayment;
 		printf("Paid: %.2f", sum);
 	}
 }
