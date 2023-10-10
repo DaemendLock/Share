@@ -1,7 +1,6 @@
 #include "../Lab2/Lab2.h"
 #include "../Utils/Reader.h"
 #include "../Utils/Fraction.h"
-#include <math.h>
 
 #define PYRAMID_SIZE 20
 
