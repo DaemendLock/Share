@@ -1,13 +1,15 @@
-public class TaskOne {
-    public static void Main(String[] args) {
-        bool isPassive = false;
-        byte serverId = 0;
-        sbyte spellSlot = 0;
-        char associtedCharacter = '\0';
-        short manacost = 0;
-        ushort abilityId = 0;
-        int damageBonus = 0;
-        uint bulletsInClip = 0;
-        ulong lastUsageTime = 0;
+public class TaskOne
+{
+    public static void Main(System.String[] args)
+    {
+        System.Boolean isPassive = false;
+        System.Byte serverId = 0;
+        System.SByte spellSlot = 0;
+        System.Char associtedCharacter = '\0';
+        System.Int16 manacost = 0;
+        System.UInt16 abilityId = 0;
+        System.Int32 damageBonus = 0;
+        System.UInt32 bulletsInClip = 0;
+        System.UInt64 lastUsageTime = 0;
     }
 }
