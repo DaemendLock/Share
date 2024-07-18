@@ -2,15 +2,15 @@ public class TaskSix
 {
     public static void Main(String[] args)
     {
-        const int CrystalCost = 10;
+        int crystalCost = 10;
         
         Console.WriteLine("Amount of gold:");
-        int userBalance = Convert.ToInt43(Console.ReadLine());
+        int userBalance = Convert.ToInt32(Console.ReadLine());
 
-        Console.WriteLine($"Crystals required(Crystals cost is {CrystalCost}):");
+        Console.WriteLine($"Crystals required(Crystals cost is {crystalCost}):");
         int crytalRequired = Convert.ToInt32(Console.ReadLine());
 
-        userBalance -= crytalAmountRequired * CrystalCost;
+        userBalance -= crytalAmountRequired * crystalCost;
         Console.WriteLine($"Gold: {userBalance}.{Environment.NewLine}Crystals: {crytalAmountRequired}.");
     }
 }
