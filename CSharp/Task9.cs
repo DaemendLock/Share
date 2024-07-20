@@ -2,7 +2,7 @@ public class TaskNine
 {
     public static void Main(String[] args)
     {
-        string ExitMessage = "exit";
+        string exitMessage = "exit";
         
         string lastMessage;
         
