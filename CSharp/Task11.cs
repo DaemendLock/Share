@@ -5,14 +5,14 @@ public class TaskEleven
         int firstDivider = 3;
         int secondDivider = 5;
         int maximumValue = 100;
-        int iHaveNoIdeaHowToCallDivierInGauseSum = 2;
+        int iHaveNoIdeaHowToCallDivierInMathmaticalSum = 2;
 
         int generatedValue = new Random().Next(maximumValue + 1);
 
         int addendumCount = generatedValue / firstDivider;
-        int resultSum = (firstDivider * (1 + addendumCount) * addendumCount) / iHaveNoIdeaHowToCallDivierInGauseSum;
+        int resultSum = (firstDivider * (1 + addendumCount) * addendumCount) / iHaveNoIdeaHowToCallDivierInMathmaticalSum;
         addendumCount = generatedValue / secondDivider;
-        resultSum += (secondDivider * (1 + addendumCount) * addendumCount) / iHaveNoIdeaHowToCallDivierInGauseSum;
+        resultSum += (secondDivider * (1 + addendumCount) * addendumCount) / iHaveNoIdeaHowToCallDivierInMathmaticalSum;
 
         int leastCommonMultiple = firstDivider;
 
@@ -22,7 +22,7 @@ public class TaskEleven
         }
 
         addendumCount = generatedValue / leastCommonMultiple;
-        resultSum -= (leastCommonMultiple * (1 + addendumCount) * addendumCount) / iHaveNoIdeaHowToCallDivierInGauseSum;
+        resultSum -= (leastCommonMultiple * (1 + addendumCount) * addendumCount) / iHaveNoIdeaHowToCallDivierInMathmaticalSum;
 
         Console.WriteLine(generatedValue + " " + resultSum);
     }
