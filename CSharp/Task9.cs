@@ -8,6 +8,6 @@ public class TaskNine
         
         do {
             lastMessage = Console.ReadLine() ?? "";
-        } while (lastMessage.Equals(ExitMessage) == false);
+        } while (lastMessage.Equals(exitMessage) == false);
     }
 }
